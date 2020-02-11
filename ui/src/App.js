@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import NavBar from './Components/NavBar'
-import NewThread from './Components/NewThread';
+import NavBar from './Components/NavBar';
 
-
-class App extends Component {
-  render() {
+const App = () => {
     return (
-      <div>
-        <NavBar/>
-      </div>
+        <div>
+            <NavBar/>
+        </div>
     );
-  }
 }
+
 export default App;

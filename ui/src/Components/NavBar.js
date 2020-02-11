@@ -6,47 +6,37 @@ import TypoGraphy from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar'
 
-
-
-function NavBar(props) {
+const NavBar = props => {
 
     return (
         <AppBar position="static">
             <Toolbar>
-                <TypoGraphy variant="title"
-                    color="inherit"
-                >
+                <TypoGraphy variant="title" color="inherit">
                     <h2>TalentMap</h2>
-           </TypoGraphy>
+                </TypoGraphy>
                 <List component="nav">
                     <ListItem component="div">
                         <ListItemText inset>
                             <TypoGraphy color="inherit" variant="title">
                                 Dashboard
-               </TypoGraphy>
+                            </TypoGraphy>
                         </ListItemText>
-
-
                         <ListItemText inset>
                             <TypoGraphy color="inherit" variant="title">
                                 Reports
-               </TypoGraphy>
+                            </TypoGraphy>
                         </ListItemText>
-
-
                         <ListItemText inset>
                             <TypoGraphy color="inherit" variant="title">
                                 Feedback
-               </TypoGraphy>
+                            </TypoGraphy>
                         </ListItemText>
-                    </ListItem >
-
+                    </ListItem>
                 </List>
             </Toolbar>
         </AppBar>
 
     )
 }
-
 
 export default NavBar;
