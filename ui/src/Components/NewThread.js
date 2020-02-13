@@ -86,6 +86,7 @@ const NewThread = () => {
     };
     const handleClose = () => {
         setOpen(false);
+        setManager('');
     };
 
     
@@ -107,7 +108,10 @@ const NewThread = () => {
                 </DialogTitle>
                 <DialogContent dividers>
                     <FormControl margin="normal" fullWidth>
-                        {/* <TextField id="filled-basic" label="Subject" variant="filled" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/> */}
+                        <TextField id="filled-basic" label="Subject" variant="filled" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/>
+                       
+                        </FormControl>
+                        <FormControl margin="normal" fullWidth>
                          <InputLabel id ="select-manager-label" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}>Send to</InputLabel>
                         <Select variant="filled"
                             labelId="select-manager-label"
@@ -119,12 +123,11 @@ const NewThread = () => {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            <MenuItem value={1}>Manager1</MenuItem>
+                            <MenuItem value={2}>Manager2</MenuItem>
+                            <MenuItem value={3}>Manager3</MenuItem>
                         </Select>
-                        <TextField id="filled-basic" label="Subject" variant="filled" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/>
-                    </FormControl>
+                        </FormControl>
                 </DialogContent>
             </Dialog>
         </div>
