@@ -8,7 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {FormControl, TextField} from "@material-ui/core";
-
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const styles = theme => ({
   form: {
@@ -30,7 +32,9 @@ const styles = theme => ({
         top: theme.spacing(1),
         color: theme.palette.grey[500]
     },
-
+  selectEmpty: {
+        marginTop: theme.spacing(2),
+  },
     floatingLabelFocusStyle: {
       color: "green"
   }
@@ -73,7 +77,10 @@ const DialogContent = withStyles(theme => ({
 
 const NewThread = () => {
     const [open, setOpen] = React.useState(false);
-
+    const [manager, setManager] = React.useState('');
+    const handleManagerSelection = event => {
+        setManager(event.target.value);
+      };
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -81,6 +88,7 @@ const NewThread = () => {
         setOpen(false);
     };
 
+    
     return (
         <div>
             <Button variant="outlined" color="primary"
@@ -99,6 +107,22 @@ const NewThread = () => {
                 </DialogTitle>
                 <DialogContent dividers>
                     <FormControl margin="normal" fullWidth>
+                        {/* <TextField id="filled-basic" label="Subject" variant="filled" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/> */}
+                         <InputLabel id ="select-manager-label" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}>Send to</InputLabel>
+                        <Select variant="filled"
+                            labelId="select-manager-label"
+                            id="select-manager"
+                            
+                            value={manager}
+                            onChange={handleManagerSelection}
+                            >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
                         <TextField id="filled-basic" label="Subject" variant="filled" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/>
                     </FormControl>
                 </DialogContent>
