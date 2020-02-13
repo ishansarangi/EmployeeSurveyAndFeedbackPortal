@@ -117,10 +117,10 @@ const NewThread = () => {
                 </DialogContent>
                 <DialogActions>
                 
-                    <Button autoFocus onClick={handleClose} color="primary">
+                    <Button autoFocus onClick={handleSubmit} color="primary">
                         Submit
                     </Button>
-                    <Button autoFocus onClick={handleSubmit} color="primary">
+                    <Button autoFocus onClick={handleClose} color="primary">
                         Cancel
                     </Button>
                     
