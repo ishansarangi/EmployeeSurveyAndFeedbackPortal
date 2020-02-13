@@ -32,12 +32,19 @@ const styles = theme => ({
         top: theme.spacing(1),
         color: theme.palette.grey[500]
     },
+<<<<<<< HEAD
   selectEmpty: {
         marginTop: theme.spacing(2),
   },
+=======
+>>>>>>> #37 Add a body field for the New Message Form.
     floatingLabelFocusStyle: {
       color: "green"
+  },
+  separator : {
+    marginTop: theme.spacing(1)
   }
+  
 });
 
 const DialogTitle = withStyles(styles)(props => {
@@ -109,11 +116,10 @@ const NewThread = () => {
                 <DialogContent dividers>
                     <FormControl margin="normal" fullWidth>
                         <TextField id="filled-basic" label="Subject" variant="filled" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}/>
-                       
-                        </FormControl>
-                        <FormControl margin="normal" fullWidth>
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth>
                          <InputLabel id ="select-manager-label" floatingLabelFocusStyle={styles.floatingLabelFocusStyle}>Send to</InputLabel>
-                        <Select variant="filled"
+                    <Select variant="filled"
                             labelId="select-manager-label"
                             id="select-manager"
                             
@@ -128,6 +134,14 @@ const NewThread = () => {
                             <MenuItem value={3}>Manager3</MenuItem>
                         </Select>
                         </FormControl>
+                        <TextField
+                            label="Message Body"
+                            variant="filled"
+                            multiline={true}
+                            rows={10}
+                            rowsMax={10}
+                            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                            />
                 </DialogContent>
             </Dialog>
         </div>
