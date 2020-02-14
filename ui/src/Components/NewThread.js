@@ -12,6 +12,7 @@ import { FormControl, TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
+import { orange } from "@material-ui/core/colors";
 
 const styles = theme => ({
   form: {
@@ -75,6 +76,26 @@ const DialogActions = withStyles(theme => ({
   }
 }))(MuiDialogActions);
 
+const CreateButton = withStyles(theme => ({
+  root: {
+    color: "#ffffff",
+    backgroundColor: "#E87424",
+    "&:hover": {
+      backgroundColor: orange[600]
+    }
+  }
+}))(Button);
+
+const ActionButton = withStyles(theme => ({
+  root: {
+    color: "#E87424",
+    backgroundColor: "white",
+    "&:hover": {
+      backgroundColor: orange[100]
+    }
+  }
+}))(Button);
+
 const NewThread = () => {
   const [open, setOpen] = React.useState(false);
   const [manager, setManager] = React.useState("");
@@ -96,9 +117,9 @@ const NewThread = () => {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <CreateButton color="primary" onClick={handleClickOpen}>
         Create New Thread
-      </Button>
+      </CreateButton>
       <Dialog
         fullWidth={"xl"}
         maxWidth={"sm"}
@@ -143,7 +164,7 @@ const NewThread = () => {
           </FormControl>
           <FormControl margin="normal" fullWidth>
             <TextField
-              label="Message Body"
+              label="Message"
               variant="filled"
               multiline={true}
               rows={10}
@@ -153,12 +174,12 @@ const NewThread = () => {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleSubmit} color="primary">
-            Submit
-          </Button>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <ActionButton autoFocus onClick={handleClose} color="secondary">
             Cancel
-          </Button>
+          </ActionButton>
+          <ActionButton autoFocus onClick={handleSubmit} color="secondary">
+            Send
+          </ActionButton>
         </DialogActions>
       </Dialog>
     </div>
