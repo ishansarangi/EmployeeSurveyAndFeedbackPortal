@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
@@ -101,20 +102,39 @@ const NewThread = () => {
   const [manager, setManager] = useState("");
   const [body, setBody] = useState("");
   const [subject, setSubject] = useState("");
+  const [hasError, setHasError] = useState(false);
 
   const handleManagerSelection = event => {
     setManager(event.target.value);
+    setHasError(false);
   };
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    clearFormFields();
+  };
+
+  const clearFormFields = () => {
     setManager("");
+    setBody("");
+    setSubject("");
   };
   const handleSubmit = event => {
-    // console.log(this.handleSubmit.bind(this));
-    setOpen(false);
+    if (manager === "") {
+      setHasError(true);
+    } else {
+      console.log(
+        "Call the backend API: Subject:" +
+          subject +
+          ", Manager Id: " +
+          manager +
+          ", Message: " +
+          body
+      );
+      handleClose();
+    }
   };
 
   return (
@@ -146,16 +166,11 @@ const NewThread = () => {
             />
           </FormControl>
           <FormControl margin="normal" fullWidth>
-            <InputLabel
-              id="select-manager-label"
-              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-              margin="dense"
-            >
+            <InputLabel id="select-manager-label" margin="dense">
               Send to
             </InputLabel>
             <Select
               variant="filled"
-              labelId="select-manager-label"
               id="select-manager"
               value={manager}
               onChange={handleManagerSelection}
@@ -167,6 +182,11 @@ const NewThread = () => {
               <MenuItem value={2}>Manager2</MenuItem>
               <MenuItem value={3}>Manager3</MenuItem>
             </Select>
+            {hasError && (
+              <FormHelperText focused={hasError}>
+                Please select a manager to send your message.
+              </FormHelperText>
+            )}
           </FormControl>
           <FormControl margin="normal" fullWidth>
             <TextField
@@ -175,7 +195,6 @@ const NewThread = () => {
               multiline={true}
               rows={10}
               rowsMax={10}
-              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
               onChange={event => {
                 event.preventDefault();
                 setBody(event.target.value);
