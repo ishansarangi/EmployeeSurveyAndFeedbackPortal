@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -97,8 +97,10 @@ const ActionButton = withStyles(theme => ({
 }))(Button);
 
 const NewThread = () => {
-  const [open, setOpen] = React.useState(false);
-  const [manager, setManager] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [manager, setManager] = useState("");
+  const [body, setBody] = useState("");
+  const [subject, setSubject] = useState("");
 
   const handleManagerSelection = event => {
     setManager(event.target.value);
@@ -137,6 +139,10 @@ const NewThread = () => {
               label="Subject"
               variant="filled"
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+              onChange={event => {
+                event.preventDefault();
+                setSubject(event.target.value);
+              }}
             />
           </FormControl>
           <FormControl margin="normal" fullWidth>
@@ -170,6 +176,10 @@ const NewThread = () => {
               rows={10}
               rowsMax={10}
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+              onChange={event => {
+                event.preventDefault();
+                setBody(event.target.value);
+              }}
             />
           </FormControl>
         </DialogContent>
