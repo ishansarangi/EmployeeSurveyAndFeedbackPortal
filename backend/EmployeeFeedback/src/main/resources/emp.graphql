@@ -1,0 +1,7 @@
+Schema{
+query:Query
+}
+
+type Query{
+employee(id:String):Employee
+}
