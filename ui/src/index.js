@@ -11,7 +11,7 @@ function NoMatch() {
     return (
         <div className="not-found">
             <h2>Not Found</h2>
-            <p>Please one of links on the left.</p>
+            <p>Please click one of links on the left.</p>
         </div>
     );
 }
@@ -21,9 +21,12 @@ ReactDOM.render (
         <App>
             <Switch>
                 <Route exact path="/"/>
-                <Route path="/my-feedback" component={Feedback}/>
-                <Route path="/employee-feedback" component={Feedback}/>
-                <Route path="*" component={NoMatch}/>
+                <Route path="/my-feedback"
+                    component={Feedback}/>
+                <Route path="/employee-feedback"
+                    component={Feedback}/>
+                <Route path="*"
+                    component={NoMatch}/>
             </Switch>
         </App>
     </HashRouter>,

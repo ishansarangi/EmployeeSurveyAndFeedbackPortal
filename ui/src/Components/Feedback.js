@@ -10,7 +10,6 @@ const Feedback = () => {
             <div>
                 <NewThread/>
             </div>
-            
         </SplitterLayout>
 
     );

@@ -60,7 +60,7 @@ const ManagerPane = (props) => {
             </div>
         </div>
     );
-} 
+};
 
 ManagerPane.propTypes = {
     children: PropTypes.element.isRequired
