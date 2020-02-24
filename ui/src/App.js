@@ -1,15 +1,20 @@
 import React from 'react';
 import './App.css';
 import NavBar from './Components/NavBar';
-import NewThread from './Components/NewThread';
+import ManagerPane from './Components/ManagerPane';
+import PropTypes from 'prop-types';
 
-const App = () => {
+const App = (props) => {
     return (
         <div>
             <NavBar/>
-            <NewThread/>
+            <ManagerPane props={props}/>
         </div>
     );
 }
+
+App.propTypes = {
+    children: PropTypes.element.isRequired
+};
 
 export default App;
