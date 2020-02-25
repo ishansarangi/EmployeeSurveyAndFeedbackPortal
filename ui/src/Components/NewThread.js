@@ -11,7 +11,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import { FormControl, TextField } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
-// import MenuItem from "@material-ui/core/MenuItem";
+import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import { orange } from "@material-ui/core/colors";
 import * as Constants from "../data/TestData"
@@ -119,17 +119,22 @@ const NewThread = () => {
   const [manager, setManager] = useState("");
   const [body, setBody] = useState("");
   const [subject, setSubject] = useState("");
-  const [hasError, setHasError] = useState(false);
+  const [hasManagerError, setManagerError] = useState(false);
+  const [hasSubjectError, setSubjectError] = useState(false);
+  const [hasBodyError, setBodyError] = useState(false);
 
   const handleManagerSelection = event => {
     setManager(event.target.value);
-    setHasError(false);
+    setManagerError(false);
   };
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setSubjectError(false);
+    setManagerError(false);
+    setBodyError(false);
     clearFormFields();
   };
 
@@ -139,9 +144,13 @@ const NewThread = () => {
     setSubject("");
   };
   const handleSubmit = event => {
-    if (manager === "") {
-      setHasError(true);
-    } else {
+    if (subject === "")
+      setSubjectError(true);
+    if (manager === "")
+      setManagerError(true);
+    if (body === "")
+      setBodyError(true);
+    else {
       console.log("Call the backend API: Subject:" + subject + ", Manager Id: " + manager + ", Message: " + body);
       handleClose();
     }
@@ -171,34 +180,42 @@ const NewThread = () => {
               onChange={
                 event => {
                   event.preventDefault();
+                  setSubjectError(false);
                   setSubject(event.target.value);
                 }
               } />
-
+            {
+              hasSubjectError && (
+                <FormHelperText error='true' focused={hasSubjectError}>
+                  Please set a subject for the message.
+                </FormHelperText>
+              )
+            }
           </FormControl>
           <FormControl margin="normal" fullWidth>
             <InputLabel id="select-manager-label" margin="dense">
               Send to
-                    </InputLabel>
+            </InputLabel>
             <Select variant="filled" id="select-manager"
               value={manager}
               onChange={handleManagerSelection}>
               {Constants.employee_manager_heirarchy.map(item => (
-                <option
+                < MenuItem
                   key={item.value}
                   value={item.value}
                 >
                   {item.label}
-                </option>
+                </MenuItem>
               ))}
             </Select>
             {
-              hasError && (
-                <FormHelperText focused={hasError}>
-                  Please select a manager to send your message.
-                        </FormHelperText>
+              hasManagerError && (
+                <FormHelperText error='true' focused={hasManagerError}>
+                  Please select a manager for the message.
+                </FormHelperText>
               )
-            } </FormControl>
+            }
+          </FormControl>
           <FormControl margin="normal" fullWidth>
             <TextField label="Message" variant="filled"
               multiline={true}
@@ -207,9 +224,17 @@ const NewThread = () => {
               onChange={
                 event => {
                   event.preventDefault();
+                  setBodyError(false);
                   setBody(event.target.value);
                 }
               } />
+            {
+              hasBodyError && (
+                <FormHelperText error='true' focused={hasBodyError}>
+                  Please set a body for the message.
+                </FormHelperText>
+              )
+            }
           </FormControl>
         </DialogContent>
         <DialogActions>
