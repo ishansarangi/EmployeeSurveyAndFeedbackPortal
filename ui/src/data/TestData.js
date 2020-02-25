@@ -39,3 +39,20 @@ export const all_thread_data = [
     },
   },
 ];
+
+export const employee_manager_heirarchy = [
+  {
+    label: "Jim Attwood",
+    value: "EMP01 "
+  },
+  {
+    label: "Kelly Williams",
+    value: "EMP02"
+  },
+  {
+    label: "Jessica Franklin",
+    value: "EMP03"
+  }
+
+];
+
