@@ -18,9 +18,6 @@ const App = (props) => {
             <div >
                 <NavBar page={page} onClick={(name) => handleClick(name)} />
                 <ManagerPane props={props} />
-
-
-
             </div>
 
         </UserContext.Provider>
