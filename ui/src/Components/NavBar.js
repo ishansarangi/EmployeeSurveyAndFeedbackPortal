@@ -30,6 +30,11 @@ const NavBar = props => {
                                 Feedback
                             </TypoGraphy>
                         </ListItemText>
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("manager"); }}>
+                                Manager
+                            </TypoGraphy>
+                        </ListItemText>
 
                         <ListItemText inset>
                             <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("employee"); }}>

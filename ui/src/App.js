@@ -8,12 +8,18 @@ import { UserContext } from './Components/UserContext';
 
 const App = (props) => {
     const [page, setPageName] = useState("NotSet");
+    const [managerView, setManagerView] = useState(false);
     const [employeeView, setEmployeeView] = useState(false);
 
     const handleClick = (name) => {
         setPageName(name);
         if (name === "employee") {
             setEmployeeView(true);
+            setManagerView(false);
+        }
+        else if (name === "manager") {
+            setManagerView(true);
+            setEmployeeView(false);
         }
     };
     useEffect(() => {
@@ -23,8 +29,8 @@ const App = (props) => {
         <UserContext.Provider value={page}>
             <div >
                 <NavBar page={page} onClick={(name) => handleClick(name)} />
-                {/* <ManagerPane props={props} /> */}
-                {employeeView ? <Feedback /> : <ManagerPane props={props} />}
+                {managerView ? <ManagerPane props={props} /> : null}
+                {employeeView ? <Feedback /> : null}
             </div>
 
         </UserContext.Provider>
