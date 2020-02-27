@@ -32,14 +32,14 @@ const ManagerPane = props => {
         <div className={classes.root}>
           <List component="nav" aria-label="secondary mailbox folders">
             <ListItemLink
-              href="employee-feedback"
+              href="#employee-feedback"
               selected={selectedIndex === 0}
               onClick={event => handleListItemClick(event, 0)}
             >
               <ListItemText primary="Employee Feedback" />
             </ListItemLink>
             <ListItemLink
-              href="my-feedback"
+              href="#my-feedback"
               selected={selectedIndex === 1}
               onClick={event => handleListItemClick(event, 1)}
             >
