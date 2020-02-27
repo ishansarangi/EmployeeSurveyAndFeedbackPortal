@@ -12,17 +12,22 @@ code {
     monospace;
 }
 
-
 * {
   box-sizing: border-box;
 }
 
-html, body, button, input, select, textarea {
-  font: 14px "Helvetica Neue",Helvetica,Arial,sans-serif;
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 18px;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -88,7 +93,9 @@ a {
   text-decoration: initial;
 }
 
-a:hover, a:active, a.active {
+a:hover,
+a:active,
+a.active {
   color: #42a5f5;
 }
 
@@ -109,7 +116,6 @@ pre {
   position: absolute;
   width: 100%;
   height: 100%;
-
 }
 
 .my-iframe iframe {
@@ -160,4 +166,8 @@ pre {
 
 .layout-pane {
   margin-top: 10px;
+}
+
+.message-pane {
+  height: 100%;
 }
