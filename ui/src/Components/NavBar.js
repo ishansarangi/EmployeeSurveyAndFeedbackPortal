@@ -7,34 +7,47 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
 const NavBar = props => {
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        <TypoGraphy variant="title" color="inherit">
-          <h2>TalentMap</h2>
-        </TypoGraphy>
-        <List component="nav">
-          <ListItem component="div">
-            <ListItemText inset>
-              <TypoGraphy color="inherit" variant="title">
-                Dashboard
-              </TypoGraphy>
-            </ListItemText>
-            <ListItemText inset>
-              <TypoGraphy color="inherit" variant="title">
-                Reports
-              </TypoGraphy>
-            </ListItemText>
-            <ListItemText inset>
-              <TypoGraphy color="inherit" variant="title">
-                Feedback
-              </TypoGraphy>
-            </ListItemText>
-          </ListItem>
-        </List>
-      </Toolbar>
-    </AppBar>
-  );
-};
+
+    return (
+        <AppBar position="static">
+            <Toolbar>
+                <TypoGraphy variant="title" color="inherit">
+                    <h2>TalentMap</h2>
+                </TypoGraphy>
+                <List component="nav">
+                    <ListItem component="div">
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title">
+                                Dashboard
+                            </TypoGraphy>
+                        </ListItemText>
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title">
+                                Reports
+                            </TypoGraphy>
+                        </ListItemText>
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title">
+                                Feedback
+                            </TypoGraphy>
+                        </ListItemText>
+
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("employee"); }}>
+                                Employee
+                            </TypoGraphy>
+                        </ListItemText>
+                    </ListItem>
+
+                </List>
+
+
+            </Toolbar>
+
+        </AppBar >
+
+    )
+}
+
 
 export default NavBar;
