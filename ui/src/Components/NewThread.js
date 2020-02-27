@@ -14,7 +14,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import { orange } from "@material-ui/core/colors";
-
+import * as Constants from "../data/TestData"
 const styles = theme => ({
   form: {
     display: "flex",
@@ -43,24 +43,41 @@ const styles = theme => ({
   },
   separator: {
     marginTop: theme.spacing(1)
-  }
+  },
+  menuStyle: {
+    border: "1px solid black",
+    borderRadius: "5%",
+    backgroundColor: 'lightgrey',
+  },
 });
 
 const DialogTitle = withStyles(styles)(props => {
-  const { children, classes, onClose, ...other } = props;
+  const {
+    children,
+    classes,
+    onClose,
+    ...other
+  } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}{" "}
-    </MuiDialogTitle>
+    <MuiDialogTitle disableTypography
+      className={
+        classes.root
+      }
+      {...other}>
+      <Typography variant="h6">
+        {children}</Typography>
+      {
+        onClose ? (
+          <IconButton aria-label="close"
+            className={
+              classes.closeButton
+            }
+            onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        ) : null
+      }
+      {" "} </MuiDialogTitle>
   );
 });
 
@@ -102,17 +119,22 @@ const NewThread = () => {
   const [manager, setManager] = useState("");
   const [body, setBody] = useState("");
   const [subject, setSubject] = useState("");
-  const [hasError, setHasError] = useState(false);
+  const [hasManagerError, setManagerError] = useState(false);
+  const [hasSubjectError, setSubjectError] = useState(false);
+  const [hasBodyError, setBodyError] = useState(false);
 
   const handleManagerSelection = event => {
     setManager(event.target.value);
-    setHasError(false);
+    setManagerError(false);
   };
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setSubjectError(false);
+    setManagerError(false);
+    setBodyError(false);
     clearFormFields();
   };
 
@@ -122,96 +144,113 @@ const NewThread = () => {
     setSubject("");
   };
   const handleSubmit = event => {
-    if (manager === "") {
-      setHasError(true);
-    } else {
-      console.log(
-        "Call the backend API: Subject:" +
-          subject +
-          ", Manager Id: " +
-          manager +
-          ", Message: " +
-          body
-      );
+    if (subject === "")
+      setSubjectError(true);
+    if (manager === "")
+      setManagerError(true);
+    if (body === "")
+      setBodyError(true);
+    else {
+      console.log("Call the backend API: Subject:" + subject + ", Manager Id: " + manager + ", Message: " + body);
       handleClose();
     }
   };
 
   return (
     <div>
-      <CreateButton color="primary" onClick={handleClickOpen}>
+      <CreateButton color="primary"
+        onClick={handleClickOpen}>
         Create New Thread
-      </CreateButton>
-      <Dialog
-        fullWidth={"xl"}
+            </CreateButton>
+      <Dialog fullWidth={"xl"}
         maxWidth={"sm"}
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        open={open}>
+        <DialogTitle id="customized-dialog-title"
+          onClose={handleClose}>
           New Thread
-        </DialogTitle>
+                </DialogTitle>
         <DialogContent dividers>
           <FormControl margin="normal" fullWidth>
-            <TextField
-              id="filled-basic"
-              label="Subject"
-              variant="filled"
-              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-              onChange={event => {
-                event.preventDefault();
-                setSubject(event.target.value);
-              }}
-            />
+            <TextField id="filled-basic" label="Subject" variant="filled"
+              floatingLabelFocusStyle={
+                styles.floatingLabelFocusStyle
+              }
+              onChange={
+                event => {
+                  event.preventDefault();
+                  setSubjectError(false);
+                  setSubject(event.target.value);
+                }
+              } />
+            {
+              hasSubjectError && (
+                <FormHelperText error='true' focused={hasSubjectError}>
+                  Please set a subject for the message.
+                </FormHelperText>
+              )
+            }
           </FormControl>
           <FormControl margin="normal" fullWidth>
             <InputLabel id="select-manager-label" margin="dense">
               Send to
             </InputLabel>
-            <Select
-              variant="filled"
-              id="select-manager"
+            <Select variant="filled" id="select-manager"
               value={manager}
-              onChange={handleManagerSelection}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={1}>Manager1</MenuItem>
-              <MenuItem value={2}>Manager2</MenuItem>
-              <MenuItem value={3}>Manager3</MenuItem>
+              onChange={handleManagerSelection}>
+              {Constants.employee_manager_heirarchy.map(item => (
+                < MenuItem
+                  key={item.value}
+                  value={item.value}
+                >
+                  {item.label}
+                </MenuItem>
+              ))}
             </Select>
-            {hasError && (
-              <FormHelperText focused={hasError}>
-                Please select a manager to send your message.
-              </FormHelperText>
-            )}
+            {
+              hasManagerError && (
+                <FormHelperText error='true' focused={hasManagerError}>
+                  Please select a manager for the message.
+                </FormHelperText>
+              )
+            }
           </FormControl>
           <FormControl margin="normal" fullWidth>
-            <TextField
-              label="Message"
-              variant="filled"
+            <TextField label="Message" variant="filled"
               multiline={true}
               rows={10}
               rowsMax={10}
-              onChange={event => {
-                event.preventDefault();
-                setBody(event.target.value);
-              }}
-            />
+              onChange={
+                event => {
+                  event.preventDefault();
+                  setBodyError(false);
+                  setBody(event.target.value);
+                }
+              } />
+            {
+              hasBodyError && (
+                <FormHelperText error='true' focused={hasBodyError}>
+                  Please set a body for the message.
+                </FormHelperText>
+              )
+            }
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <ActionButton autoFocus onClick={handleClose} color="secondary">
+          <ActionButton autoFocus
+            onClick={handleClose}
+            color="secondary">
             Cancel
-          </ActionButton>
-          <ActionButton autoFocus onClick={handleSubmit} color="secondary">
+            </ActionButton>
+          <ActionButton autoFocus
+            onClick={handleSubmit}
+            color="secondary">
             Send
-          </ActionButton>
+            </ActionButton>
         </DialogActions>
       </Dialog>
-    </div>
+    </div >
   );
 };
 
