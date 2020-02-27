@@ -3,7 +3,6 @@ import {all_thread_data} from '../data/TestData';
 import NewThread from './NewThread';
 import ThreadItem from './ThreadItem';
 import {makeStyles} from '@material-ui/core/styles';
-import './index.css';
 import {Divider} from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 

@@ -33,7 +33,7 @@ const ManagerPane = (props) => {
                     classes.root
                 }>
                     <List component="nav" aria-label="secondary mailbox folders">
-                        <ListItemLink href="#employee-feedback"
+                        <ListItemLink href="employee-feedback"
                             selected={
                                 selectedIndex === 0
                             }
@@ -42,7 +42,7 @@ const ManagerPane = (props) => {
                         }>
                             <ListItemText primary="Employee Feedback"/>
                         </ListItemLink>
-                        <ListItemLink href="#my-feedback"
+                        <ListItemLink href="my-feedback"
                             selected={
                                 selectedIndex === 1
                             }
