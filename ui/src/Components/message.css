@@ -20,7 +20,7 @@ body {
   height: 100%;
 }
 .chat {
-  height: 60%;
+  height: 90%;
   border: 1px solid #dcdcdc;
   overflow-y: auto;
   overflow-x: hidden;
