@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import NavBar from './Components/NavBar';
-import ManagerPane from './Components/ManagerPane';
+import NavBar from './NavBar';
+import ManagerPane from './ManagerPane';
 import PropTypes from 'prop-types';
 
 const App = (props) => {
