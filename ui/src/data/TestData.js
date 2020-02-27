@@ -48,7 +48,7 @@ export const all_thread_data = [
     manager: 'Jim Attwood',
     messages: [
       {
-        sentBy: 'employee1',
+        sentBy: 'You',
         createdAt: '2020-01-24 10:34 AM',
         text: 'This is the first message',
       },
