@@ -5,8 +5,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import TypoGraphy from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar'
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 
 const NavBar = props => {
     return (
@@ -33,36 +31,19 @@ const NavBar = props => {
                             </TypoGraphy>
                         </ListItemText>
 
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("employee"); }}>
+                                Employee
+                            </TypoGraphy>
+                        </ListItemText>
                     </ListItem>
 
                 </List>
 
-                <Grid
-                    justify="space-between" // Add it here :)
-                    container
-                    spacing={2}
-                >
-                    <Grid item>
-                        <div>
-                            <Button id="manager" href="#text-buttons" color="inherit">
-                                Manager
-                            </Button>
 
-                        </div>
-                    </Grid>
-
-                    <Grid item>
-                        <div>
-                            <Button href="#text-buttons" color="inherit"
-                                onClick={() => props.onClick("employee")}>
-                                Employee
-                            </Button>
-                        </div>
-                    </Grid>
-                </Grid>
             </Toolbar>
 
-        </AppBar>
+        </AppBar >
 
     )
 }
