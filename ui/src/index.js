@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './Components/App';
+import App from './components/App';
 import {HashRouter, Route, Switch} from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
-import Feedback from './Components/Feedback';
+import Feedback from './components/Feedback';
 
 function NoMatch() {
     return (
