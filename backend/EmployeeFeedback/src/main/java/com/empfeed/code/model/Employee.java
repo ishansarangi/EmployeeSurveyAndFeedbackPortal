@@ -9,13 +9,13 @@ import javax.persistence.Table;
 public class Employee {
 
 	@Id
-	private int employeeId;
-	private int managerId;
+	private Integer employeeId;
+	private Integer managerId;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String createdAt;
-	private int createdBy;
+	private Integer createdBy;
 
 	public Employee(int employeeId, int managerId, String firstName, String lastName, String email, String createdAt,
 			int createdBy) {

@@ -9,11 +9,11 @@ import javax.persistence.Table;
 public class Message {
 
 	@Id
-	private int messageId;
+	private Integer messageId;
 	private String text;
 	private String createdAt;
-	private int threadId;
-	private int createdBy;
+	private Integer threadId;
+	private Integer createdBy;
 
 	public Message() {
 

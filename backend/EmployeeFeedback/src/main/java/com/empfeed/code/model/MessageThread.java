@@ -9,13 +9,13 @@ import javax.persistence.Table;
 public class MessageThread {
 
 	@Id
-	private int threadId;
-	private int sentTo;
-	private int tagId;
+	private Integer threadId;
+	private Integer sentTo;
+	private Integer tagId;
 	private String subject;
 	private String createdAt;
 	private String modifiedAt;
-	private int createdBy;
+	private Integer createdBy;
 
 	public MessageThread(int threadId, int sentTo, int tagId, String subject, String createdAt, String modifiedAt,
 			int createdBy) {

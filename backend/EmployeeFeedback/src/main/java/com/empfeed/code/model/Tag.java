@@ -8,11 +8,11 @@ import javax.persistence.Table;
 @Table
 public class Tag {
 	@Id
-	private int tagId;
+	private Integer tagId;
 	private String name;
 	private String color;
-	private int totalMessages;
-	private int createdBy;
+	private Integer totalMessages;
+	private Integer createdBy;
 
 	public Tag(int tagId, String name, String color, int totalMessages, int createdBy) {
 		super();

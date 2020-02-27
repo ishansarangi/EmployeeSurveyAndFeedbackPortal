@@ -9,7 +9,7 @@ import javax.persistence.Table;
 public class UserType {
 
 	@Id
-	private int userTypeId;
+	private Integer userTypeId;
 	private String userType;
 
 	public UserType() {
