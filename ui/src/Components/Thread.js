@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Divider} from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 
-const Thread = ({setSelectedThread, selectedThread}) => {
+const Thread = ({setSelectedThread}) => {
   const useStyles = makeStyles(theme => ({
     container: {
       height: '85px',
@@ -54,9 +54,9 @@ const Thread = ({setSelectedThread, selectedThread}) => {
         {getThreadsView()}
       </GridList>
       <Divider />
-      <div className={classes.newThread}>
+      <footer>
         <NewThread />
-      </div>
+      </footer>
     </Fragment>
   );
 };

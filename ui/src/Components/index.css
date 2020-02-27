@@ -1,0 +1,32 @@
+.MuiGridListTileBar-root {
+  background: white !important;
+}
+.MuiGridListTileBar-root:hover {
+  background: #dcdcdc !important;
+}
+
+.MuiGridListTileBar-titleWrap {
+  height: 100% !important;
+}
+.MuiGridListTileBar-subtitle {
+  height: 43px !important;
+}
+.MuiGridListTileBar-rootSubtitle {
+  height: 100% !important;
+}
+.MuiGridListTile-root {
+  border: solid #dbe9f4;
+  border-width: 0.04rem;
+}
+
+.layout-pane {
+  margin-top: 10px;
+}
+
+.splitter-layout .layout-pane.layout-pane-primary {
+  flex: 0.5 1 auto;
+}
+
+.splitter-layout {
+  width: 100% !important;
+}

@@ -23,14 +23,22 @@ export const all_thread_data = [
     manager: 'Kelly Williams',
     messages: [
       {
+        sender: 'me',
         sentBy: 'employee2',
         createdAt: '2020-01-21 10:20 AM',
         text: 'This is the first message',
       },
       {
+        sender: 'them',
         sentBy: 'Manager2',
         createdAt: '2020-01-22 10:20 AM',
         text: 'This is the second message',
+      },
+      {
+        sender: 'me',
+        sentBy: 'employee2',
+        createdAt: '2020-01-22 10:20 AM',
+        text: 'This is the third message',
       },
     ],
   },
@@ -53,17 +61,15 @@ export const all_thread_data = [
 
 export const employee_manager_heirarchy = [
   {
-    label: "Jim Attwood",
-    value: "EMP01 "
+    label: 'Jim Attwood',
+    value: 'EMP01 ',
   },
   {
-    label: "Kelly Williams",
-    value: "EMP02"
+    label: 'Kelly Williams',
+    value: 'EMP02',
   },
   {
-    label: "Jessica Franklin",
-    value: "EMP03"
-  }
-
+    label: 'Jessica Franklin',
+    value: 'EMP03',
+  },
 ];
-

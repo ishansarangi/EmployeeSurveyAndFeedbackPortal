@@ -28,6 +28,7 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
       overflowWrap: 'break-word',
       color: 'black',
       height: '43px',
+      background: 'white',
     },
     griditemlink: {
       width: '100%',
