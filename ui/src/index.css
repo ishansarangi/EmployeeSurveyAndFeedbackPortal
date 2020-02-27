@@ -136,3 +136,28 @@ pre {
   background: #fff176;
   border-color: #ff8f00;
 }
+
+.MuiGridListTileBar-root {
+  background: white !important;
+}
+.MuiGridListTileBar-root:hover {
+  background: #dcdcdc !important;
+}
+
+.MuiGridListTileBar-titleWrap {
+  height: 100% !important;
+}
+.MuiGridListTileBar-subtitle {
+  height: 43px !important;
+}
+.MuiGridListTileBar-rootSubtitle {
+  height: 100% !important;
+}
+.MuiGridListTile-root {
+  border: solid #dbe9f4;
+  border-width: 0.04rem;
+}
+
+.layout-pane {
+  margin-top: 10px;
+}
