@@ -1,0 +1,16 @@
+Schema{
+query:Query
+}
+
+type Query{
+employee(id:Integer):Employee
+allThreads(id:Integer):[MessageThreads]
+}
+
+type MessageThread {
+  id: Integer
+  subject: String
+  createdBy: Integer
+  sentTo: Integer
+  messages: [Message]
+}

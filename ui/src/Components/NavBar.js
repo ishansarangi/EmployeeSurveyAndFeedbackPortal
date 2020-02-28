@@ -2,11 +2,12 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import TypoGraphy from '@material-ui/core/Typography'
+import TypoGraphy from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar'
+import Toolbar from '@material-ui/core/Toolbar';
 
 const NavBar = props => {
+
     return (
         <AppBar position="static">
             <Toolbar>
@@ -52,5 +53,6 @@ const NavBar = props => {
 
     )
 }
+
 
 export default NavBar;
