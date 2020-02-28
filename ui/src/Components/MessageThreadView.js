@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {all_thread_data} from '../data/TestData';
 import Message from './Message';
 import TextBox from './TextBox';
@@ -16,7 +16,7 @@ const MessageThreadView = ({selectedThread}) => {
       <div id="chat" class="chat">
         {createMessageView()}
       </div>
-      <div class="message-footer">
+      <div class="component-footer">
         <TextBox handleSubmit={handleSubmit} />
       </div>
     </div>

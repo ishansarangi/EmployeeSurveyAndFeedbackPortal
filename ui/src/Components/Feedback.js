@@ -8,7 +8,7 @@ const Feedback = () => {
   const [selectedThread, setSelectedThread] = useState(0);
   return (
     <div>
-      <SplitterLayout primaryMinSize={300} secondaryInitialSize={900}>
+      <SplitterLayout percentage={true} primaryMinSize={30}>
         <div>
           <Thread
             setSelectedThread={setSelectedThread}

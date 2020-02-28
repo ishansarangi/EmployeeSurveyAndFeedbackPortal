@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './message.css';
-import {TextField, Input} from '@material-ui/core';
+import {Input} from '@material-ui/core';
 
 const TextBox = ({handleSubmit}) => {
   return (

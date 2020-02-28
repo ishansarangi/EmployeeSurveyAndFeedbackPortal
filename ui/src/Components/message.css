@@ -140,7 +140,7 @@ body {
   font-size: 10px;
 }
 
-.message-footer {
+.component-footer {
   width: 100%;
   position: absolute;
   bottom: 0;

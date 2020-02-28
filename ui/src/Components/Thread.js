@@ -20,11 +20,10 @@ const Thread = ({setSelectedThread, selectedThread}) => {
       background: 'white',
     },
     newThread: {
-      width: 200,
-      marginTop: '95%',
-      display: 'flex',
-      alignItems: 'bottom',
-      justifyContent: 'center',
+      width: '100%',
+      position: 'absolute',
+      bottom: 0,
+      padding: '5px',
     },
   }));
 
