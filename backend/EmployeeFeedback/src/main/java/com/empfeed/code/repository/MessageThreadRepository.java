@@ -9,9 +9,9 @@ import com.empfeed.code.model.MessageThread;
 
 public interface MessageThreadRepository extends JpaRepository<MessageThread, Integer> {
 
-	@Query("SELECT * FROM MessageThread WHERE createdBy = ?1")
+	
 	List<MessageThread> findByCreatedBy(int createdBy);
-	@Query("SELECT * FROM MessageThread WHERE sentTo = ?1")
+	
 	List<MessageThread> findBySentTo(int createdBy);
 	
 }

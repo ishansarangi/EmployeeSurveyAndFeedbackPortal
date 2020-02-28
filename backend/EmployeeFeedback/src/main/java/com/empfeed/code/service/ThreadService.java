@@ -25,7 +25,7 @@ public class ThreadService {
 	@Autowired
 	MessageThreadRepository threadRepository;
 
-	@Value("classpath:books.graphql")
+	@Value("classpath:emp.graphql")
 	Resource resource;
 
 	private GraphQL graphQL;
@@ -44,7 +44,7 @@ public class ThreadService {
 
 	private RuntimeWiring buildRuntimeWiring() {
 		return RuntimeWiring.newRuntimeWiring()
-				.type("Query", typeWiring -> typeWiring.dataFetcher("allManagerThreads", allThreadsFetcher))
+				.type("Query", typeWiring -> typeWiring.dataFetcher("allThreads", allThreadsFetcher))
 
 				.build();
 	}
