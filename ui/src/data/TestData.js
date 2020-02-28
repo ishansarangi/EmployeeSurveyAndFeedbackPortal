@@ -8,7 +8,7 @@ export const all_thread_data = [
     manager: 'Jim Attwood',
     messages: [
       {
-        sendBy: 'employee1',
+        sentBy: 'You',
         createdAt: '2020-01-24 10:34 AM',
         text: 'This is the first message',
       },
@@ -23,7 +23,7 @@ export const all_thread_data = [
     manager: 'Kelly Williams',
     messages: [
       {
-        sentBy: 'employee2',
+        sentBy: 'You',
         createdAt: '2020-01-21 10:20 AM',
         text: 'This is the first message',
       },
@@ -31,6 +31,11 @@ export const all_thread_data = [
         sentBy: 'Manager2',
         createdAt: '2020-01-22 10:20 AM',
         text: 'This is the second message',
+      },
+      {
+        sentBy: 'You',
+        createdAt: '2020-01-21 10:20 AM',
+        text: 'This is the third message',
       },
     ],
   },
@@ -43,7 +48,7 @@ export const all_thread_data = [
     manager: 'Jim Attwood',
     messages: [
       {
-        sendBy: 'employee1',
+        sentBy: 'You',
         createdAt: '2020-01-24 10:34 AM',
         text: 'This is the first message',
       },
@@ -53,17 +58,15 @@ export const all_thread_data = [
 
 export const employee_manager_heirarchy = [
   {
-    label: "Jim Attwood",
-    value: "EMP01 "
+    label: 'Jim Attwood',
+    value: 'EMP01 ',
   },
   {
-    label: "Kelly Williams",
-    value: "EMP02"
+    label: 'Kelly Williams',
+    value: 'EMP02',
   },
   {
-    label: "Jessica Franklin",
-    value: "EMP03"
-  }
-
+    label: 'Jessica Franklin',
+    value: 'EMP03',
+  },
 ];
-

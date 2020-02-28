@@ -2,9 +2,9 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import TypoGraphy from '@material-ui/core/Typography'
+import TypoGraphy from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar'
+import Toolbar from '@material-ui/core/Toolbar';
 
 const NavBar = props => {
 
@@ -31,12 +31,28 @@ const NavBar = props => {
                                 Feedback
                             </TypoGraphy>
                         </ListItemText>
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("manager"); }}>
+                                Manager
+                            </TypoGraphy>
+                        </ListItemText>
+
+                        <ListItemText inset>
+                            <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("employee"); }}>
+                                Employee
+                            </TypoGraphy>
+                        </ListItemText>
                     </ListItem>
+
                 </List>
+
+
             </Toolbar>
-        </AppBar>
+
+        </AppBar >
 
     )
 }
+
 
 export default NavBar;

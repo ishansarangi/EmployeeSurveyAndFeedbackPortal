@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif, Helvetica, Arial, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,17 +12,22 @@ code {
     monospace;
 }
 
-
 * {
   box-sizing: border-box;
 }
 
-html, body, button, input, select, textarea {
-  font: 14px "Helvetica Neue",Helvetica,Arial,sans-serif;
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 18px;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -49,10 +54,11 @@ header {
 }
 
 footer {
-  flex: 0 0 auto;
-  font-size: 12px;
-  padding: 12px 20px;
-  border-top: 1px solid #e5e5e5;
+  position: absolute;
+  height: 40;
+  left: 0;
+  flex: 1;
+  width: 100%;
 }
 
 .main {
@@ -88,7 +94,9 @@ a {
   text-decoration: initial;
 }
 
-a:hover, a:active, a.active {
+a:hover,
+a:active,
+a.active {
   color: #42a5f5;
 }
 
@@ -109,7 +117,6 @@ pre {
   position: absolute;
   width: 100%;
   height: 100%;
-
 }
 
 .my-iframe iframe {
@@ -125,7 +132,6 @@ pre {
 .volatile {
   transition: background-color 1s, border-color 1s;
   transition-delay: 500ms;
-  padding: 2px 4px;
   margin: 0 2px;
   border: 1px solid white;
   border-radius: 4px;
@@ -158,6 +164,6 @@ pre {
   border-width: 0.04rem;
 }
 
-.layout-pane {
-  margin-top: 10px;
+.message-pane {
+  height: 100%;
 }

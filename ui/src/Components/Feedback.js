@@ -5,19 +5,22 @@ import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 
 const Feedback = () => {
-    const [selectedThread, setSelectedThread] = useState(0);
-    return (
-        <SplitterLayout primaryMinSize={400}
-            secondaryMinSize={200} secondaryInitialSize = {1000}>
-            <div className="thread-pane">
-                <Thread setSelectedThread={setSelectedThread}
-                    selectedThread={selectedThread}/>
-            </div>
-            <div className="message-pane">
-                <MessageThreadView selectedThread={selectedThread}/>
-            </div>
-        </SplitterLayout>
-    );
+  const [selectedThread, setSelectedThread] = useState(0);
+  return (
+    <div>
+      <SplitterLayout percentage={true} primaryMinSize={30}>
+        <div>
+          <Thread
+            setSelectedThread={setSelectedThread}
+            selectedThread={selectedThread}
+          />
+        </div>
+        <div>
+          <MessageThreadView selectedThread={selectedThread} />
+        </div>
+      </SplitterLayout>
+    </div>
+  );
 };
 
 export default Feedback;
