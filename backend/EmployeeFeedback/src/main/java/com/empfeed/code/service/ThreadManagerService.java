@@ -21,7 +21,7 @@ import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 
 @Service
-public class ThreadService {
+public class ThreadManagerService {
 	@Autowired
 	MessageThreadRepository threadRepository;
 
@@ -44,7 +44,7 @@ public class ThreadService {
 
 	private RuntimeWiring buildRuntimeWiring() {
 		return RuntimeWiring.newRuntimeWiring()
-				.type("Query", typeWiring -> typeWiring.dataFetcher("allManagerThreads", allThreadsFetcher))
+				.type("Query", typeWiring -> typeWiring.dataFetcher("allThreads", allThreadsFetcher))
 
 				.build();
 	}
@@ -52,4 +52,5 @@ public class ThreadService {
 	public GraphQL getGraphQL() {
 		return graphQL;
 	}
+
 }

@@ -15,10 +15,10 @@ public class Employee {
 	private String lastName;
 	private String email;
 	private String createdAt;
-	private Integer createdBy;
+	private Integer userType;
 
 	public Employee(int employeeId, int managerId, String firstName, String lastName, String email, String createdAt,
-			int createdBy) {
+			int userType) {
 		super();
 		this.employeeId = employeeId;
 		this.managerId = managerId;
@@ -26,7 +26,7 @@ public class Employee {
 		this.lastName = lastName;
 		this.email = email;
 		this.createdAt = createdAt;
-		this.createdBy = createdBy;
+		this.userType = userType;
 	}
 
 	public Employee() {
@@ -80,12 +80,12 @@ public class Employee {
 		this.createdAt = createdAt;
 	}
 
-	public int getCreatedBy() {
-		return createdBy;
+	public int getUserType() {
+		return userType;
 	}
 
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
+	public void setUserType(int createdBy) {
+		this.userType = createdBy;
 	}
 
 }
