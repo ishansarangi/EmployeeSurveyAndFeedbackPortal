@@ -1,31 +1,28 @@
-Schema{
-query:Query
-}
-
 type Query{
-employee(id:Integer):Employee
-allThreads(id:Integer):[MessageThreads]
-allManagerThreads(id:Integer):[MessageThreads]
+employee(id:Int):Employee
+allThreads(id:Int):[MessageThreads]
+allManagerThreads(id:Int):[MessageThread]
+managerDetails(id:Int):Employee
 }
 
 type MessageThread {
-  id: Integer
-  subject: String
-  createdBy: Integer
-  sentTo: Integer
+  threadId:Int
+  subject:String
+  createdBy:Int
+  sentTo:Int
   messages: [Message]
 }
 
 type Message{
-id: Integer
-text: String
-createdAt: String
-createdBy: Integer
+messageId:Int
+text:String
+createdAt:String
+createdBy:Int
 }
 
 type Employee{
-firstName: String
-userType: Integer
+firstName:String
+userType:Int
 managers:[Employee]
 
 }

@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.empfeed.code.service.ThreadManagerService;
+import com.empfeed.code.service.ManagerDetailsService;
 
 import graphql.ExecutionResult;
 
-@RequestMapping("/manager/thread")
+@RequestMapping("/employee")
 @RestController
-public class ThreadManagerController {
+public class EmployeeController {
 	@Autowired
-	ThreadManagerService threadService;
+	ManagerDetailsService empService;
 
 	@PostMapping
 	public ResponseEntity<Object> getAllThreads(@RequestBody String query) {
-		ExecutionResult execute = threadService.getGraphQL().execute(query);
+		ExecutionResult execute = empService.getGraphQL().execute(query);
 
 		return new ResponseEntity<>(execute, HttpStatus.OK);
 	}
