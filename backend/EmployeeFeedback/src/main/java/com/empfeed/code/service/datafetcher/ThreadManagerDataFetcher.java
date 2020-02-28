@@ -1,6 +1,5 @@
 package com.empfeed.code.service.datafetcher;
 
-import java.awt.print.Book;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,13 @@ import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 
 @Component
-public class AllThreadFetcher implements DataFetcher {
-
+public class ThreadManagerDataFetcher implements DataFetcher {
 	 @Autowired
 	    MessageThreadRepository threadRepository;
 
 	    @Override
 	    public List<MessageThread> get(DataFetchingEnvironment dataFetchingEnvironment) {
-	        return threadRepository.findByCreatedBy(dataFetchingEnvironment.getArgument("id"));
+	        return threadRepository.findBySentTo(dataFetchingEnvironment.getArgument("id"));
 	    
 
 }

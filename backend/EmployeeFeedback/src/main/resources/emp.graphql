@@ -5,6 +5,7 @@ query:Query
 type Query{
 employee(id:Integer):Employee
 allThreads(id:Integer):[MessageThreads]
+allManagerThreads(id:Integer):[MessageThreads]
 }
 
 type MessageThread {
@@ -13,4 +14,18 @@ type MessageThread {
   createdBy: Integer
   sentTo: Integer
   messages: [Message]
+}
+
+type Message{
+id: Integer
+text: String
+createdAt: String
+createdBy: Integer
+}
+
+type Employee{
+firstName: String
+userType: Integer
+managers:[Employee]
+
 }

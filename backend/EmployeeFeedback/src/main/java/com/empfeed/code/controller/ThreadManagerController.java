@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.empfeed.code.service.ThreadManagerService;
 import com.empfeed.code.service.ThreadService;
 
 import graphql.ExecutionResult;
 
-@RequestMapping("/thread")
+@RequestMapping("/manager/thread")
 @RestController
-public class ThreadController {
-
+public class ThreadManagerController {
 	 @Autowired
-	    ThreadService threadService;
+	    ThreadManagerService threadService;
 
 	    @PostMapping
 	    public ResponseEntity<Object> getAllThreads(@RequestBody String query) {
