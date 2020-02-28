@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif, Helvetica, Arial, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -54,10 +54,11 @@ header {
 }
 
 footer {
-  flex: 0 0 auto;
-  font-size: 12px;
-  padding: 12px 20px;
-  border-top: 1px solid #e5e5e5;
+  position: absolute;
+  height: 40;
+  left: 0;
+  flex: 1;
+  width: 100%;
 }
 
 .main {
@@ -131,7 +132,6 @@ pre {
 .volatile {
   transition: background-color 1s, border-color 1s;
   transition-delay: 500ms;
-  padding: 2px 4px;
   margin: 0 2px;
   border: 1px solid white;
   border-radius: 4px;
@@ -162,10 +162,6 @@ pre {
 .MuiGridListTile-root {
   border: solid #dbe9f4;
   border-width: 0.04rem;
-}
-
-.layout-pane {
-  margin-top: 10px;
 }
 
 .message-pane {

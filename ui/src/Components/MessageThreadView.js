@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import './message.css';
 import {all_thread_data} from '../data/TestData';
 import Message from './Message';
 import TextBox from './TextBox';
+import './message.css';
+
 const MessageThreadView = ({selectedThread}) => {
   const createMessageView = () => {
     return all_thread_data[selectedThread].messages.map(msg => {
@@ -15,7 +16,9 @@ const MessageThreadView = ({selectedThread}) => {
       <div id="chat" class="chat">
         {createMessageView()}
       </div>
-      <TextBox handleSubmit={handleSubmit} />
+      <div class="message-footer">
+        <TextBox handleSubmit={handleSubmit} />
+      </div>
     </div>
   );
 };

@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './message.css';
+import {TextField, Input} from '@material-ui/core';
+
 const TextBox = ({handleSubmit}) => {
   return (
     <div class="send-container">
       <form id="send">
-        <input
-          type="text"
-          id="msgInput"
-          class="send-input"
-          placeholder="Message"
-        />
+        <Input className="send-input" placeholder="Type Something..." />
         <input
           type="submit"
           class="send-btn"

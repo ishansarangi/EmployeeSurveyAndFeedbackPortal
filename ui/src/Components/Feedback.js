@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import SplitterLayout from 'react-splitter-layout';
 import 'react-splitter-layout/lib/index.css';
 import Thread from './Thread';
@@ -8,12 +8,16 @@ const Feedback = () => {
   const [selectedThread, setSelectedThread] = useState(0);
   return (
     <div>
-      <SplitterLayout>
-        <Thread
-          setSelectedThread={setSelectedThread}
-          selectedThread={selectedThread}
-        />
-        <MessageThreadView selectedThread={selectedThread} />
+      <SplitterLayout primaryMinSize={300} secondaryInitialSize={900}>
+        <div>
+          <Thread
+            setSelectedThread={setSelectedThread}
+            selectedThread={selectedThread}
+          />
+        </div>
+        <div>
+          <MessageThreadView selectedThread={selectedThread} />
+        </div>
       </SplitterLayout>
     </div>
   );

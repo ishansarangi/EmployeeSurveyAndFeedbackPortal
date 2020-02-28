@@ -1,13 +1,5 @@
-html,
 body {
-  height: 98%;
-  position: relative;
-  margin: 0;
-}
-body {
-  font-family: Helvetica, Arial, serif;
   font-size: 16px;
-  padding: 1%;
 }
 .wrapper {
   width: 612px;
@@ -16,12 +8,13 @@ body {
 }
 
 .chat-containter {
-  width: 100%;
-  height: 100%;
+  flex: 1;
+  background-color: #fff;
+  justify-content: center;
 }
 .chat {
-  height: 90%;
-  border: 1px solid #dcdcdc;
+  flex: 1;
+  /* border: 1px solid #dcdcdc; */
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -36,7 +29,7 @@ body {
   width: 80px;
   text-align: center;
   overflow: hidden;
-  text-oveflow: ellipsis;
+  text-overflow: ellipsis;
   margin: 20px auto;
 }
 
@@ -121,15 +114,14 @@ body {
 }
 
 .send-container {
-  background-color: #f6f6f6;
+  background-color: #ffffff;
   border: 1px solid #dcdcdc;
-  margin-top: -1px;
   padding: 10px;
+  height: 100;
 }
 .send-input {
   border-radius: 5px;
-  border: 1px solid #dbdbdb;
-  background-color: #fff;
+  background-color: #f5f5f5;
   padding: 5px 5px;
   font-size: 1em;
   width: 78%;
@@ -146,4 +138,10 @@ body {
 
 .message-time {
   font-size: 10px;
+}
+
+.message-footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
