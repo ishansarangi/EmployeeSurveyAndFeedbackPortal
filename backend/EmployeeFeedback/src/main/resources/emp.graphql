@@ -1,0 +1,28 @@
+type Query{
+employee(id:Int):Employee
+allThreads(id:Int):[MessageThreads]
+allManagerThreads(id:Int):[MessageThread]
+managerDetails(id:Int):Employee
+}
+
+type MessageThread {
+  threadId:Int
+  subject:String
+  createdBy:Int
+  sentTo:Int
+  messages: [Message]
+}
+
+type Message{
+messageId:Int
+text:String
+createdAt:String
+createdBy:Int
+}
+
+type Employee{
+firstName:String
+userType:Int
+managers:[Employee]
+
+}

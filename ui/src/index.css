@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif, Helvetica, Arial, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -10,4 +10,160 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 18px;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+#root > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+header {
+  flex: 0 0 auto;
+  padding: 0 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+footer {
+  position: absolute;
+  height: 40;
+  left: 0;
+  flex: 1;
+  width: 100%;
+}
+
+.main {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.navigation-bar {
+  flex: 0 0 auto;
+  width: 240px;
+  background-color: #fcfcfc;
+  border-right: 1px solid #e5e5e5;
+}
+
+ul.navigation {
+  list-style: none;
+  padding: 0 20px;
+}
+
+ul.navigation li {
+  margin-bottom: 8px;
+}
+
+.child-content {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+a {
+  color: #000000;
+  text-decoration: initial;
+}
+
+a:hover,
+a:active,
+a.active {
+  color: #42a5f5;
+}
+
+pre {
+  white-space: pre;
+}
+
+.my-pane {
+  margin: 20px;
+}
+
+.my-iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.my-iframe .my-iframe-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.my-iframe iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.not-found {
+  margin: 20px;
+}
+
+.volatile {
+  transition: background-color 1s, border-color 1s;
+  transition-delay: 500ms;
+  margin: 0 2px;
+  border: 1px solid white;
+  border-radius: 4px;
+}
+
+.volatile.highlight {
+  transition: none;
+  background: #fff176;
+  border-color: #ff8f00;
+}
+
+.MuiGridListTileBar-root {
+  background: white !important;
+}
+.MuiGridListTileBar-root:hover {
+  background: #dcdcdc !important;
+}
+
+.MuiGridListTileBar-titleWrap {
+  height: 100% !important;
+}
+.MuiGridListTileBar-subtitle {
+  height: 43px !important;
+}
+.MuiGridListTileBar-rootSubtitle {
+  height: 100% !important;
+}
+.MuiGridListTile-root {
+  border: solid #dbe9f4;
+  border-width: 0.04rem;
+}
+
+.message-pane {
+  height: 100%;
 }
