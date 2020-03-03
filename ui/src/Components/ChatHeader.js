@@ -5,9 +5,7 @@ const ChatHeader = ({msg}) => {
   return (
     <div class="header-container">
       {msg.subject}
-      <div class="component-header">
-        <ChatHeaderRecipient msg={msg} />
-      </div>
+      <ChatHeaderRecipient msg={msg} />
     </div>
   );
 };
