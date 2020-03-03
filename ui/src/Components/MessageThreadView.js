@@ -3,6 +3,7 @@ import {all_thread_data} from '../data/TestData';
 import Message from './Message';
 import TextBox from './TextBox';
 import './message.css';
+import ChatHeader from './ChatHeader';
 
 const MessageThreadView = ({selectedThread}) => {
   const createMessageView = () => {
@@ -13,6 +14,9 @@ const MessageThreadView = ({selectedThread}) => {
   const handleSubmit = () => {};
   return (
     <div class="chat-containter">
+      <div class="component-header">
+        <ChatHeader msg={all_thread_data[selectedThread]} />
+      </div>
       <div id="chat" class="chat">
         {createMessageView()}
       </div>
