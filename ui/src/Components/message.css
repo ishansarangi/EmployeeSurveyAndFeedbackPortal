@@ -125,7 +125,7 @@ body {
   border-bottom: 1px solid #dcdcdc;
   margin-bottom: 24px;
   padding: 24px 0px 24px 24px;
-  height: 52px;
+  height: 80px;
   font-size: 20px;
   overflow: hidden;
   white-space: nowrap;
@@ -133,9 +133,14 @@ body {
   flex-grow: inherit;
   flex-shrink: inherit;
 }
-.header-container:hover {
-  overflow: visible;
+.header-container-recipient {
+  background-color: #ffffff;
+  padding: 12px 0px 12px 2px;
+  font-size: 12px;
 }
+/* .header-container:hover {
+  overflow: visible;
+} */
 
 .send-input {
   border-radius: 5px;
