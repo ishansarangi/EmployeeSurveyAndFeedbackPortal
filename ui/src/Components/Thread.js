@@ -18,12 +18,16 @@ const Thread = ({setSelectedThread, selectedThread}) => {
       padding: 0,
       overflow: 'initial',
       background: 'white',
+      margin: '0px',
+      width: 'inherit',
     },
     newThread: {
       width: '100%',
       position: 'absolute',
       bottom: 0,
-      padding: '5px',
+      padding: '16px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
   }));
 

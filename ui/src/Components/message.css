@@ -2,20 +2,25 @@ body {
   font-size: 16px;
 }
 .wrapper {
-  width: 612px;
   height: 100%;
   margin: 0 auto;
 }
 
 .chat-containter {
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   justify-content: center;
+  height: 100%;
 }
+
 .chat {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 8px 24px 24px 24px;
 }
+
 .button {
   background-color: none;
   border: 1px solid #36a9fc;
@@ -37,6 +42,7 @@ body {
   margin-left: 20px;
   float: right;
 }
+
 #buildInput {
   width: 100%;
   height: 60%;
@@ -44,29 +50,28 @@ body {
 
 /* Messages baloon */
 .message {
-  margin: 10px 0;
+  margin: 16px 0;
   overflow: hidden;
 }
+
 .message-text {
-  padding: 10px 20px;
+  padding: 16px;
   float: right;
   clear: both;
-  border-radius: 25px;
+  border-radius: 4px;
   position: relative;
-  margin-bottom: 1px;
+  font-size: 14px;
 }
+
 .message.left .message-text {
-  margin-right: 70px;
-  margin-left: 20px;
-  background-color: white;
-  border: 1px solid #e5e5ea;
+  margin-right: 100px;
+  background-color: #f5f5f5;
   float: left;
 }
+
 .message.right .message-text {
-  margin-left: 70px;
-  margin-right: 20px;
-  background-color: white;
-  border: 1px solid #e5e5ea;
+  margin-left: 100px;
+  background-color: #deebf1;
   color: black;
   float: right;
 }
@@ -85,11 +90,13 @@ body {
 .message.right .message-text:after {
   border-radius: 0 0 0 50%;
 }
+
 .message.right .message-text:before {
   height: 20px;
   right: -23px;
   background-color: #e5e5ea;
 }
+
 .message.right .message-text:after {
   right: -35px;
   bottom: -3px;
@@ -100,32 +107,29 @@ body {
 .message.left .message-text:after {
   border-radius: 0 0 50% 0;
 }
+
 .message.left .message-text:before {
   height: 20px;
   left: -23px;
   background-color: #e5e5ea;
 }
+
 .message.left .message-text:after {
   left: -35px;
   bottom: -3px;
   background-color: #fff;
 }
 
-.send-container {
-  background-color: #ffffff;
-  border-top: 1px solid #dcdcdc;
-  padding: 24px 24px 0px 24px;
-  margin-bottom: 24px;
-  flex-direction: row;
-  justify-content: center;
+.message-title {
+  color: #000000;
+  opacity: 0.54;
+  font-size: 12px;
+  padding-bottom: 4px;
 }
-
 .header-container {
   background-color: #ffffff;
   border-bottom: 1px solid #dcdcdc;
-  margin-bottom: 24px;
-  padding: 24px 0px 24px 24px;
-  height: 80px;
+  padding: 24px;
   font-size: 20px;
   overflow: hidden;
   white-space: nowrap;
@@ -133,6 +137,7 @@ body {
   flex-grow: inherit;
   flex-shrink: inherit;
 }
+
 .header-container-recipient {
   padding-top: 12px;
   font-size: 12px;
@@ -142,21 +147,33 @@ body {
   overflow: visible;
 }
 
+.send-container {
+  background-color: #ffffff;
+  border-top: 1px solid #dcdcdc;
+  padding: 24px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  display: flex;
+}
+
 .send-input {
   border-radius: 5px;
   background-color: #f5f5f5;
   font-size: 16px;
-  width: 88%;
+  width: 90%;
+  flex: 1;
+  padding-right: 24px;
 }
+
 .send-btn {
   text-decoration: none;
   color: #939297;
   font-weight: bold;
   background-color: transparent;
-  border: none;
+  border-color: #36a9fc;
   font-size: 1em;
   cursor: pointer;
-  position: fixed;
 }
 
 .message-time {
@@ -164,11 +181,10 @@ body {
 }
 
 .component-footer {
-  width: 100%;
-  position: absolute;
   bottom: 0;
 }
 
 .component-header {
+  display: block;
   width: 100%;
 }
