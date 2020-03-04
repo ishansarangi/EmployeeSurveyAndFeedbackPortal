@@ -134,13 +134,13 @@ body {
   flex-shrink: inherit;
 }
 .header-container-recipient {
-  background-color: #ffffff;
-  padding: 12px 0px 12px 2px;
+  padding-top: 12px;
   font-size: 12px;
 }
-/* .header-container:hover {
+
+.header-container:hover {
   overflow: visible;
-} */
+}
 
 .send-input {
   border-radius: 5px;
