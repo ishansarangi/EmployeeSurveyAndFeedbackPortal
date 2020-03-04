@@ -4,7 +4,7 @@ export const all_thread_data = [
     latestText: 'This is a test message2',
     latestDate: '2020-01-24 10:34 AM',
     readFlag: true,
-    subject: 'thread subject1',
+    subject: 'Lacinia at quis risus sed vulputate odio ut enim',
     manager: 'Jim Attwood',
     messages: [
       {

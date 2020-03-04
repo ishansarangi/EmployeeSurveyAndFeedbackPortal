@@ -8,13 +8,11 @@ body {
 }
 
 .chat-containter {
-  flex: 1;
   background-color: #fff;
   justify-content: center;
 }
 .chat {
   flex: 1;
-  /* border: 1px solid #dcdcdc; */
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -115,16 +113,35 @@ body {
 
 .send-container {
   background-color: #ffffff;
-  border: 1px solid #dcdcdc;
-  padding: 10px;
-  height: 100;
+  border-top: 1px solid #dcdcdc;
+  padding: 24px 24px 0px 24px;
+  margin-bottom: 24px;
+  flex-direction: row;
+  justify-content: center;
 }
+
+.header-container {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dcdcdc;
+  margin-bottom: 24px;
+  padding: 24px 0px 24px 24px;
+  height: 52px;
+  font-size: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-grow: inherit;
+  flex-shrink: inherit;
+}
+.header-container:hover {
+  overflow: visible;
+}
+
 .send-input {
   border-radius: 5px;
   background-color: #f5f5f5;
-  padding: 5px 5px;
-  font-size: 1em;
-  width: 78%;
+  font-size: 16px;
+  width: 88%;
 }
 .send-btn {
   text-decoration: none;
@@ -134,6 +151,7 @@ body {
   border: none;
   font-size: 1em;
   cursor: pointer;
+  position: fixed;
 }
 
 .message-time {
@@ -144,4 +162,8 @@ body {
   width: 100%;
   position: absolute;
   bottom: 0;
+}
+
+.component-header {
+  width: 100%;
 }
