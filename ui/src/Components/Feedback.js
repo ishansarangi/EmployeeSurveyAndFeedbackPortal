@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Feedback = props => {
-  const userType = useContext(UserContext);
+  const {userType} = useContext(UserContext);
 
   const get_threads = () => {
     switch (userType) {
