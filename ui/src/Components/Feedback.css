@@ -1,0 +1,24 @@
+.fb-main {
+  flex: 1 1 auto;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.fb-navigation-bar {
+  flex: 0 0 auto;
+  width: 300px;
+  background-color: #ffffff;
+  border-right: 1px solid #e7e8e6;
+  height: 100%;
+  float: left;
+  position: relative;
+}
+
+.fb-child-content {
+  flex: 1 1 auto;
+  overflow: hidden;
+  background-color: #ffffff;
+  height: 100%;
+  width: 100%;
+}

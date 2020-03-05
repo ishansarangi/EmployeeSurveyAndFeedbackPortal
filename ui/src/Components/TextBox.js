@@ -5,25 +5,23 @@ import {TextField} from '@material-ui/core';
 const TextBox = ({handleSubmit}) => {
   return (
     <div class="send-container">
-      <form id="send">
-        <TextField
-          className="send-input"
-          placeholder="Type Something..."
-          multiline="true"
-          rowsMax={5}
-          inputProps={{
-            style: {
-              padding: 5,
-            },
-          }}
-        />
-        <input
-          type="submit"
-          class="send-btn"
-          value="Send"
-          onClick="handleSubmit"
-        />
-      </form>
+      <TextField
+        className="send-input"
+        placeholder="Type Something..."
+        multiline="true"
+        rowsMax={5}
+        inputProps={{
+          style: {
+            padding: 5,
+          },
+        }}
+      />
+      <input
+        type="submit"
+        class="send-btn"
+        value="Send"
+        onClick="handleSubmit"
+      />
     </div>
   );
 };
