@@ -4,6 +4,8 @@ import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 import './Feedback.css';
 import {List} from '@material-ui/core';
+import {graphql} from 'react-apollo';
+import {get_all_employee_threads, get_all_manager_threads} from './Queries';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,5 +47,8 @@ const Feedback = props => {
     </div>
   );
 };
-
+/**
+ * TODO: Replace the below export statement with this when the graphql backend is ready
+ * export default graphql(getAllThreadsQuery)(Feedback);
+ */
 export default Feedback;
