@@ -1,58 +1,81 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
+import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TypoGraphy from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import {UserType} from './UserType';
+import {UserContext} from './UserContext';
+import Button from '@material-ui/core/Button';
+import {blue} from '@material-ui/core/colors';
+import {NavLink} from 'react-router-dom';
+
+const NavButton = withStyles(theme => ({
+  root: {
+    color: '#ffffff',
+  },
+}))(Button);
 
 const NavBar = props => {
+  const {userType, setUserType} = useContext(UserContext);
 
-    return (
-        <AppBar position="static">
-            <Toolbar>
-                <TypoGraphy variant="title" color="inherit">
-                    <h2>TalentMap</h2>
+  const changeUserType = () => {
+    if (userType == UserType.Employee) {
+      setUserType(UserType.Manager);
+    } else if (userType == UserType.Manager) {
+      setUserType(UserType.Employee);
+    }
+  };
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <TypoGraphy variant="title" color="inherit">
+          <h2>TalentMap</h2>
+        </TypoGraphy>
+        <List component="nav">
+          <ListItem component="div">
+            <ListItemText inset>
+              <NavButton>
+                <TypoGraphy color="inherit" variant="title">
+                  Dashboard
                 </TypoGraphy>
-                <List component="nav">
-                    <ListItem component="div">
-                        <ListItemText inset>
-                            <TypoGraphy color="inherit" variant="title">
-                                Dashboard
-                            </TypoGraphy>
-                        </ListItemText>
-                        <ListItemText inset>
-                            <TypoGraphy color="inherit" variant="title">
-                                Reports
-                            </TypoGraphy>
-                        </ListItemText>
-                        <ListItemText inset>
-                            <TypoGraphy color="inherit" variant="title">
-                                Feedback
-                            </TypoGraphy>
-                        </ListItemText>
-                        <ListItemText inset>
-                            <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("manager"); }}>
-                                Manager
-                            </TypoGraphy>
-                        </ListItemText>
-
-                        <ListItemText inset>
-                            <TypoGraphy color="inherit" variant="title" onClick={() => { props.onClick("employee"); }}>
-                                Employee
-                            </TypoGraphy>
-                        </ListItemText>
-                    </ListItem>
-
-                </List>
-
-
-            </Toolbar>
-
-        </AppBar >
-
-    )
-}
-
+              </NavButton>
+            </ListItemText>
+            <ListItemText inset>
+              <NavButton>
+                <TypoGraphy color="inherit" variant="title">
+                  Reports
+                </TypoGraphy>
+              </NavButton>
+            </ListItemText>
+            <ListItemText inset>
+              <NavButton href="/my-feedback">
+                <TypoGraphy color="inherit" variant="title">
+                  Feedback
+                </TypoGraphy>
+              </NavButton>
+            </ListItemText>
+            <ListItemText inset>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={userType === UserType.Manager}
+                    onChange={() => changeUserType()}
+                  />
+                }
+                label="Change to Manager"
+              />
+            </ListItemText>
+          </ListItem>
+        </List>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
 export default NavBar;

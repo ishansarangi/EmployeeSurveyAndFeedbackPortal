@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
@@ -6,6 +6,8 @@ import './Feedback.css';
 import {List} from '@material-ui/core';
 import {graphql} from 'react-apollo';
 import {get_all_employee_threads, get_all_manager_threads} from './Queries';
+import {UserContext} from './UserContext';
+import {UserType} from './UserType';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,6 +23,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Feedback = props => {
+  const {userType} = useContext(UserContext);
+
+  const get_threads = () => {
+    switch (userType) {
+      case UserType.Employee:
+        return get_all_employee_threads;
+      case UserType.Manager:
+        return get_all_manager_threads;
+      default:
+        return get_all_employee_threads;
+    }
+  };
+
   const classes = useStyles();
   const [selectedThread, setSelectedThread] = useState(0);
   return (
@@ -49,6 +64,6 @@ const Feedback = props => {
 };
 /**
  * TODO: Replace the below export statement with this when the graphql backend is ready
- * export default graphql(getAllThreadsQuery)(Feedback);
+ * export default graphql(get_threads())(Feedback);
  */
 export default Feedback;
