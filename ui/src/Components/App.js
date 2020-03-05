@@ -5,6 +5,8 @@ import ManagerPane from './ManagerPane';
 import PropTypes from 'prop-types';
 import {UserContext} from './UserContext';
 import Feedback from './Feedback';
+import {ApolloProvider} from 'react-apollo';
+import {apolloclient} from './ApolloClient';
 
 const App = props => {
   const [page, setPageName] = useState('NotSet');
@@ -26,15 +28,17 @@ const App = props => {
   });
   return (
     <UserContext.Provider value={page}>
-      <div>
-        <NavBar page={page} onClick={name => handleClick(name)} />
-        {managerView ? <ManagerPane props={props} /> : null}
-        {employeeView ? (
-          <div className="child-content">
-            <Feedback />
-          </div>
-        ) : null}
-      </div>
+      <ApolloProvider client={apolloclient}>
+        <div>
+          <NavBar page={page} onClick={name => handleClick(name)} />
+          {managerView ? <ManagerPane props={props} /> : null}
+          {employeeView ? (
+            <div className="child-content">
+              <Feedback />
+            </div>
+          ) : null}
+        </div>
+      </ApolloProvider>
     </UserContext.Provider>
   );
 };
