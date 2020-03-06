@@ -66,7 +66,11 @@ const NavBar = props => {
                     onChange={() => changeUserType()}
                   />
                 }
-                label="Change to Manager"
+                label={
+                  userType === UserType.Employee
+                    ? 'Change to Manager'
+                    : 'Switch back to Employee'
+                }
               />
             </ListItemText>
           </ListItem>
