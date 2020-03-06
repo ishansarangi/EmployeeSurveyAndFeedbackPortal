@@ -7,24 +7,34 @@ import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordShar
 
 const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
   const useStyles = makeStyles(theme => ({
+    topSecionWithBadge: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginLeft: '30px',
+      marginTop: '-27px',
+    },
+    topSecionWithoutBadge: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginLeft: '30px',
+      paddingTop: '16px',
+    },
     text: {
-      fontSize: '0.90rem',
-      marginLeft: '10px',
+      fontSize: '12px',
       color: 'grey',
     },
     date: {
       color: 'grey',
-      fontSize: '0.90rem',
+      fontSize: '12px',
       float: 'right',
     },
     readIcon: {
-      paddingTop: '1%',
-      marginBottom: '-1%',
+      marginTop: '16px',
       color: '#E87424',
     },
     preview: {
-      fontSize: '1.20rem',
-      marginLeft: '8%',
+      fontSize: '14px',
+      marginLeft: '30px',
       overflowWrap: 'break-word',
       color: 'black',
       height: '43px',
@@ -51,22 +61,27 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
   const getHeader = thread => {
     if (threadDetails.readFlag) {
       return (
-        <Fragment>
-          <FiberManualRecordSharpIcon
-            fontSize="small"
-            className={classes.readIcon}
-            visibility={thread.readFlag}
-          />
-          <span className={classes.text}>{thread.sentBy}</span>
-          <span className={classes.date}> {thread.latestDate}</span>
-        </Fragment>
+        <div>
+          <Fragment>
+            <FiberManualRecordSharpIcon
+              fontSize="inherit"
+              style={{fontSize: '15px'}}
+              className={classes.readIcon}
+              visibility={thread.readFlag}
+            />
+          </Fragment>
+          <div className={classes.topSecionWithBadge}>
+            <span className={classes.text}>{thread.sentBy}</span>
+            <span className={classes.date}> {thread.latestDate}</span>
+          </div>
+        </div>
       );
     } else {
       return (
-        <Fragment>
+        <div className={classes.topSecionWithoutBadge}>
           <span className={classes.text}>{thread.sentBy}</span>
           <span className={classes.date}> {thread.latestDate}</span>
-        </Fragment>
+        </div>
       );
     }
   };
