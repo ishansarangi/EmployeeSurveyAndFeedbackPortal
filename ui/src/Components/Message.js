@@ -6,7 +6,7 @@ const Message = ({msg}) => {
     return (
       <div class="message right">
         <div class="message-text">
-          <div class="message-title">{msg.sentBy}</div>
+          <div class="message-title">{msg.createdAt}</div>
           {msg.text}
         </div>
       </div>
@@ -15,7 +15,10 @@ const Message = ({msg}) => {
     return (
       <div class="message left">
         <div class="message-text">
-          <div class="message-title">{msg.sentBy}</div>
+          <div class="message-title">
+            <div>{msg.sentBy}</div>
+            <div>{msg.createdAt}</div>
+          </div>
           {msg.text}
         </div>
       </div>

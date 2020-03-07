@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,8 +11,6 @@ import Switch from '@material-ui/core/Switch';
 import {UserType} from './UserType';
 import {UserContext} from './UserContext';
 import Button from '@material-ui/core/Button';
-import {blue} from '@material-ui/core/colors';
-import {NavLink} from 'react-router-dom';
 
 const NavButton = withStyles(theme => ({
   root: {
@@ -24,9 +22,9 @@ const NavBar = props => {
   const {userType, setUserType} = useContext(UserContext);
 
   const changeUserType = () => {
-    if (userType == UserType.Employee) {
+    if (userType === UserType.Employee) {
       setUserType(UserType.Manager);
-    } else if (userType == UserType.Manager) {
+    } else if (userType === UserType.Manager) {
       setUserType(UserType.Employee);
     }
   };
@@ -68,7 +66,11 @@ const NavBar = props => {
                     onChange={() => changeUserType()}
                   />
                 }
-                label="Change to Manager"
+                label={
+                  userType === UserType.Employee
+                    ? 'Change to Manager'
+                    : 'Switch back to Employee'
+                }
               />
             </ListItemText>
           </ListItem>

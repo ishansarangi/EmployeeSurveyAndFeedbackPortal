@@ -125,6 +125,8 @@ body {
   opacity: 0.54;
   font-size: 12px;
   padding-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
 }
 .header-container {
   background-color: #ffffff;

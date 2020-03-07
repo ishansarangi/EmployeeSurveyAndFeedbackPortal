@@ -4,7 +4,6 @@ import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 import './Feedback.css';
 import {List} from '@material-ui/core';
-import {graphql} from 'react-apollo';
 import {get_all_employee_threads, get_all_manager_threads} from './Queries';
 import {UserContext} from './UserContext';
 import {UserType} from './UserType';

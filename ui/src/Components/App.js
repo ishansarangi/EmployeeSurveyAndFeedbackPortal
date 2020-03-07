@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import NavBar from './NavBar';
 import ManagerPane from './ManagerPane';
@@ -17,7 +17,7 @@ const App = props => {
       <ApolloProvider client={apolloclient}>
         <div>
           <NavBar />
-          {userType == UserType.Manager ? (
+          {userType === UserType.Manager ? (
             <ManagerPane props={props} />
           ) : (
             <div className="child-content">
