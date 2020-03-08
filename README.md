@@ -40,14 +40,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 
 ## Release Notes
-- v2.0.0
+- v0.2.0
   - New Manager Pane
   - List view of threads of all sent messages
   - Chat view for viewing/sending messages in the respective message thread
   - Able to switch between manager and employee view
   - Manger can view his feedback as an employee as well as the feedbacks sent to him by the employees reporting to him.
   
-- v1.0.0
+- v0.1.0
   - Create new message button
   - New message dialog box with title, subject and message body
   - Send and cancel button for new message
