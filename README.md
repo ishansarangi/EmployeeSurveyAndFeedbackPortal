@@ -40,6 +40,13 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 
 ## Release Notes
+- v0.3.0
+  - save messages and update thread in database
+  - added Message subject and recipient name to the discussion pane
+  - added sender's name and date-time to each message bubble
+  - added functionality to change the UI based on user type
+  - fixed several UI styling issues
+
 - v0.2.0
   - New Manager Pane
   - List view of threads of all sent messages
