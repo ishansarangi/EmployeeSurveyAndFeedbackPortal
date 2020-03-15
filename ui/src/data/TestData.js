@@ -4,7 +4,7 @@ export const all_thread_data = [
     latestText: 'This is a test message2',
     latestDate: '2020-01-24 10:34 AM',
     readFlag: true,
-    subject: 'thread subject1',
+    subject: 'Lacinia at quis risus sed vulputate odio ut enim',
     manager: 'Jim Attwood',
     messages: [
       {
@@ -19,18 +19,20 @@ export const all_thread_data = [
     latestText: 'This is a test message2',
     latestDate: '2020-01-21 10:20 AM',
     readFlag: false,
-    subject: 'thread subject2',
+    subject: 'Lacinia at quis risus sed vulputate odio ut enim',
     manager: 'Kelly Williams',
     messages: [
       {
         sentBy: 'You',
         createdAt: '2020-01-21 10:20 AM',
-        text: 'This is the first message',
+        text:
+          'Lacinia at quis risus sed vulputate odio ut enim. Urna neque viverra justo nec ultrices. Proin sed libero enim sed faucibus turpis in eu mi. Tortor vitae purus faucibus ornare suspendisse sed nisi lacus sed. Suspendisse potenti nullam ac tortor vitae. Diam sit amet nisl suscipit adipiscing bibendum est ultricies integer.',
       },
       {
         sentBy: 'Manager2',
         createdAt: '2020-01-22 10:20 AM',
-        text: 'This is the second message',
+        text:
+          'Tristique magna sit amet purus gravida. Ultricies integer quis auctor elit sed vulputate mi sit. Et pharetra etra massa massa ultricies mi quis hendrerit.',
       },
       {
         sentBy: 'You',

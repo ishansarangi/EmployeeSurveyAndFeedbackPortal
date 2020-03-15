@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {withStyles} from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -9,11 +9,9 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import {FormControl, TextField} from '@material-ui/core';
-import Select from '@material-ui/core/Select';
+import { FormControl, TextField } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import {orange} from '@material-ui/core/colors';
+import { orange } from '@material-ui/core/colors';
 import * as Constants from '../data/TestData';
 const styles = theme => ({
   form: {
@@ -52,7 +50,7 @@ const styles = theme => ({
 });
 
 const DialogTitle = withStyles(styles)(props => {
-  const {children, classes, onClose, ...other} = props;
+  const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -139,11 +137,11 @@ const NewThread = () => {
     else {
       console.log(
         'Call the backend API: Subject:' +
-          subject +
-          ', Manager Id: ' +
-          manager +
-          ', Message: ' +
-          body
+        subject +
+        ', Manager Id: ' +
+        manager +
+        ', Message: ' +
+        body
       );
       handleClose();
     }
@@ -152,7 +150,7 @@ const NewThread = () => {
   return (
     <div>
       <CreateButton color="primary" onClick={handleClickOpen}>
-        Create New Thread
+        New Thread
       </CreateButton>
       <Dialog
         fullWidth={'xl'}
@@ -161,7 +159,7 @@ const NewThread = () => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle id="customized-dialog-title">
           New Thread
         </DialogTitle>
         <DialogContent dividers>
@@ -184,12 +182,11 @@ const NewThread = () => {
             )}
           </FormControl>
           <FormControl margin="normal" fullWidth>
-            <InputLabel id="select-manager-label" margin="dense">
-              Send to
-            </InputLabel>
-            <Select
+            <TextField
               variant="filled"
               id="select-manager"
+              select
+              label="Send to"
               value={manager}
               onChange={handleManagerSelection}
             >
@@ -198,7 +195,7 @@ const NewThread = () => {
                   {item.label}
                 </MenuItem>
               ))}
-            </Select>
+            </TextField>
             {hasManagerError && (
               <FormHelperText error="true" focused={hasManagerError}>
                 Please select a manager for the message.

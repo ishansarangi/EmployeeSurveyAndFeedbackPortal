@@ -1,19 +1,25 @@
 import React from 'react';
 import './message.css';
-import {Input} from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import SendIcon from '@material-ui/icons/Send';
 
-const TextBox = ({handleSubmit}) => {
+
+const TextBox = ({ handleSubmit }) => {
   return (
+
     <div class="send-container">
-      <form id="send">
-        <Input className="send-input" placeholder="Type Something..." />
-        <input
-          type="submit"
-          class="send-btn"
-          value="Send"
-          onClick="handleSubmit"
-        />
-      </form>
+      <TextField
+        className="send-input"
+        placeholder="Type Something..."
+        multiline="true"
+        rowsMax={5}
+        inputProps={{
+          style: {
+            padding: 5,
+          },
+        }}
+      />
+      <SendIcon style={{ color: '#E87424' }}></SendIcon>
     </div>
   );
 };

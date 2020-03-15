@@ -26,3 +26,7 @@ userType:Int
 managers:[Employee]
 
 }
+type Mutation {
+  addThread(input: MessageThread): MessageThread
+  updateThread(id:Int, input: Message): Message
+}

@@ -68,9 +68,9 @@ footer {
 
 .navigation-bar {
   flex: 0 0 auto;
-  width: 240px;
+  width: 224px;
   background-color: #fcfcfc;
-  border-right: 1px solid #e5e5e5;
+  border-right: 1px solid #e7e8e6;
 }
 
 ul.navigation {
@@ -97,15 +97,11 @@ a {
 a:hover,
 a:active,
 a.active {
-  color: #42a5f5;
+  color: #000000;
 }
 
 pre {
   white-space: pre;
-}
-
-.my-pane {
-  margin: 20px;
 }
 
 .my-iframe {
@@ -160,10 +156,6 @@ pre {
   height: 100% !important;
 }
 .MuiGridListTile-root {
-  border: solid #dbe9f4;
-  border-width: 0.04rem;
-}
-
-.message-pane {
-  height: 100%;
+  border-bottom: solid #e7e8e6;
+  border-width: 1px;
 }
