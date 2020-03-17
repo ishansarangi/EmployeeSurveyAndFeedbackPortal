@@ -5,6 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Feedback from './Feedback';
+import {FeedbackType} from './FeedbackType';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,6 +15,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const FeedbackView = index => {
+  if (index === 0) {
+    return <Feedback feedbackType={FeedbackType.Employee} />;
+  }
+  return <Feedback feedbackType={FeedbackType.My} />;
+};
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
@@ -50,7 +57,7 @@ const ManagerPane = props => {
       </nav>
       <div className="child-content">
         {/* need to remove feedback and update using props */}
-        <Feedback />
+        {FeedbackView(selectedIndex)}
       </div>
     </div>
   );
