@@ -15,11 +15,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const FeedbackView = index => {
+const feedbackView = index => {
   if (index === 0) {
     return <Feedback feedbackType={FeedbackType.Employee} />;
   }
-  return <Feedback feedbackType={FeedbackType.My} />;
+  return <Feedback feedbackType={FeedbackType.Personal} />;
 };
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -57,7 +57,7 @@ const ManagerPane = props => {
       </nav>
       <div className="child-content">
         {/* need to remove feedback and update using props */}
-        {FeedbackView(selectedIndex)}
+        {feedbackView(selectedIndex)}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
 export const FeedbackType = {
-  My: 1,
+  Personal: 1,
   Employee: 2,
 };

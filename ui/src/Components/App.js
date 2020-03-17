@@ -22,7 +22,7 @@ const App = props => {
             <ManagerPane props={props} />
           ) : (
             <div className="child-content">
-              <Feedback feedbackType={FeedbackType.My} />
+              <Feedback feedbackType={FeedbackType.Personal} />
             </div>
           )}
         </div>

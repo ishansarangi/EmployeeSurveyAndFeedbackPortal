@@ -7,7 +7,7 @@ import {FeedbackType} from './FeedbackType';
 const ChatHeader = props => {
   const {userType} = useContext(UserContext);
   const renderRecipient = () => {
-    if (props.feedbackType === FeedbackType.My) {
+    if (props.feedbackType === FeedbackType.Personal) {
       return <ChatHeaderRecipient msg={props.msg} />;
     }
   };
