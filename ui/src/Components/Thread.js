@@ -1,12 +1,11 @@
 import React, {Fragment} from 'react';
-import {all_thread_data} from '../data/TestData';
 import NewThread from './NewThread';
 import ThreadItem from './ThreadItem';
 import {makeStyles} from '@material-ui/core/styles';
 import {Divider} from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 
-const Thread = ({setSelectedThread, selectedThread}) => {
+const Thread = ({setSelectedThread, selectedThread, threadData}) => {
   const useStyles = makeStyles(theme => ({
     container: {
       height: '85px',
@@ -32,18 +31,18 @@ const Thread = ({setSelectedThread, selectedThread}) => {
   }));
 
   const getThreadsView = () => {
-    return all_thread_data.map((thread, index) => {
+    return threadData.map((thread, index) => {
       return (
         <ThreadItem
           setSelectedThread={setSelectedThread}
           threadKey={index}
           threadDetails={{
-            sentBy: thread.sentBy,
+            sentBy: thread.createdBy.firstName,
             latestText: thread.latestText,
-            latestDate: thread.latestDate,
-            readFlag: thread.readFlag,
+            latestDate: thread.modifiedAt,
+            readFlag: true,
             subject: thread.subject,
-            manager: thread.manager,
+            manager: thread.sentTo.firstName,
           }}
         />
       );

@@ -4,9 +4,13 @@ import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 import './Feedback.css';
 import {List} from '@material-ui/core';
-import {get_all_employee_threads, get_all_manager_threads} from './Queries';
+import {
+  get_all_threads_for_employee,
+  get_all_threads_for_manager,
+} from './Queries';
 import {UserContext} from './UserContext';
 import {UserType} from './UserType';
+import {useQuery} from '@apollo/react-hooks';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,21 +26,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Feedback = props => {
+  const classes = useStyles();
   const {userType} = useContext(UserContext);
-
+  const [selectedThread, setSelectedThread] = useState(0);
   const get_threads = () => {
     switch (userType) {
-      case UserType.Employee:
-        return get_all_employee_threads;
       case UserType.Manager:
-        return get_all_manager_threads;
+        return get_all_threads_for_manager;
+      case UserType.Employee:
+        return get_all_threads_for_employee;
       default:
-        return get_all_employee_threads;
+        return get_all_threads_for_employee;
     }
   };
 
-  const classes = useStyles();
-  const [selectedThread, setSelectedThread] = useState(0);
+  const {loading, error, data} = useQuery(get_threads(), {
+    variables: {employeeId: 2},
+  });
+
+  if (loading) {
+    return <span>Loading...</span>;
+  } else if (error) {
+    console.log(error);
+  }
+  console.log(data);
+
   return (
     <div className="fb-main">
       <nav className="fb-navigation-bar">
@@ -47,6 +61,7 @@ const Feedback = props => {
             aria-label="secondary mailbox folders"
           >
             <Thread
+              threadData={data.findAllSentThreads}
               setSelectedThread={setSelectedThread}
               selectedThread={selectedThread}
             />
@@ -55,14 +70,14 @@ const Feedback = props => {
       </nav>
       <div className="fb-child-content">
         <div className={classes.messageView}>
-          <MessageThreadView selectedThread={selectedThread} />
+          <MessageThreadView
+            selectedThread={selectedThread}
+            threadData={data.findAllSentThreads[selectedThread]}
+          />
         </div>
       </div>
     </div>
   );
 };
-/**
- * TODO: Replace the below export statement with this when the graphql backend is ready
- * export default graphql(get_threads())(Feedback);
- */
+//export default graphql(get_threads())(Feedback);
 export default Feedback;

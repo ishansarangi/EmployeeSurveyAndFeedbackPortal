@@ -3,17 +3,17 @@ import ChatHeaderRecipient from './ChatHeaderRecipient';
 import {UserContext} from './UserContext';
 import {UserType} from './UserType';
 
-const ChatHeader = ({msg}) => {
+const ChatHeader = ({threadData}) => {
   const {userType} = useContext(UserContext);
   const renderRecipient = () => {
     if (userType === UserType.Employee) {
-      return <ChatHeaderRecipient msg={msg} />;
+      return <ChatHeaderRecipient threadData={threadData} />;
     }
   };
 
   return (
     <div class="header-container">
-      {msg.subject}
+      {threadData.subject}
       {renderRecipient()}
     </div>
   );

@@ -1,7 +1,11 @@
 import React from 'react';
 
-const ChatHeaderRecipient = ({msg}) => {
-  return <div class="header-container-recipient">To: {msg.manager}</div>;
+const ChatHeaderRecipient = ({threadData}) => {
+  return (
+    <div class="header-container-recipient">
+      To: {threadData.sentTo.firstName}
+    </div>
+  );
 };
 
 ChatHeaderRecipient.propTypes = {};

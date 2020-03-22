@@ -5,17 +5,23 @@ import TextBox from './TextBox';
 import './message.css';
 import ChatHeader from './ChatHeader';
 
-const MessageThreadView = ({selectedThread}) => {
+const MessageThreadView = ({selectedThread, threadData}) => {
   const createMessageView = () => {
-    return all_thread_data[selectedThread].messages.map(msg => {
-      return <Message msg={msg} />;
+    return threadData.messages.map(msg => {
+      return (
+        <Message
+          msg={msg}
+          employee={threadData.createdBy}
+          manager={threadData.sentTo}
+        />
+      );
     });
   };
   const handleSubmit = () => {};
   return (
     <div class="chat-containter">
       <div class="component-header">
-        <ChatHeader msg={all_thread_data[selectedThread]} />
+        <ChatHeader threadData={threadData} />
       </div>
       <div id="chat" class="chat">
         {createMessageView()}

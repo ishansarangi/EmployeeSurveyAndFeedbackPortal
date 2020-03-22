@@ -1,12 +1,10 @@
 import React from 'react';
 import './message.css';
-import { TextField } from '@material-ui/core';
+import {TextField} from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 
-
-const TextBox = ({ handleSubmit }) => {
+const TextBox = ({handleSubmit}) => {
   return (
-
     <div class="send-container">
       <TextField
         className="send-input"
@@ -19,7 +17,7 @@ const TextBox = ({ handleSubmit }) => {
           },
         }}
       />
-      <SendIcon style={{ color: '#E87424' }}></SendIcon>
+      <SendIcon style={{color: '#E87424'}}></SendIcon>
     </div>
   );
 };

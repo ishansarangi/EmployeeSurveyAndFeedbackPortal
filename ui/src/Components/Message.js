@@ -1,12 +1,16 @@
 import React from 'react';
 import './message.css';
 
-const Message = ({msg}) => {
-  if (msg.sentBy === 'You') {
+const Message = ({msg, employee, manager}) => {
+  console.log(msg);
+  if (msg.messageSender === 1) {
     return (
       <div class="message right">
         <div class="message-text">
-          <div class="message-title">{msg.createdAt}</div>
+          <div class="message-title">
+            <div>{manager.firstName}</div>
+            <div>{msg.createdAt}</div>
+          </div>
           {msg.text}
         </div>
       </div>
@@ -16,7 +20,7 @@ const Message = ({msg}) => {
       <div class="message left">
         <div class="message-text">
           <div class="message-title">
-            <div>{msg.sentBy}</div>
+            <div>{employee.firstName}</div>
             <div>{msg.createdAt}</div>
           </div>
           {msg.text}
