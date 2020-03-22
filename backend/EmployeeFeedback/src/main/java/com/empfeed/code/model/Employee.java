@@ -1,91 +1,35 @@
 package com.empfeed.code.model;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Table
 @Entity
-public class Employee {
+public @Data class Employee {
 
 	@Id
-	private Integer employeeId;
-	private Integer managerId;
+	@Column(name = "employee_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long employeeId;
+
+	private Long managerId;
+
 	private String firstName;
+
 	private String lastName;
+
 	private String email;
-	private String createdAt;
+
+	private Date createdAt;
+
 	private Integer userType;
-
-	public Employee(int employeeId, int managerId, String firstName, String lastName, String email, String createdAt,
-			int userType) {
-		super();
-		this.employeeId = employeeId;
-		this.managerId = managerId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.createdAt = createdAt;
-		this.userType = userType;
-	}
-
-	public Employee() {
-	}
-
-	public int getEmployeeId() {
-		return employeeId;
-	}
-
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
-	}
-
-	public int getManagerId() {
-		return managerId;
-	}
-
-	public void setManagerId(int managerId) {
-		this.managerId = managerId;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public int getUserType() {
-		return userType;
-	}
-
-	public void setUserType(int createdBy) {
-		this.userType = createdBy;
-	}
 
 }

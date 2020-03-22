@@ -1,0 +1,17 @@
+type Employee{
+	employeeId: ID!
+	firstName: String!
+	lastName: String
+	email: String!
+	managerId: Long
+	userType: Int!
+}
+
+type Mutation {
+	newEmployee(firstName: String!, lastName: String!, email: String!,  managerId: Long) : Employee!
+}
+
+type Query {
+  findAllManagers(employeeId: ID!): [Employee]!
+  findEmployee(employeeId: ID!): Employee!
+}

@@ -1,91 +1,48 @@
 package com.empfeed.code.model;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import lombok.Data;
 
 @Entity
 @Table
-public class MessageThread {
+public @Data class MessageThread {
 
 	@Id
-	private Integer threadId;
-	private Integer sentTo;
-	private Integer tagId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "thread_id")
+	private Long threadId;
+
+	@OneToOne
+	private Employee sentTo;
+
+	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Tag> tags;
+
 	private String subject;
-	private String createdAt;
-	private String modifiedAt;
-	private Integer createdBy;
 
-	public MessageThread(int threadId, int sentTo, int tagId, String subject, String createdAt, String modifiedAt,
-			int createdBy) {
-		super();
-		this.threadId = threadId;
-		this.sentTo = sentTo;
-		this.tagId = tagId;
-		this.subject = subject;
-		this.createdAt = createdAt;
-		this.modifiedAt = modifiedAt;
-		this.createdBy = createdBy;
-	}
+	private Date createdAt;
 
-	public MessageThread() {
-	}
+	private Date modifiedAt;
 
-	public int getThreadId() {
-		return threadId;
-	}
+	private String latestText;
 
-	public void setThreadId(int threadId) {
-		this.threadId = threadId;
-	}
+	@OneToOne
+	private Employee createdBy;
 
-	public int getSentTo() {
-		return sentTo;
-	}
-
-	public void setSentTo(int sentTo) {
-		this.sentTo = sentTo;
-	}
-
-	public int getTagId() {
-		return tagId;
-	}
-
-	public void setTagId(int tagId) {
-		this.tagId = tagId;
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public String getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public String getModifiedAt() {
-		return modifiedAt;
-	}
-
-	public void setModifiedAt(String modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
-
-	public int getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-	}
-
+	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Message> messages;
 }
