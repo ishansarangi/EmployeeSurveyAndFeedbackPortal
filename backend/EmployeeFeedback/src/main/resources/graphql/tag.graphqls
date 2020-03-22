@@ -1,0 +1,7 @@
+type Tag {
+	tagId: ID!
+	name: String!
+	color: String!
+	totalMessages: Long
+	createdBy: Employee
+}
