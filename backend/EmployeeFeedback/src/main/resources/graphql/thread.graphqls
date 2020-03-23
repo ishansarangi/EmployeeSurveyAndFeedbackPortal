@@ -1,5 +1,5 @@
 type MessageThread {
-	threadId: Long!
+	threadId: ID!
 	sentTo: Employee
 	tags: [Tag]
 	subject: String

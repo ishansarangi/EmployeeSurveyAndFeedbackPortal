@@ -1,5 +1,5 @@
 type Message {
-	messageId: Long!
+	messageId: ID!
 	text: String
 	createdAt: String
 	messageSender: Int
