@@ -1,4 +1,4 @@
-type Employee{
+type Employee {
 	employeeId: ID!
 	firstName: String!
 	lastName: String
