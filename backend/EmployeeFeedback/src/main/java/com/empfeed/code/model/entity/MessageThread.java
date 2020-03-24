@@ -42,6 +42,8 @@ public @Data class MessageThread {
 
 	@OneToOne
 	private Employee createdBy;
+	
+	private Boolean read = Boolean.FALSE;
 
 	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Message> messages;
