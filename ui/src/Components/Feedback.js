@@ -1,12 +1,12 @@
-import React, {useState, useContext} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React, { useState, useContext } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 import './Feedback.css';
-import {List} from '@material-ui/core';
-import {get_all_employee_threads, get_all_manager_threads} from './Queries';
-import {UserContext} from './UserContext';
-import {UserType} from './UserType';
+import { List } from '@material-ui/core';
+import { get_all_employee_threads, get_all_manager_threads } from './Queries';
+import { UserContext } from './UserContext';
+import { UserType } from './UserType';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Feedback = props => {
-  const {userType} = useContext(UserContext);
 
+  const { userType } = useContext(UserContext);
   const get_threads = () => {
     switch (userType) {
       case UserType.Employee:
@@ -38,14 +38,18 @@ const Feedback = props => {
   const classes = useStyles();
   const [selectedThread, setSelectedThread] = useState(0);
   return (
+
     <div className="fb-main">
       <nav className="fb-navigation-bar">
         <div className={classes.root}>
+
           <List
             className={classes.item}
             component="nav"
             aria-label="secondary mailbox folders"
+
           >
+
             <Thread
               setSelectedThread={setSelectedThread}
               selectedThread={selectedThread}

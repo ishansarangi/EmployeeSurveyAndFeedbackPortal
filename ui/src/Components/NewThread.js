@@ -13,6 +13,8 @@ import { FormControl, TextField } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import { orange } from '@material-ui/core/colors';
 import * as Constants from '../data/TestData';
+
+
 const styles = theme => ({
   form: {
     display: 'flex',
@@ -149,9 +151,10 @@ const NewThread = () => {
 
   return (
     <div>
-      <CreateButton color="primary" onClick={handleClickOpen}>
+      <CreateButton color="primary" onClick={handleClickOpen} display="none">
         New Thread
       </CreateButton>
+
       <Dialog
         fullWidth={'xl'}
         maxWidth={'sm'}
