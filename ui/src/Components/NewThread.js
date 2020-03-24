@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, {useState} from 'react';
+import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -9,10 +9,13 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import { FormControl, TextField } from '@material-ui/core';
+import {FormControl, TextField} from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import { orange } from '@material-ui/core/colors';
+import {orange} from '@material-ui/core/colors';
 import * as Constants from '../data/TestData';
+import {useMutation} from '@apollo/react-hooks';
+import {create_new_thread} from './Queries';
+
 const styles = theme => ({
   form: {
     display: 'flex',
@@ -50,7 +53,7 @@ const styles = theme => ({
 });
 
 const DialogTitle = withStyles(styles)(props => {
-  const { children, classes, onClose, ...other } = props;
+  const {children, classes, onClose, ...other} = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -109,6 +112,7 @@ const NewThread = () => {
   const [hasManagerError, setManagerError] = useState(false);
   const [hasSubjectError, setSubjectError] = useState(false);
   const [hasBodyError, setBodyError] = useState(false);
+  const [createThread, {data}] = useMutation(create_new_thread);
 
   const handleManagerSelection = event => {
     setManager(event.target.value);
@@ -137,12 +141,21 @@ const NewThread = () => {
     else {
       console.log(
         'Call the backend API: Subject:' +
-        subject +
-        ', Manager Id: ' +
-        manager +
-        ', Message: ' +
-        body
+          subject +
+          ', Manager Id: ' +
+          manager +
+          ', Message: ' +
+          body
       );
+      createThread({
+        variables: {
+          to_employeeId: manager,
+          subject: subject,
+          from_employeeId: 1,
+          text: body,
+        },
+      });
+      console.log(data);
       handleClose();
     }
   };
@@ -159,9 +172,7 @@ const NewThread = () => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle id="customized-dialog-title">
-          New Thread
-        </DialogTitle>
+        <DialogTitle id="customized-dialog-title">New Thread</DialogTitle>
         <DialogContent dividers>
           <FormControl margin="normal" fullWidth>
             <TextField
