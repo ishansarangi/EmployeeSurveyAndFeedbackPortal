@@ -55,7 +55,10 @@ const Feedback = props => {
       </nav>
       <div className="fb-child-content">
         <div className={classes.messageView}>
-          <MessageThreadView selectedThread={selectedThread} />
+          <MessageThreadView
+            selectedThread={selectedThread}
+            feedbackType={props.feedbackType}
+          />
         </div>
       </div>
     </div>
