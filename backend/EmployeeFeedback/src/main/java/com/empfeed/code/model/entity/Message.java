@@ -1,4 +1,4 @@
-package com.empfeed.code.model;
+package com.empfeed.code.model.entity;
 
 import java.util.Date;
 

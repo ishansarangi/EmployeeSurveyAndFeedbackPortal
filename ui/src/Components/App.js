@@ -8,6 +8,7 @@ import {ApolloProvider} from 'react-apollo';
 import {apolloclient} from './ApolloClient';
 import {UserContext} from './UserContext';
 import {UserType} from './UserType';
+import {FeedbackType} from './FeedbackType';
 
 const App = props => {
   const [userType, setUserType] = useState(UserType.Employee);
@@ -21,7 +22,7 @@ const App = props => {
             <ManagerPane props={props} />
           ) : (
             <div className="child-content">
-              <Feedback />
+              <Feedback feedbackType={FeedbackType.Personal} />
             </div>
           )}
         </div>

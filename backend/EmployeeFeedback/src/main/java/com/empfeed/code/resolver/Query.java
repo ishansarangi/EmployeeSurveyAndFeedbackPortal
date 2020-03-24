@@ -1,26 +1,19 @@
 package com.empfeed.code.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.empfeed.code.repository.EmployeeRepository;
 import com.empfeed.code.repository.MessageRepository;
 import com.empfeed.code.repository.MessageThreadRepository;
 import com.empfeed.code.repository.TagRepository;
 
-public class Query implements GraphQLMutationResolver {
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
+public class Query implements GraphQLQueryResolver {
+	
 	private EmployeeRepository employeeRepository;
-
 	private MessageThreadRepository messageThreadRepository;
-
 	private MessageRepository messageRepository;
-
 	private TagRepository tagRepository;
 
-	public Query(EmployeeRepository employeeRepository, MessageThreadRepository messageThreadRepository,
-			MessageRepository messageRepository, TagRepository tagRepository) {
-		this.employeeRepository = employeeRepository;
-		this.messageThreadRepository = messageThreadRepository;
-		this.messageRepository = messageRepository;
-		this.tagRepository = tagRepository;
-	}
 }

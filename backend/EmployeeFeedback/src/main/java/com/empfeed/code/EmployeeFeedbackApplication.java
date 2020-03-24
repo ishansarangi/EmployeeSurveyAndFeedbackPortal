@@ -14,6 +14,10 @@ import com.empfeed.code.resolver.Query;
 @SpringBootApplication
 public class EmployeeFeedbackApplication {
 
+	public static void main(String[] args) {
+		SpringApplication.run(EmployeeFeedbackApplication.class, args);
+	}
+
 	@Bean
 	public Mutation mutation(EmployeeRepository employeeRepository, MessageThreadRepository messageThreadRepository,
 			MessageRepository messageRepository, TagRepository tagRepository) {
@@ -24,10 +28,6 @@ public class EmployeeFeedbackApplication {
 	public Query query(EmployeeRepository employeeRepository, MessageThreadRepository messageThreadRepository,
 			MessageRepository messageRepository, TagRepository tagRepository) {
 		return new Query(employeeRepository, messageThreadRepository, messageRepository, tagRepository);
-	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(EmployeeFeedbackApplication.class, args);
 	}
 
 }
