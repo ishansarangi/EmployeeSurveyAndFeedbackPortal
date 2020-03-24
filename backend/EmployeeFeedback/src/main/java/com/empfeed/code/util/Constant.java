@@ -3,7 +3,7 @@ package com.empfeed.code.util;
 public class Constant {
 
 	public enum MessageSender {
-		ME(1), THEM(2);
+		EMPLOYEE(1), MANAGER(2);
 		Integer value;
 
 		MessageSender(Integer value) {
