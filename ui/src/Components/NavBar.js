@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {withStyles} from '@material-ui/core/styles';
+import React, { useContext } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -8,8 +8,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import {UserType} from './UserType';
-import {UserContext} from './UserContext';
+import { UserType } from './UserType';
+import { UserContext } from './UserContext';
 import Button from '@material-ui/core/Button';
 
 const NavButton = withStyles(theme => ({
@@ -19,7 +19,7 @@ const NavButton = withStyles(theme => ({
 }))(Button);
 
 const NavBar = props => {
-  const {userType, setUserType} = useContext(UserContext);
+  const { userType, setUserType } = useContext(UserContext);
 
   const changeUserType = () => {
     if (userType === UserType.Employee) {
@@ -58,7 +58,7 @@ const NavBar = props => {
                 </TypoGraphy>
               </NavButton>
             </ListItemText>
-            <ListItemText inset>
+            <ListItemText inset >
               <FormControlLabel
                 control={
                   <Switch

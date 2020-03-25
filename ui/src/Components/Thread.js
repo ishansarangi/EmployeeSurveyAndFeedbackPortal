@@ -1,12 +1,18 @@
-import React, {Fragment} from 'react';
-import {all_thread_data} from '../data/TestData';
+import React, { Fragment, useContext } from 'react';
+import { all_thread_data } from '../data/TestData';
 import NewThread from './NewThread';
 import ThreadItem from './ThreadItem';
-import {makeStyles} from '@material-ui/core/styles';
-import {Divider} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Divider } from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
+import { useLocation } from 'react-router-dom';
+import { UserContext } from './UserContext';
+import { UserType } from './UserType';
 
-const Thread = ({setSelectedThread, selectedThread}) => {
+const Thread = ({ setSelectedThread, selectedThread }) => {
+  const { userType } = useContext(UserContext);
+  let selectedView = useLocation();
+
   const useStyles = makeStyles(theme => ({
     container: {
       height: '85px',
@@ -58,7 +64,8 @@ const Thread = ({setSelectedThread, selectedThread}) => {
       </GridList>
       <Divider />
       <div className={classes.newThread}>
-        <NewThread />
+        {userType === UserType.Manager && selectedView.pathname === "/employee-feedback" ?
+          (<div />) : (<NewThread />)}
       </div>
     </Fragment>
   );
