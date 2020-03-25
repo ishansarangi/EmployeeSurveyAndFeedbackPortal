@@ -15,7 +15,7 @@ export const all_thread_data = [
     ],
   },
   {
-    sentBy: 'Manager2',
+    sentBy: 'Kelly Williams',
     latestText: 'This is a test message2',
     latestDate: '2020-01-21 10:20 AM',
     readFlag: false,

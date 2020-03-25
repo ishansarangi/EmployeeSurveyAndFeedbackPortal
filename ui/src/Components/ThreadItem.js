@@ -55,7 +55,7 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
   };
 
   const GridItemLink = props => {
-    return <GridListTile button component="a" {...props} />;
+    return <GridListTile component="a" {...props} />;
   };
 
   const getHeader = thread => {
@@ -67,7 +67,6 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
               fontSize="inherit"
               style={{fontSize: '15px'}}
               className={classes.readIcon}
-              visibility={thread.readFlag}
             />
           </Fragment>
           <div className={classes.topSecionWithBadge}>

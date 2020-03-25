@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, useContext} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 import './Feedback.css';
@@ -21,11 +21,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Feedback = props => {
+const Feedback = ({feedbackType}) => {
+  const {user} = useContext(UserContext);
 
-  const { userType } = useContext(UserContext);
   const get_threads = () => {
-    switch (userType) {
+    console.log(user);
+    switch (user.userType) {
       case UserType.Employee:
         return get_threads_for_employee;
       case UserType.Manager:
@@ -38,21 +39,18 @@ const Feedback = props => {
   const classes = useStyles();
   const [selectedThread, setSelectedThread] = useState(0);
   return (
-
     <div className="fb-main">
       <nav className="fb-navigation-bar">
         <div className={classes.root}>
-
           <List
             className={classes.item}
             component="nav"
             aria-label="secondary mailbox folders"
-
           >
-
             <Thread
               setSelectedThread={setSelectedThread}
               selectedThread={selectedThread}
+              feedbackType={feedbackType}
             />
           </List>
         </div>
@@ -61,7 +59,7 @@ const Feedback = props => {
         <div className={classes.messageView}>
           <MessageThreadView
             selectedThread={selectedThread}
-            feedbackType={props.feedbackType}
+            feedbackType={feedbackType}
           />
         </div>
       </div>

@@ -1,11 +1,8 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import ChatHeaderRecipient from './ChatHeaderRecipient';
-import {UserContext} from './UserContext';
-import {UserType} from './UserType';
 import {FeedbackType} from './FeedbackType';
 
 const ChatHeader = props => {
-  const {userType} = useContext(UserContext);
   const renderRecipient = () => {
     if (props.feedbackType === FeedbackType.Personal) {
       return <ChatHeaderRecipient msg={props.msg} />;
@@ -13,7 +10,7 @@ const ChatHeader = props => {
   };
 
   return (
-    <div class="header-container">
+    <div className="header-container">
       {props.msg.subject}
       {renderRecipient()}
     </div>

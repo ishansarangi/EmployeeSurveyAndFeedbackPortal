@@ -154,9 +154,7 @@ body {
   border-top: 1px solid #dcdcdc;
   padding: 24px;
   flex-direction: row;
-  justify-content: center;
   align-items: baseline;
-  display: flex;
 }
 
 .send-input {
