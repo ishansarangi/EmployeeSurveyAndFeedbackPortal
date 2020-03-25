@@ -1,16 +1,21 @@
-import React, { useContext } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
+import {withStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import TypoGraphy from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import { UserType } from './UserType';
-import { UserContext } from './UserContext';
 import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom';
+
+const useStyles = makeStyles(theme => ({
+  addUser: {
+    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
+  },
+}));
 
 const NavButton = withStyles(theme => ({
   root: {
@@ -19,59 +24,48 @@ const NavButton = withStyles(theme => ({
 }))(Button);
 
 const NavBar = props => {
-  const { userType, setUserType } = useContext(UserContext);
-
-  const changeUserType = () => {
-    if (userType === UserType.Employee) {
-      setUserType(UserType.Manager);
-    } else if (userType === UserType.Manager) {
-      setUserType(UserType.Employee);
-    }
-  };
+  const classes = useStyles();
 
   return (
-    <AppBar position="static">
+    <AppBar className={classes.searchBar} position="static" elevation={0}>
       <Toolbar>
-        <TypoGraphy variant="title" color="inherit">
-          <h2>TalentMap</h2>
-        </TypoGraphy>
+        <Link to="/" style={{color: '#FFF'}}>
+          <NavButton>
+            <Typography variant="h4" component="h6" color="inherit">
+              TalentMap
+            </Typography>
+          </NavButton>
+        </Link>
+
         <List component="nav">
           <ListItem component="div">
             <ListItemText inset>
-              <NavButton>
-                <TypoGraphy color="inherit" variant="title">
-                  Dashboard
-                </TypoGraphy>
-              </NavButton>
+              <Link to="/dashboard" style={{color: '#FFF'}}>
+                <NavButton>
+                  <Typography color="inherit" variant="h6" component="h6">
+                    Dashboard
+                  </Typography>
+                </NavButton>
+              </Link>
             </ListItemText>
             <ListItemText inset>
-              <NavButton>
-                <TypoGraphy color="inherit" variant="title">
-                  Reports
-                </TypoGraphy>
-              </NavButton>
+              <Link to="/feedbackview" style={{color: '#FFF'}}>
+                <NavButton>
+                  <Typography color="inherit" variant="h6" component="h6">
+                    FeedBack
+                  </Typography>
+                </NavButton>
+              </Link>
             </ListItemText>
+
             <ListItemText inset>
-              <NavButton href="/my-feedback">
-                <TypoGraphy color="inherit" variant="title">
-                  Feedback
-                </TypoGraphy>
-              </NavButton>
-            </ListItemText>
-            <ListItemText inset >
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={userType === UserType.Manager}
-                    onChange={() => changeUserType()}
-                  />
-                }
-                label={
-                  userType === UserType.Employee
-                    ? 'Change to Manager'
-                    : 'Switch back to Employee'
-                }
-              />
+              <Link to="/login" style={{color: '#FFF'}}>
+                <NavButton>
+                  <Typography color="inherit" variant="h6" component="h6">
+                    Login
+                  </Typography>
+                </NavButton>
+              </Link>
             </ListItemText>
           </ListItem>
         </List>

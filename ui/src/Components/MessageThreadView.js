@@ -7,23 +7,23 @@ import ChatHeader from './ChatHeader';
 
 const MessageThreadView = props => {
   const createMessageView = () => {
-    return all_thread_data[props.selectedThread].messages.map(msg => {
-      return <Message msg={msg} />;
+    return all_thread_data[props.selectedThread].messages.map((msg, index) => {
+      return <Message key={index} msg={msg} />;
     });
   };
   const handleSubmit = () => {};
   return (
-    <div class="chat-containter">
-      <div class="component-header">
+    <div className="chat-containter">
+      <div className="component-header">
         <ChatHeader
           msg={all_thread_data[props.selectedThread]}
           feedbackType={props.feedbackType}
         />
       </div>
-      <div id="chat" class="chat">
+      <div id="chat" className="chat">
         {createMessageView()}
       </div>
-      <div class="component-footer">
+      <div className="component-footer">
         <TextBox handleSubmit={handleSubmit} />
       </div>
     </div>

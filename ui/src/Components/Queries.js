@@ -99,12 +99,13 @@ export const get_employee = gql`
 `;
 
 export const get_employee_by_email = gql`
-  query findEmployee($emailId: String!) {
-    findEmployee(emailId: $emailId) {
+  query findEmployeeByEmail($emailId: String!) {
+    findEmployeeByEmail(emailId: $emailId) {
       employeeId
       firstName
       lastName
       userType
+      email
     }
   }
 `;
