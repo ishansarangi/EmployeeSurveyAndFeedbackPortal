@@ -37,4 +37,8 @@ public class Query implements GraphQLQueryResolver {
     public Iterable<MessageThread> findAllReceivedThreads(Long employeeId){
 		return messageThreadRepository.findAllReceivedThreads(employeeId);
     }
+    
+    public Employee findEmployeeByEmail(String emailId) {
+    	return employeeRepository.findEmployeeByEmail(emailId);
+    }
 }
