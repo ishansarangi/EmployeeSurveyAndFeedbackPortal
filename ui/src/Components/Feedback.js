@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 import './Feedback.css';
-import { List } from '@material-ui/core';
-import { get_all_employee_threads, get_all_manager_threads } from './Queries';
-import { UserContext } from './UserContext';
-import { UserType } from './UserType';
+import {List} from '@material-ui/core';
+import {get_threads_for_employee, get_threads_for_manager} from './Queries';
+import {UserContext} from './UserContext';
+import {UserType} from './UserType';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,11 +27,11 @@ const Feedback = props => {
   const get_threads = () => {
     switch (userType) {
       case UserType.Employee:
-        return get_all_employee_threads;
+        return get_threads_for_employee;
       case UserType.Manager:
-        return get_all_manager_threads;
+        return get_threads_for_manager;
       default:
-        return get_all_employee_threads;
+        return get_threads_for_employee;
     }
   };
 
