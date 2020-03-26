@@ -1,5 +1,6 @@
 export const all_thread_data = [
   {
+    threadId: 1,
     sentBy: 'You',
     latestText: 'This is a test message2',
     latestDate: '2020-01-24 10:34 AM',
@@ -15,6 +16,7 @@ export const all_thread_data = [
     ],
   },
   {
+    threadId: 2,
     sentBy: 'Kelly Williams',
     latestText: 'This is a test message2',
     latestDate: '2020-01-21 10:20 AM',
@@ -42,6 +44,7 @@ export const all_thread_data = [
     ],
   },
   {
+    threadId: 3,
     sentBy: 'You',
     latestText: 'This is a test message2',
     latestDate: '2020-01-24 10:34 AM',
@@ -61,14 +64,14 @@ export const all_thread_data = [
 export const employee_manager_heirarchy = [
   {
     label: 'Jim Attwood',
-    value: 1,
+    value: 'EMP01 ',
   },
   {
     label: 'Kelly Williams',
-    value: 2,
+    value: 'EMP02',
   },
   {
     label: 'Jessica Franklin',
-    value: 3,
+    value: 'EMP03',
   },
 ];

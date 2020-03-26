@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {makeStyles} from '@material-ui/core/styles';
 
-const TextBox = ({handleSubmit}) => {
+const TextBox = ({setText, handleSubmit}) => {
   const CreateButton = withStyles(theme => ({
     root: {
       color: '#ffffff',
@@ -46,6 +46,10 @@ const TextBox = ({handleSubmit}) => {
               style: {
                 padding: 5,
               },
+            }}
+            onChange={event => {
+              event.preventDefault();
+              setText(event.target.value);
             }}
           />
         </ListItemText>
