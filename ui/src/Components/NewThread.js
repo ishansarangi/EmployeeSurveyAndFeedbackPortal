@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +13,9 @@ import {FormControl, TextField} from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import {orange} from '@material-ui/core/colors';
 import * as Constants from '../data/TestData';
+import {useMutation} from '@apollo/react-hooks';
+import {create_new_thread} from './Queries';
+import {UserContext} from './UserContext';
 
 const styles = theme => ({
   form: {
@@ -103,6 +106,7 @@ const ActionButton = withStyles(theme => ({
 }))(Button);
 
 const NewThread = () => {
+  const {user} = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [manager, setManager] = useState('');
   const [body, setBody] = useState('');
@@ -110,14 +114,17 @@ const NewThread = () => {
   const [hasManagerError, setManagerError] = useState(false);
   const [hasSubjectError, setSubjectError] = useState(false);
   const [hasBodyError, setBodyError] = useState(false);
+  const [createThread, {data}] = useMutation(create_new_thread);
 
   const handleManagerSelection = event => {
     setManager(event.target.value);
     setManagerError(false);
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setSubjectError(false);
@@ -131,6 +138,7 @@ const NewThread = () => {
     setBody('');
     setSubject('');
   };
+
   const handleSubmit = event => {
     if (subject === '') setSubjectError(true);
     if (manager === '') setManagerError(true);
@@ -144,6 +152,15 @@ const NewThread = () => {
           ', Message: ' +
           body
       );
+
+      createThread({
+        variables: {
+          to_employeeId: manager,
+          subject: subject,
+          from_employeeId: user.employeeId,
+          text: body,
+        },
+      });
       handleClose();
     }
   };
