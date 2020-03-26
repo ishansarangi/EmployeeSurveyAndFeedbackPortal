@@ -61,14 +61,14 @@ export const all_thread_data = [
 export const employee_manager_heirarchy = [
   {
     label: 'Jim Attwood',
-    value: 'EMP01 ',
+    value: 1,
   },
   {
     label: 'Kelly Williams',
-    value: 'EMP02',
+    value: 2,
   },
   {
     label: 'Jessica Franklin',
-    value: 'EMP03',
+    value: 3,
   },
 ];
