@@ -1,7 +1,7 @@
 import {gql} from 'apollo-boost';
 
 export const get_threads_for_employee = gql`
-  query findAllSentThreads($employeeId: Long) {
+  query findAllSentThreads($employeeId: ID!) {
     findAllSentThreads(employeeId: $employeeId) {
       threadId
       sentTo {
@@ -12,6 +12,8 @@ export const get_threads_for_employee = gql`
       subject
       createdAt
       modifiedAt
+      latestText
+      read
       createdBy {
         employeeId
         firstName
@@ -28,7 +30,7 @@ export const get_threads_for_employee = gql`
 `;
 
 export const get_threads_for_manager = gql`
-  query findAllReceivedThreads($employeeId: Long) {
+  query findAllReceivedThreads($employeeId: ID!) {
     findAllReceivedThreads(employeeId: $employeeId) {
       threadId
       sentTo {
@@ -37,7 +39,9 @@ export const get_threads_for_manager = gql`
         lastName
       }
       subject
+      read
       createdAt
+      latestText
       modifiedAt
       messages {
         messageId
@@ -79,7 +83,7 @@ export const send_reply_in_thread = gql`
 `;
 
 export const get_all_managers = gql`
-  query findAllManagers($employeeId: Long!) {
+  query findAllManagers($employeeId: ID!) {
     findAllManagers(employeeId: $employeeId) {
       employeeId
       firstName
@@ -89,7 +93,7 @@ export const get_all_managers = gql`
 `;
 
 export const get_employee = gql`
-  query findEmployee($employeeId: Long!) {
+  query findEmployee($employeeId: ID!) {
     findEmployee(employeeId: $employeeId) {
       employeeId
       firstName
