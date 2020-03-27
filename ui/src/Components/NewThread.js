@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,7 +15,9 @@ import {orange} from '@material-ui/core/colors';
 import * as Constants from '../data/TestData';
 import {useMutation} from '@apollo/react-hooks';
 import {create_new_thread} from './Queries';
+import {get_all_managers} from './Queries';
 import {UserContext} from './UserContext';
+import {useLazyQuery} from '@apollo/react-hooks';
 
 const styles = theme => ({
   form: {
@@ -115,16 +117,32 @@ const NewThread = () => {
   const [hasSubjectError, setSubjectError] = useState(false);
   const [hasBodyError, setBodyError] = useState(false);
   const [createThread, {data}] = useMutation(create_new_thread);
+  const [managerList, setManagerList] = useState([]);
+
+  useEffect(() => {
+    if (user.employeeId)
+      foo({
+        variables: {employeeId: user.employeeId},
+      });
+  }, []);
+
+  const [foo] = useLazyQuery(get_all_managers, {
+    onCompleted: data => {
+      setManagerList(data.findAllManagers);
+      console.log(managerList);
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
 
   const handleManagerSelection = event => {
     setManager(event.target.value);
     setManagerError(false);
   };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
     setSubjectError(false);
@@ -138,7 +156,6 @@ const NewThread = () => {
     setBody('');
     setSubject('');
   };
-
   const handleSubmit = event => {
     if (subject === '') setSubjectError(true);
     if (manager === '') setManagerError(true);
@@ -163,6 +180,13 @@ const NewThread = () => {
       });
       handleClose();
     }
+  };
+
+  const getFullName = user => {
+    let fullName = '';
+    if (user.firstName) fullName = user.firstName;
+    if (user.lastName) fullName = fullName + ' ' + user.lastName;
+    return fullName;
   };
 
   return (
@@ -206,11 +230,13 @@ const NewThread = () => {
               value={manager}
               onChange={handleManagerSelection}
             >
-              {Constants.employee_manager_heirarchy.map(item => (
-                <MenuItem key={item.value} value={item.value}>
-                  {item.label}
-                </MenuItem>
-              ))}
+              {managerList &&
+                managerList.length &&
+                managerList.map(item => (
+                  <MenuItem key={item.employeeId} value={item.employeeId}>
+                    {getFullName(item)}
+                  </MenuItem>
+                ))}
             </TextField>
             {hasManagerError && (
               <FormHelperText error="true" focused={hasManagerError}>
