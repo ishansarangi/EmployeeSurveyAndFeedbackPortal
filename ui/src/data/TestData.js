@@ -1,5 +1,6 @@
 export const all_thread_data = [
   {
+    threadId: 1,
     sentBy: 'You',
     latestText: 'This is a test message2',
     latestDate: '2020-01-24 10:34 AM',
@@ -15,7 +16,8 @@ export const all_thread_data = [
     ],
   },
   {
-    sentBy: 'Manager2',
+    threadId: 2,
+    sentBy: 'Kelly Williams',
     latestText: 'This is a test message2',
     latestDate: '2020-01-21 10:20 AM',
     readFlag: false,
@@ -42,6 +44,7 @@ export const all_thread_data = [
     ],
   },
   {
+    threadId: 3,
     sentBy: 'You',
     latestText: 'This is a test message2',
     latestDate: '2020-01-24 10:34 AM',

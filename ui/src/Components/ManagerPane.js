@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Feedback from './Feedback';
+import {FeedbackType} from './FeedbackType';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,6 +15,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const feedbackView = index => {
+  if (index === 0) {
+    return <Feedback feedbackType={FeedbackType.Employee} />;
+  }
+  return <Feedback feedbackType={FeedbackType.Personal} />;
+};
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
@@ -24,6 +31,7 @@ const ManagerPane = props => {
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
+
   };
 
   return (
@@ -50,7 +58,7 @@ const ManagerPane = props => {
       </nav>
       <div className="child-content">
         {/* need to remove feedback and update using props */}
-        <Feedback />
+        {feedbackView(selectedIndex)}
       </div>
     </div>
   );

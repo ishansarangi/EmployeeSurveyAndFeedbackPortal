@@ -1,37 +1,46 @@
 import React, {useState} from 'react';
 import './App.css';
 import NavBar from './NavBar';
-import ManagerPane from './ManagerPane';
 import PropTypes from 'prop-types';
-import Feedback from './Feedback';
 import {ApolloProvider} from 'react-apollo';
 import {apolloclient} from './ApolloClient';
 import {UserContext} from './UserContext';
-import {UserType} from './UserType';
+import {Route, Switch} from 'react-router-dom';
+import FeedbackContainer from './FeedbackContainer';
+import Login from './Login';
 
-const App = props => {
-  const [userType, setUserType] = useState(UserType.Employee);
-
+const NoMatch = () => {
   return (
-    <UserContext.Provider value={{userType, setUserType}}>
+    <div className="not-found">
+      <h2>Not Found</h2>
+      <p>Please select other options.</p>
+    </div>
+  );
+};
+const App = props => {
+  const [user, setUser] = useState({});
+  return (
+    <UserContext.Provider value={{user, setUser}}>
       <ApolloProvider client={apolloclient}>
-        <div>
+        <div className="container">
           <NavBar />
-          {userType === UserType.Manager ? (
-            <ManagerPane props={props} />
-          ) : (
-            <div className="child-content">
-              <Feedback />
-            </div>
-          )}
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={() => <Login setUser={setUser} />}
+            />
+            <Route
+              path="/login"
+              component={() => <Login setUser={setUser} />}
+            />
+            <Route path="/feedbackview" component={FeedbackContainer} />
+            <Route path="*" component={NoMatch} />
+          </Switch>
         </div>
       </ApolloProvider>
     </UserContext.Provider>
   );
-};
-
-App.propTypes = {
-  children: PropTypes.element.isRequired,
 };
 
 export default App;

@@ -4,18 +4,18 @@ import './message.css';
 const Message = ({msg}) => {
   if (msg.sentBy === 'You') {
     return (
-      <div class="message right">
-        <div class="message-text">
-          <div class="message-title">{msg.createdAt}</div>
+      <div className="message right">
+        <div className="message-text">
+          <div className="message-title">{msg.createdAt}</div>
           {msg.text}
         </div>
       </div>
     );
   } else {
     return (
-      <div class="message left">
-        <div class="message-text">
-          <div class="message-title">
+      <div className="message left">
+        <div className="message-text">
+          <div className="message-title">
             <div>{msg.sentBy}</div>
             <div>{msg.createdAt}</div>
           </div>

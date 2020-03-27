@@ -4,7 +4,7 @@ import Thread from './Thread';
 import MessageThreadView from './MessageThreadView';
 import './Feedback.css';
 import {List} from '@material-ui/core';
-import {get_all_employee_threads, get_all_manager_threads} from './Queries';
+import {get_threads_for_employee, get_threads_for_manager} from './Queries';
 import {UserContext} from './UserContext';
 import {UserType} from './UserType';
 
@@ -21,17 +21,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Feedback = props => {
-  const {userType} = useContext(UserContext);
+const Feedback = ({feedbackType}) => {
+  const {user} = useContext(UserContext);
 
   const get_threads = () => {
-    switch (userType) {
+    console.log(user);
+    switch (user.userType) {
       case UserType.Employee:
-        return get_all_employee_threads;
+        return get_threads_for_employee;
       case UserType.Manager:
-        return get_all_manager_threads;
+        return get_threads_for_manager;
       default:
-        return get_all_employee_threads;
+        return get_threads_for_employee;
     }
   };
 
@@ -49,13 +50,17 @@ const Feedback = props => {
             <Thread
               setSelectedThread={setSelectedThread}
               selectedThread={selectedThread}
+              feedbackType={feedbackType}
             />
           </List>
         </div>
       </nav>
       <div className="fb-child-content">
         <div className={classes.messageView}>
-          <MessageThreadView selectedThread={selectedThread} />
+          <MessageThreadView
+            selectedThread={selectedThread}
+            feedbackType={feedbackType}
+          />
         </div>
       </div>
     </div>

@@ -5,8 +5,9 @@ import ThreadItem from './ThreadItem';
 import {makeStyles} from '@material-ui/core/styles';
 import {Divider} from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
+import {FeedbackType} from './FeedbackType';
 
-const Thread = ({setSelectedThread, selectedThread}) => {
+const Thread = ({setSelectedThread, selectedThread, feedbackType}) => {
   const useStyles = makeStyles(theme => ({
     container: {
       height: '85px',
@@ -35,6 +36,7 @@ const Thread = ({setSelectedThread, selectedThread}) => {
     return all_thread_data.map((thread, index) => {
       return (
         <ThreadItem
+          key={index}
           setSelectedThread={setSelectedThread}
           threadKey={index}
           threadDetails={{
@@ -51,6 +53,7 @@ const Thread = ({setSelectedThread, selectedThread}) => {
   };
 
   const classes = useStyles();
+
   return (
     <Fragment>
       <GridList cellHeight={400} className={classes.gridList}>
@@ -58,7 +61,7 @@ const Thread = ({setSelectedThread, selectedThread}) => {
       </GridList>
       <Divider />
       <div className={classes.newThread}>
-        <NewThread />
+        {feedbackType === FeedbackType.Personal && <NewThread />}
       </div>
     </Fragment>
   );

@@ -1,0 +1,16 @@
+type Message {
+	messageId: ID!
+	text: String
+	createdAt: String
+	messageSender: Int
+}
+
+input MessageInput {
+	threadId: Long
+	text: String
+	employeeId: Long
+}
+
+extend type Mutation {
+	newMessage(input: MessageInput) : MessageThread!	
+}

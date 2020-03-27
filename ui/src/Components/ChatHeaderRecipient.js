@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ChatHeaderRecipient = ({msg}) => {
-  return <div class="header-container-recipient">To: {msg.manager}</div>;
+  return <div className="header-container-recipient">To: {msg.manager}</div>;
 };
 
 ChatHeaderRecipient.propTypes = {};
