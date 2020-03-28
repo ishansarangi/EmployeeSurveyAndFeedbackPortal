@@ -2,7 +2,7 @@ import React from 'react';
 import './message.css';
 
 const Message = ({msg}) => {
-  if (msg.sentBy === 'You') {
+  if (msg.messageSender === 1) {
     return (
       <div className="message right">
         <div className="message-text">

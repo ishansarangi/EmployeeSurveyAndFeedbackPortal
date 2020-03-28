@@ -64,14 +64,75 @@ export const all_thread_data = [
 export const employee_manager_heirarchy = [
   {
     label: 'Jim Attwood',
-    value: 'EMP01 ',
+    value: 1,
   },
   {
     label: 'Kelly Williams',
-    value: 'EMP02',
+    value: 2,
   },
   {
     label: 'Jessica Franklin',
-    value: 'EMP03',
+    value: 3,
+  },
+];
+
+export const findAllSentThreads = [
+  {
+    threadId: '1',
+    sentTo: {
+      employeeId: '1',
+      firstName: 'Sunny',
+      lastName: 'Mohanty',
+    },
+    subject: 'test thread',
+    createdAt: '2020-03-25 01:47:38.828',
+    modifiedAt: '2020-03-25 01:52:38.87',
+    createdBy: {
+      employeeId: '2',
+      firstName: 'Sabya',
+      lastName: 'Mohanty',
+    },
+    messages: [
+      {
+        messageId: '1',
+        text: 'Employee-I have concerns about XYZ...',
+        createdAt: '2020-03-25 01:47:38.869',
+        messageSender: 1,
+      },
+      {
+        messageId: '2',
+        text: 'Manager-I can resolve your issues!',
+        createdAt: '2020-03-25 01:52:38.87',
+        messageSender: 2,
+      },
+    ],
+  },
+];
+
+export const findAllReceivedThreads = [
+  {
+    threadId: '1',
+    sentTo: {
+      employeeId: '1',
+      firstName: 'Sunny',
+      lastName: 'Mohanty',
+    },
+    subject: 'test thread',
+    createdAt: '2020-03-25 12:29:04.832',
+    modifiedAt: '2020-03-25 12:34:04.858',
+    messages: [
+      {
+        messageId: '1',
+        text: 'Employee-I have concerns about XYZ...',
+        createdAt: '2020-03-25 12:29:04.858',
+        messageSender: 1,
+      },
+      {
+        messageId: '2',
+        text: 'Manager-I can resolve your issues!',
+        createdAt: '2020-03-25 12:34:04.858',
+        messageSender: 2,
+      },
+    ],
   },
 ];
