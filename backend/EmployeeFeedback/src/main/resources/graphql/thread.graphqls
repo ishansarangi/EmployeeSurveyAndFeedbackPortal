@@ -8,6 +8,7 @@ type MessageThread {
 	latestText: String
 	createdBy: Employee
 	messages: [Message]
+	read: Boolean
 }
 
 input ThreadInput {
