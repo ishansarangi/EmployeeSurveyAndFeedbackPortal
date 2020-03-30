@@ -10,5 +10,7 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 	
 	@Query("from Employee where email=:emailId")
 	public Employee findEmployeeByEmail(@Param("emailId") String emailId);
+	
+	@Query("from Employee where employeeId=:employeeId")
+	public Iterable<Employee> findManager(@Param("employeeId") Long employeeId);
 }
-

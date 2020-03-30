@@ -23,7 +23,8 @@ public class Query implements GraphQLQueryResolver {
     	//TODO: To recursively find all managers using 
     	// single inheritance relationship in JPA
     	//It returns the list of managers for now.
-    	return employeeRepository.findAll();
+		Employee emp = employeeRepository.findOne(employeeId);
+    	return employeeRepository.findManager(emp.getManagerId());
     }
     
     public Employee findEmployee(Long employeeId) {

@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Feedback from './Feedback';
 import {FeedbackType} from './FeedbackType';
+import Feedback from './Feedback';
+
+import {useAuthUser} from '../auth/AuthUser';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,23 +16,34 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const feedbackView = index => {
-  if (index === 0) {
-    return <Feedback feedbackType={FeedbackType.Employee} />;
-  }
-  return <Feedback feedbackType={FeedbackType.Personal} />;
-};
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-const ManagerPane = props => {
+const ManagerPane = ({managerList}) => {
+  const {loggedInUser} = useAuthUser();
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
+  };
 
+  const feedbackView = index => {
+    if (index === 0) {
+      return (
+        <Feedback
+          managerList={managerList}
+          feedbackType={FeedbackType.Employee}
+        />
+      );
+    }
+    return (
+      <Feedback
+        managerList={managerList}
+        feedbackType={FeedbackType.Personal}
+      />
+    );
   };
 
   return (
@@ -62,10 +74,6 @@ const ManagerPane = props => {
       </div>
     </div>
   );
-};
-
-ManagerPane.propTypes = {
-  children: PropTypes.element.isRequired,
 };
 
 export default ManagerPane;

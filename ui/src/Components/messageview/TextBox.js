@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {makeStyles} from '@material-ui/core/styles';
 
-const TextBox = ({setText, handleSubmit}) => {
+const TextBox = ({text, setText, handleSubmit}) => {
   const CreateButton = withStyles(theme => ({
     root: {
       color: '#ffffff',
@@ -42,6 +42,7 @@ const TextBox = ({setText, handleSubmit}) => {
             placeholder="Type Something..."
             multiline
             rowsMax={5}
+            value={text}
             inputProps={{
               style: {
                 padding: 5,
@@ -55,8 +56,12 @@ const TextBox = ({setText, handleSubmit}) => {
         </ListItemText>
 
         <ListItemSecondaryAction>
-          <CreateButton variant="contained">
-            <SendIcon style={{color: '#FFF'}} onClick={handleSubmit}></SendIcon>
+          <CreateButton
+            variant="contained"
+            disabled={!text}
+            onClick={handleSubmit}
+          >
+            <SendIcon style={{color: '#FFF'}}></SendIcon>
           </CreateButton>
         </ListItemSecondaryAction>
       </ListItem>

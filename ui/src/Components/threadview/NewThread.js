@@ -12,12 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import {FormControl, TextField} from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import {orange} from '@material-ui/core/colors';
-import * as Constants from '../data/TestData';
-import {useMutation} from '@apollo/react-hooks';
-import {create_new_thread} from './Queries';
-import {get_all_managers} from './Queries';
-import {UserContext} from './UserContext';
-import {useLazyQuery} from '@apollo/react-hooks';
+import {create_new_thread} from '../apollo/Queries';
+import {useLazyQuery, useMutation} from '@apollo/react-hooks';
+import ManagerSelect from './ManagerSelect';
+import {useAuthUser} from '../auth/AuthUser';
 
 const styles = theme => ({
   form: {
@@ -107,8 +105,8 @@ const ActionButton = withStyles(theme => ({
   },
 }))(Button);
 
-const NewThread = () => {
-  const {user} = useContext(UserContext);
+const NewThread = ({toggleFetch, managerList}) => {
+  const {loggedInUser} = useAuthUser();
   const [open, setOpen] = useState(false);
   const [manager, setManager] = useState('');
   const [body, setBody] = useState('');
@@ -116,28 +114,19 @@ const NewThread = () => {
   const [hasManagerError, setManagerError] = useState(false);
   const [hasSubjectError, setSubjectError] = useState(false);
   const [hasBodyError, setBodyError] = useState(false);
-  const [createThread, {data}] = useMutation(create_new_thread);
-  const [managerList, setManagerList] = useState([]);
-
-  useEffect(() => {
-    if (user.employeeId)
-      foo({
-        variables: {employeeId: user.employeeId},
-      });
-  }, []);
-
-  const [foo] = useLazyQuery(get_all_managers, {
+  const [createThread, {data}] = useMutation(create_new_thread, {
     onCompleted: data => {
-      setManagerList(data.findAllManagers);
-      console.log(managerList);
-    },
-    onError: error => {
-      console.log(error);
+      console.log('createThread threadId: ' + data.newThread.threadId);
+      toggleFetch();
     },
   });
 
   const handleManagerSelection = event => {
-    setManager(event.target.value);
+    if (event.length === 0) {
+      setManager('');
+    } else {
+      setManager(event[0].employeeId);
+    }
     setManagerError(false);
   };
   const handleClickOpen = () => {
@@ -158,23 +147,14 @@ const NewThread = () => {
   };
   const handleSubmit = event => {
     if (subject === '') setSubjectError(true);
-    if (manager === '') setManagerError(true);
-    if (body === '') setBodyError(true);
+    else if (manager === '') setManagerError(true);
+    else if (body === '') setBodyError(true);
     else {
-      console.log(
-        'Call the backend API: Subject:' +
-          subject +
-          ', Manager Id: ' +
-          manager +
-          ', Message: ' +
-          body
-      );
-
       createThread({
         variables: {
           to_employeeId: manager,
           subject: subject,
-          from_employeeId: user.employeeId,
+          from_employeeId: loggedInUser.employeeId,
           text: body,
         },
       });
@@ -221,25 +201,14 @@ const NewThread = () => {
               </FormHelperText>
             )}
           </FormControl>
+
           <FormControl margin="normal" fullWidth>
-            <TextField
-              variant="filled"
-              id="select-manager"
-              select
-              label="Send to"
-              value={manager}
-              onChange={handleManagerSelection}
-            >
-              {managerList &&
-                managerList.length &&
-                managerList.map(item => (
-                  <MenuItem key={item.employeeId} value={item.employeeId}>
-                    {getFullName(item)}
-                  </MenuItem>
-                ))}
-            </TextField>
+            <ManagerSelect
+              managerList={managerList}
+              handleManagerSelection={handleManagerSelection}
+            />
             {hasManagerError && (
-              <FormHelperText error="true" focused={hasManagerError}>
+              <FormHelperText error focused={hasManagerError}>
                 Please select a manager for the message.
               </FormHelperText>
             )}
