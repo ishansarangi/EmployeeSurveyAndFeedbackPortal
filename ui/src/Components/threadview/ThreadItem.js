@@ -50,7 +50,6 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
   const classes = useStyles();
 
   const handleListItemClick = key => {
-    console.log('handleListItemClick called:' + key);
     setSelectedThread(key);
   };
 
@@ -58,8 +57,13 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
     return <GridListTile component="a" {...props} />;
   };
 
-  const getHeader = thread => {
-    if (threadDetails.readFlag) {
+  const getFullName = employee => {
+    if (employee) return employee.firstName + ' ' + employee.lastName;
+    else return 'Anonymous';
+  };
+
+  const getHeader = () => {
+    if (!threadDetails.read) {
       return (
         <div>
           <Fragment>
@@ -70,16 +74,20 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
             />
           </Fragment>
           <div className={classes.topSecionWithBadge}>
-            <span className={classes.text}>{thread.sentBy}</span>
-            <span className={classes.date}> {thread.latestDate}</span>
+            <span className={classes.text}>
+              {getFullName(threadDetails.createdBy)}
+            </span>
+            <span className={classes.date}> {threadDetails.latestDate}</span>
           </div>
         </div>
       );
     } else {
       return (
         <div className={classes.topSecionWithoutBadge}>
-          <span className={classes.text}>{thread.sentBy}</span>
-          <span className={classes.date}> {thread.latestDate}</span>
+          <span className={classes.text}>
+            {getFullName(threadDetails.createdBy)}
+          </span>
+          <span className={classes.date}> {threadDetails.latestDate}</span>
         </div>
       );
     }
@@ -95,7 +103,7 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
     >
       <GridListTileBar
         className={classes.tileBar}
-        title={getHeader(threadDetails)}
+        title={getHeader()}
         subtitle={
           <Typography className={classes.preview}>
             {threadDetails.latestText}
