@@ -14,7 +14,6 @@ import { FeedbackType } from './FeedbackType';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { useAuthUser } from '../auth/AuthUser';
 import MessageThreadView from '../messageview/MessageThreadView';
-import SearchBox from '../threadview/SearchBox';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -88,7 +87,6 @@ const Feedback = ({ feedbackType, managerList }) => {
     <div className="fb-main">
       <nav className="fb-navigation-bar">
         <div className={classes.root}>
-          <SearchBox></SearchBox>
           <List
             className={classes.item}
             component="nav"
