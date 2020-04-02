@@ -1,44 +1,27 @@
 import React from 'react';
-import '../messageview/message.css';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { FormControl } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        width: '90%',
+        maxWidth: '100%',
+        backgroundColor: theme.palette.background.paper,
+        marginLeft: '16px',
+        marginRight: '16px',
+        marginTop: '16px',
+    },
+}));
+
 const SearchBox = () => {
-    const useStyles = makeStyles(theme => ({
-        root: {
-            width: '100%',
-            maxWidth: '100%',
-            backgroundColor: theme.palette.background.paper,
-        },
-    }));
+
     const classes = useStyles();
+
     return (
-        <div>
-            <List className="send-container" dense={false}>
-                <ListItem className={classes.root}>
-                    <ListItemText>
-                        <TextField
-                            size="medium"
-                            fullWidth
-                            className="send-input"
-                            placeholder="Search"
-                            multiline
-
-                            inputProps={{
-                                style: {
-                                    padding: 5,
-                                },
-                            }}
-                            onChange={event => {
-
-                            }}
-                        />
-                    </ListItemText>
-                </ListItem>
-            </List>
-        </div>
+        <FormControl className={classes.root} >
+            <TextField id="filled-search" variant="filled" placeholder="Search" size="small" fullWidth />
+        </FormControl>
     );
 };
 SearchBox.propTypes = {};
