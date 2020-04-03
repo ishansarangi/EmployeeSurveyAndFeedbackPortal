@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import SearchBox from './SearchBox';
 import {FeedbackType} from '../feedback/FeedbackType';
 import FilterByTag from './FilterByTag';
+import TagContainer from '../tags/TagContainer';
 import {useAuthUser} from '../auth/AuthUser';
 import {UserType} from '../UserType';
 

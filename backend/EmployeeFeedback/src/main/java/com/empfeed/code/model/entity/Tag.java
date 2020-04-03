@@ -11,15 +11,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table
-public @Data class Tag {
+@Builder(toBuilder = true)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter(value = AccessLevel.PACKAGE)
+@Getter
+public class Tag {
 	@Id
 	@Column(name = "tag_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer tagId;
+	private Long tagId;
 
 	private String name;
 
@@ -30,8 +40,8 @@ public @Data class Tag {
 	@OneToOne
 	private Employee createdBy;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "thread_id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "thread_id", nullable = true)
 	private MessageThread messageThread;
 
 }

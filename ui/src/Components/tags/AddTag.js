@@ -1,8 +1,6 @@
-import React from 'react';
-import './message.css';
+import React, {useState} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {TextField} from '@material-ui/core';
-import SendIcon from '@material-ui/icons/Send';
 import Button from '@material-ui/core/Button';
 import {orange} from '@material-ui/core/colors';
 import List from '@material-ui/core/List';
@@ -10,8 +8,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {makeStyles} from '@material-ui/core/styles';
+import ColorPicker from './ColorPicker';
 
-const TextBox = ({text, setText, handleSubmit}) => {
+const AddTag = ({handleCreateTag}) => {
+  const [text, setText] = useState('');
+  const [color, setColor] = useState('#000000');
+
   const CreateButton = withStyles(theme => ({
     root: {
       color: '#ffffff',
@@ -25,8 +27,19 @@ const TextBox = ({text, setText, handleSubmit}) => {
   const useStyles = makeStyles(theme => ({
     root: {
       width: '100%',
-      maxWidth: '90%',
+      maxWidth: '95%',
       backgroundColor: theme.palette.background.paper,
+    },
+
+    textfield: {
+      width: '85%',
+      maxWidth: '85%',
+      backgroundColor: theme.palette.background.paper,
+    },
+
+    colorpicker: {
+      maxWidth: '10%',
+      marginRight: '15%',
     },
   }));
 
@@ -34,12 +47,11 @@ const TextBox = ({text, setText, handleSubmit}) => {
   return (
     <List className="send-container" dense={false}>
       <ListItem className={classes.root}>
-        <ListItemText>
+        <ListItemText className={classes.textfield}>
           <TextField
             size="medium"
-            fullWidth
             className="send-input"
-            placeholder="Type Something..."
+            placeholder="New Tag"
             multiline
             rowsMax={5}
             value={text}
@@ -55,18 +67,21 @@ const TextBox = ({text, setText, handleSubmit}) => {
           />
         </ListItemText>
 
+        <ListItemSecondaryAction className={classes.colorpicker}>
+          <ColorPicker setColor={setColor} color={color} />
+        </ListItemSecondaryAction>
+
         <ListItemSecondaryAction>
           <CreateButton
             variant="contained"
             disabled={!text}
-            onClick={handleSubmit}
+            onClick={() => handleCreateTag(color, text)}
           >
-            <SendIcon style={{color: '#FFF'}}></SendIcon>
+            Create
           </CreateButton>
         </ListItemSecondaryAction>
       </ListItem>
     </List>
   );
 };
-TextBox.propTypes = {};
-export default TextBox;
+export default AddTag;
