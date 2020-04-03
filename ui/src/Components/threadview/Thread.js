@@ -1,13 +1,16 @@
-import React, { Fragment } from 'react';
-import { all_thread_data } from '../../data/TestData';
+import React, {Fragment} from 'react';
 import NewThread from './NewThread';
 import ThreadItem from './ThreadItem';
-import { makeStyles } from '@material-ui/core/styles';
-import { Divider } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {Divider} from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 import Typography from '@material-ui/core/Typography';
-import { FeedbackType } from '../feedback/FeedbackType';
 import SearchBox from './SearchBox';
+import {FeedbackType} from '../feedback/FeedbackType';
+import FilterByTag from './FilterByTag';
+import {useAuthUser} from '../auth/AuthUser';
+import {UserType} from '../UserType';
+
 const Thread = ({
   setSelectedThread,
   selectedThread,
@@ -16,6 +19,8 @@ const Thread = ({
   toggleFetch,
   managerList,
 }) => {
+  const {loggedInUser} = useAuthUser();
+
   const useStyles = makeStyles(theme => ({
     container: {
       height: '85px',
@@ -42,12 +47,7 @@ const Thread = ({
 
   const wrapGridView = () => {
     if (threadData && threadData.length) {
-      return (
-        <GridList cellHeight={400} className={classes.gridList}>
-          <SearchBox></SearchBox>
-          {getThreadsView()}
-        </GridList>
-      );
+      return getThreadsView();
     } else {
       return <Typography align="center">You have no messages</Typography>;
     }
@@ -74,12 +74,25 @@ const Thread = ({
     });
   };
 
+  const getFilterByTagView = () => {
+    if (
+      loggedInUser.userType !== UserType.Employee &&
+      feedbackType === FeedbackType.Employee
+    )
+      return <FilterByTag />;
+  };
+
   const classes = useStyles();
 
   return (
     <Fragment>
-      {wrapGridView()}
-      {threadData.length ? <Divider /> : <Fragment />}
+      <GridList cellHeight={400} className={classes.gridList}>
+        <SearchBox />
+        {getFilterByTagView()}
+        {wrapGridView()}
+      </GridList>
+      {/* {threadData.length ? <Divider /> : <Fragment />} */}
+
       <div className={classes.newThread}>
         {feedbackType === FeedbackType.Personal && (
           <NewThread toggleFetch={toggleFetch} managerList={managerList} />
