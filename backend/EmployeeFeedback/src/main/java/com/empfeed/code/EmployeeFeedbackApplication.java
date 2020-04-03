@@ -130,12 +130,13 @@ public class EmployeeFeedbackApplication {
 
 			messageThread1.setLatestText("Manager-I can resolve your issues!");
 			messageThread1.setModifiedAt(new Date());
-			messageThreadRepository.save(messageThread1);
 
-			tagRepository.save(Tag.builder().name("Follow Up").color("#FFC107").build());
-			tagRepository.save(Tag.builder().name("Important").color("#46B978").build());
-			tagRepository.save(Tag.builder().name("Idea").color("#EEA5F6").build());
-			tagRepository.save(Tag.builder().name("Non Issue").color("#2EACE2").build());
+			messageThread1.getTags()
+					.addAll(Arrays.asList(
+							Tag.builder().name("Important").color("#46B978").messageThread(messageThread1).build(),
+							Tag.builder().name("Follow Up").color("#FFC107").messageThread(messageThread1).build()));
+			System.out.println(messageThread1);
+			messageThreadRepository.save(messageThread1);
 
 		};
 	}
