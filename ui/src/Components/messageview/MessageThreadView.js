@@ -9,6 +9,7 @@ import {useAuthUser} from '../auth/AuthUser';
 import Typography from '@material-ui/core/Typography';
 import {FeedbackType} from '../feedback/FeedbackType';
 import {UserType} from '../UserType';
+import AddTagToThread from './AddTagToThread';
 
 const MessageThreadView = ({
   selectedThread,
@@ -85,6 +86,18 @@ const MessageThreadView = ({
       );
   };
 
+  const getTagPanelView = () => {
+    if (
+      threadData &&
+      threadData.length &&
+      threadData[selectedThread] &&
+      threadData[selectedThread].threadId &&
+      feedbackType === FeedbackType.Employee &&
+      loggedInUser.userType !== UserType.Employee
+    )
+      return <AddTagToThread threadId={threadData[selectedThread].threadId} />;
+  };
+
   const handleSubmit = () => {
     sendMessage({
       variables: {
@@ -109,7 +122,10 @@ const MessageThreadView = ({
           <div id="chat" className="chat">
             {createMessageView()}
           </div>
-          <div className="component-footer">{getTextBoxView()}</div>
+          <div className="component-footer">
+            {getTagPanelView()}
+            {getTextBoxView()}
+          </div>
         </Fragment>
       );
     }
