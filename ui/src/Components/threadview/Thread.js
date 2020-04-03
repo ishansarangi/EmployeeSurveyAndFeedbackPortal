@@ -2,13 +2,11 @@ import React, {Fragment} from 'react';
 import NewThread from './NewThread';
 import ThreadItem from './ThreadItem';
 import {makeStyles} from '@material-ui/core/styles';
-import {Divider} from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 import Typography from '@material-ui/core/Typography';
 import SearchBox from './SearchBox';
 import {FeedbackType} from '../feedback/FeedbackType';
 import FilterByTag from './FilterByTag';
-import TagContainer from '../tags/TagContainer';
 import {useAuthUser} from '../auth/AuthUser';
 import {UserType} from '../UserType';
 

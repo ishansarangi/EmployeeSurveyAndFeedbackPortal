@@ -21,29 +21,16 @@ function ListItemLink(props) {
 }
 
 const ManagerPane = ({managerList}) => {
-  const {loggedInUser} = useAuthUser();
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
 
   const feedbackView = index => {
-    if (index === 0) {
-      return (
-        <Feedback
-          managerList={managerList}
-          feedbackType={FeedbackType.Employee}
-        />
-      );
-    }
-    return (
-      <Feedback
-        managerList={managerList}
-        feedbackType={FeedbackType.Personal}
-      />
-    );
+    const fbType = index === 0 ? FeedbackType.Employee : FeedbackType.Personal;
+    return <Feedback managerList={managerList} feedbackType={fbType} />;
   };
 
   return (
