@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,10 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {FormControl, TextField} from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
 import {orange} from '@material-ui/core/colors';
 import {create_new_thread} from '../apollo/Queries';
-import {useLazyQuery, useMutation} from '@apollo/react-hooks';
+import {useMutation} from '@apollo/react-hooks';
 import ManagerSelect from './ManagerSelect';
 import {useAuthUser} from '../auth/AuthUser';
 

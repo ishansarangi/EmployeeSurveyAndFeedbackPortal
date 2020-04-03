@@ -1,4 +1,4 @@
-import React, {useState, useContext, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import {useLazyQuery} from '@apollo/react-hooks';
 import {get_employee_by_email} from '../apollo/Queries';
 import Avatar from '@material-ui/core/Avatar';
