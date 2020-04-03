@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Thread from '../threadview/Thread';
 import './Feedback.css';
-import { List } from '@material-ui/core';
+import {List} from '@material-ui/core';
 import {
   get_threads_for_employee,
   get_threads_for_manager,
   get_all_managers,
 } from '../apollo/Queries';
 
-import { UserType } from '../UserType';
-import { FeedbackType } from './FeedbackType';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { useAuthUser } from '../auth/AuthUser';
+import {UserType} from '../UserType';
+import {FeedbackType} from './FeedbackType';
+import {useLazyQuery} from '@apollo/react-hooks';
+import {useAuthUser} from '../auth/AuthUser';
 import MessageThreadView from '../messageview/MessageThreadView';
 
 const useStyles = makeStyles(theme => ({
@@ -28,15 +28,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Feedback = ({ feedbackType, managerList }) => {
-  const { loggedInUser } = useAuthUser();
+const Feedback = ({feedbackType, managerList}) => {
+  const {loggedInUser} = useAuthUser();
   const classes = useStyles();
   const [fetch, setFetch] = useState(false);
 
   useEffect(() => {
     if (loggedInUser.employeeId) {
       getThreadData({
-        variables: { employeeId: loggedInUser.employeeId },
+        variables: {employeeId: loggedInUser.employeeId},
       });
     }
   }, []);
@@ -55,10 +55,10 @@ const Feedback = ({ feedbackType, managerList }) => {
 
   //TODO : Don't call the API's,
   //directly add the message to the state and remove fetch state.
-  const addMessageToThread = () => { };
-  const addNewThread = () => { };
+  const addMessageToThread = () => {};
+  const addNewThread = () => {};
 
-  const [getThreadData, { loading, refetch }] = useLazyQuery(
+  const [getThreadData, {loading, refetch}] = useLazyQuery(
     get_threads_query(),
     {
       fetchPolicy: 'network-only',
@@ -79,7 +79,7 @@ const Feedback = ({ feedbackType, managerList }) => {
   const toggleFetch = () => {
     setFetch(!fetch);
     refetch({
-      variables: { employeeId: loggedInUser.employeeId },
+      variables: {employeeId: loggedInUser.employeeId},
     });
   };
 

@@ -1,4 +1,4 @@
-import React, {useContext, useState, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import Message from './Message';
 import TextBox from './TextBox';
 import './message.css';

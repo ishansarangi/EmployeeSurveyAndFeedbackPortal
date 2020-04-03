@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import NavBar from './NavBar';
-import PropTypes from 'prop-types';
 import {ApolloProvider} from 'react-apollo';
 import {apolloclient} from './apollo/ApolloClient';
 import {Route, Switch} from 'react-router-dom';
