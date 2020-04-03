@@ -1,6 +1,7 @@
 package com.empfeed.code.model.entity;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -30,7 +32,7 @@ public @Data class MessageThread {
 	private Employee sentTo;
 
 	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<Tag> tags;
+	private Set<Tag> tags = new HashSet<>();
 
 	private String subject;
 
@@ -43,7 +45,8 @@ public @Data class MessageThread {
 	@OneToOne
 	private Employee createdBy;
 	
-	private Boolean read = Boolean.FALSE;
+	@Transient
+	private Boolean read = false;
 
 	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Message> messages;
