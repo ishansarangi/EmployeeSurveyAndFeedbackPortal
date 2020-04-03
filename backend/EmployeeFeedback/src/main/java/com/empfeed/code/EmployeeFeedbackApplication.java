@@ -3,7 +3,9 @@ package com.empfeed.code;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.CommandLineRunner;
@@ -114,7 +116,7 @@ public class EmployeeFeedbackApplication {
 			thread.setSubject("test thread");
 			thread.setSentTo(employeeRepository.findOne(manager3.getEmployeeId()));
 			thread.setCreatedBy(employeeRepository.findOne(employee.getEmployeeId()));
-			thread.setMessages(new ArrayList<>());
+			thread.setMessages(new HashSet<>());
 			thread.setCreatedAt(new Date(System.currentTimeMillis() - 300 * 1000));
 			messageThreadRepository.save(thread);
 
@@ -130,11 +132,11 @@ public class EmployeeFeedbackApplication {
 
 			messageThread1.setLatestText("Manager-I can resolve your issues!");
 			messageThread1.setModifiedAt(new Date());
-
+			Set<MessageThread> set = new HashSet<>();
 			messageThread1.getTags()
-					.addAll(Arrays.asList(
-							Tag.builder().name("Important").color("#46B978").messageThread(messageThread1).build(),
-							Tag.builder().name("Follow Up").color("#FFC107").messageThread(messageThread1).build()));
+					.addAll(new HashSet<Tag>(
+							Arrays.asList(Tag.builder().name("Important").color("#46B978").messageThread(set).build(),
+									Tag.builder().name("Follow Up").color("#FFC107").messageThread(set).build())));
 			System.out.println(messageThread1);
 			messageThreadRepository.save(messageThread1);
 
