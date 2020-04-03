@@ -21,12 +21,12 @@ input ThreadInput {
 input ThreadTagInput {
 	employeeId: Long!
 	threadId: Long!
-	tags : [Long]
+	tags : [Long!]
 }
 
 extend type Mutation {
 	newThread(input: ThreadInput) : MessageThread!	
-	addTagListToThread(input: ThreadTagInput) : MessageThread!
+	addTagToThread(input: ThreadTagInput) : MessageThread!
 }
 
 extend type Query {

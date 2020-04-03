@@ -107,9 +107,11 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
         className={classes.tileBar}
         title={getHeader()}
         subtitle={
-          <Typography className={classes.preview}>
-            {threadDetails.latestText}
-          </Typography>
+          <Fragment>
+            <Typography className={classes.preview}>
+              {threadDetails.latestText}
+            </Typography>
+          </Fragment>
         }
       />
     </GridItemLink>

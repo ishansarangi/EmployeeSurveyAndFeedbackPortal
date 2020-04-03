@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import {useStoreState} from 'easy-peasy';
 
 const columns = [
   {id: 'name', label: 'Name', minWidth: 170},
@@ -31,7 +32,8 @@ const useStyles = makeStyles({
   },
 });
 
-const TagTable = ({rows}) => {
+const TagTable = () => {
+  const rows = useStoreState(state => state.tagList.tags);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

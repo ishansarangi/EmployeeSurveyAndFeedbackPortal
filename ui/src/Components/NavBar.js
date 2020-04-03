@@ -70,7 +70,7 @@ const NavBar = props => {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{vertical: 'top'}}
+      anchorOrigin={{vertical: 'top', horizontal: 'right'}}
       id={menuId}
       keepMounted
       transformOrigin={{vertical: 'top', horizontal: 'right'}}

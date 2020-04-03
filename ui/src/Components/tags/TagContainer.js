@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useState} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,10 +7,11 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import {orange} from '@material-ui/core/colors';
 import {useAuthUser} from '../auth/AuthUser';
-import {useMutation, useLazyQuery} from '@apollo/react-hooks';
+import {useMutation} from '@apollo/react-hooks';
 import TagTable from './TagTable';
 import AddTag from './AddTag';
-import {create_new_tag, get_all_tags} from '../apollo/Queries';
+import {create_new_tag} from '../apollo/Queries';
+import {useStoreActions} from 'easy-peasy';
 
 const DialogContent = withStyles(theme => ({
   root: {
@@ -38,34 +39,14 @@ const ActionButton = withStyles(theme => ({
 const TagContainer = ({handleClose, open}) => {
   const {loggedInUser} = useAuthUser();
   const [text, setText] = useState('');
-  const [color, setColor] = useState('#000000');
-  const [tagList, setTagList] = useState([]);
+  const [color, setColor] = useState('#FF0000');
+  const addTag = useStoreActions(actions => actions.tagList.add);
 
-  useEffect(() => {
-    getTagData();
-  }, []);
-
-  const [getTagData, {loading, refetch}] = useLazyQuery(get_all_tags, {
-    fetchPolicy: 'network-only',
-    onCompleted: data => {
-      setTagList(data.findAllTags);
-      console.log('onCompletedtagList' + JSON.stringify(data.findAllTags));
-    },
-    onError: error => {
-      console.log(error);
-    },
-  });
-
-  const updateTags = () => {
-    console.log('updateTags');
-    getTagData();
-  };
-
-  const [createTag, {data}] = useMutation(create_new_tag, {
+  const [createTag] = useMutation(create_new_tag, {
     onCompleted: data => {
       setText('');
-      setColor('#000000');
-      updateTags();
+      setColor('#FF0000');
+      addTag(data.newTag);
     },
   });
 
@@ -99,7 +80,7 @@ const TagContainer = ({handleClose, open}) => {
             color={color}
             setColor={setColor}
           />
-          <TagTable rows={tagList} />
+          <TagTable />
         </DialogContent>
         <DialogActions>
           <ActionButton autoFocus onClick={handleClose} color="secondary">

@@ -29,7 +29,6 @@ const ColorGrid = ({setColor}) => {
   }, []);
 
   const handleButtonClick = entry => {
-    console.log(entry);
     if (!loading) {
       setSuccess('');
       setLoading(true);
@@ -43,8 +42,8 @@ const ColorGrid = ({setColor}) => {
 
   const tileData = [
     ['#FFC107', '#46B978', '#EEA5F6'],
-    ['#2EACE2', '#FFC107', '#46B978'],
-    ['#EEA5F6', '#2EACE2', '#2EACE2'],
+    ['#2EACE2', '#1E7348', '#9D8A90'],
+    ['#EB144C', '#CDDC39', '#C3456C'],
   ];
 
   const getGridRow = (row, index) => {

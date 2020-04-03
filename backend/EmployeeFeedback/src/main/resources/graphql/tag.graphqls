@@ -13,7 +13,7 @@ input TagInput {
 }
 
 extend type Mutation {
-	newTag(input: TagInput) : Tag!	
+	newTag(input: TagInput) : Tag!
 }
 
 extend type Query {
