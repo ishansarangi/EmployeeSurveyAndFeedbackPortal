@@ -8,9 +8,12 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Paper from '@material-ui/core/Paper';
 import TagContainer from '../tags/TagContainer';
+import {add_tags_to_thread} from '../apollo/Queries';
 import {useAuthUser} from '../auth/AuthUser';
+import {useMutation} from '@apollo/react-hooks';
 
 const ListItemCustom = withStyles(theme => ({
   gutters: {
@@ -27,6 +30,12 @@ const AutocompleteCustom = withStyles(theme => ({
     display: 'none',
   },
 }))(Autocomplete);
+
+const CreateButton = withStyles(theme => ({
+  root: {
+    color: '#E87424',
+  },
+}))(Button);
 
 const ManageTagButton = withStyles(theme => ({
   root: {
@@ -57,12 +66,29 @@ const AddTagToThread = ({threadId}) => {
   const {loggedInUser} = useAuthUser();
   const [tags, setTags] = useState([]);
 
+  const [addTagsToThread] = useMutation(add_tags_to_thread, {
+    onCompleted: data => {
+      console.log('Tags added:' + data);
+    },
+  });
+
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = event => {
+    addTagsToThread({
+      variables: {
+        employeeId: loggedInUser.employeeId,
+        tags: tags,
+        threadId: threadId,
+      },
+    });
+    handleClose();
   };
 
   const useStyles = makeStyles({
@@ -147,6 +173,9 @@ const AddTagToThread = ({threadId}) => {
               )}
             />
           </ListItemText>
+          <ListItemSecondaryAction>
+            <CreateButton onClick={handleSubmit}>ADD TAG</CreateButton>
+          </ListItemSecondaryAction>
         </ListItemCustom>
       </List>
     </Fragment>

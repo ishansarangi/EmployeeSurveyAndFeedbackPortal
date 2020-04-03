@@ -66,7 +66,7 @@ export default function TagTable() {
 
   const handleColumnValue = (col, value) => {
     if (col.format && typeof value === 'number') return col.format(value);
-    else if (col.id == 'color') {
+    else if (col.id === 'color') {
       return (
         <Button
           style={{
