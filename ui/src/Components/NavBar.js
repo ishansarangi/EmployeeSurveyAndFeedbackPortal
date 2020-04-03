@@ -17,6 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MailIcon from '@material-ui/icons/Mail';
 import Badge from '@material-ui/core/Badge';
 import {useHistory} from 'react-router-dom';
+import {useAuthUser} from './auth/AuthUser';
 
 const useStyles = makeStyles(theme => ({
   addUser: {
@@ -47,8 +48,9 @@ const NavButton = withStyles(theme => ({
 const NavBar = props => {
   let history = useHistory();
   const classes = useStyles();
-
+  const {loggedInUser} = useAuthUser();
   const menuId = 'primary-search-account-menu';
+  const menuTitle = loggedInUser ? 'Profile' : 'Login';
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -69,14 +71,14 @@ const NavBar = props => {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+      anchorOrigin={{vertical: 'top'}}
       id={menuId}
       keepMounted
       transformOrigin={{vertical: 'top', horizontal: 'right'}}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleLogin}>Login</MenuItem>
+      <MenuItem onClick={handleLogin}>{menuTitle}</MenuItem>
     </Menu>
   );
 
