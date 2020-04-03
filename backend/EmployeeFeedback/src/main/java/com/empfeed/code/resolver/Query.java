@@ -3,6 +3,7 @@ package com.empfeed.code.resolver;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.empfeed.code.model.entity.Employee;
 import com.empfeed.code.model.entity.MessageThread;
+import com.empfeed.code.model.entity.Tag;
 import com.empfeed.code.repository.EmployeeRepository;
 import com.empfeed.code.repository.MessageRepository;
 import com.empfeed.code.repository.MessageThreadRepository;
@@ -41,5 +42,9 @@ public class Query implements GraphQLQueryResolver {
     
     public Employee findEmployeeByEmail(String emailId) {
     	return employeeRepository.findEmployeeByEmail(emailId);
+    }
+    
+    public Iterable<Tag> findAllTags(){
+    	return tagRepository.findAll();
     }
 }

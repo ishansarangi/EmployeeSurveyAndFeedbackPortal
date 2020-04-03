@@ -49,6 +49,11 @@ export const get_threads_for_manager = gql`
         createdAt
         messageSender
       }
+      tags {
+        tagId
+        name
+        color
+      }
     }
   }
 `;
@@ -110,6 +115,28 @@ export const get_employee_by_email = gql`
       lastName
       userType
       email
+    }
+  }
+`;
+
+export const create_new_tag = gql`
+  mutation newTag($employeeId: Long!, $name: String, $color: String) {
+    newTag(input: {employeeId: $employeeId, name: $name, color: $color}) {
+      tagId
+    }
+  }
+`;
+
+export const add_tags_to_thread = gql`
+  mutation addTagListToThread(
+    $employeeId: Long!
+    $threadId: Long!
+    $tags: [ID!]
+  ) {
+    addTagListToThread(
+      input: {employeeId: $employeeId, threadId: $threadId, tags: $tags}
+    ) {
+      threadId
     }
   }
 `;

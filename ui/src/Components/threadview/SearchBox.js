@@ -1,28 +1,34 @@
 import React from 'react';
-import { TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { FormControl } from '@material-ui/core';
+import {TextField} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {FormControl} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        width: '90%',
-        maxWidth: '100%',
-        backgroundColor: theme.palette.background.paper,
-        marginLeft: '16px',
-        marginRight: '16px',
-        marginTop: '16px',
+  root: {
+    width: '100%',
+    padding: '8px',
+    '& > * + *': {
+      marginTop: theme.spacing(1),
     },
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 const SearchBox = () => {
+  const classes = useStyles();
 
-    const classes = useStyles();
-
-    return (
-        <FormControl className={classes.root} >
-            <TextField id="filled-search" variant="filled" placeholder="Search" size="small" fullWidth />
-        </FormControl>
-    );
+  return (
+    <FormControl variant="filled" className={classes.root}>
+      <TextField
+        id="filled-search"
+        label="Search"
+        type="search"
+        variant="filled"
+      />
+    </FormControl>
+  );
 };
 SearchBox.propTypes = {};
 export default SearchBox;
