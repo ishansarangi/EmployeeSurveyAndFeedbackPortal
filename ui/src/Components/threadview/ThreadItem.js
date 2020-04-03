@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
+import IconButton from '@material-ui/core/IconButton';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
   const useStyles = makeStyles(theme => ({

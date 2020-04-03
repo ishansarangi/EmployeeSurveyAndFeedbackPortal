@@ -10,10 +10,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {makeStyles} from '@material-ui/core/styles';
 import ColorPicker from './ColorPicker';
 
-const AddTag = ({handleCreateTag}) => {
-  const [text, setText] = useState('');
-  const [color, setColor] = useState('#000000');
-
+const AddTag = ({handleCreateTag, text, setText, color, setColor}) => {
   const CreateButton = withStyles(theme => ({
     root: {
       color: '#ffffff',

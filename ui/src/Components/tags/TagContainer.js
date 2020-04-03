@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,10 +7,10 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import {orange} from '@material-ui/core/colors';
 import {useAuthUser} from '../auth/AuthUser';
-import {useMutation} from '@apollo/react-hooks';
+import {useMutation, useLazyQuery} from '@apollo/react-hooks';
 import TagTable from './TagTable';
 import AddTag from './AddTag';
-import {create_new_tag} from '../apollo/Queries';
+import {create_new_tag, get_all_tags} from '../apollo/Queries';
 
 const DialogContent = withStyles(theme => ({
   root: {
@@ -37,11 +37,38 @@ const ActionButton = withStyles(theme => ({
 
 const TagContainer = ({handleClose, open}) => {
   const {loggedInUser} = useAuthUser();
-  const [createTag, {data}] = useMutation(create_new_tag, {
+  const [text, setText] = useState('');
+  const [color, setColor] = useState('#000000');
+  const [tagList, setTagList] = useState([]);
+
+  useEffect(() => {
+    getTagData();
+  }, []);
+
+  const [getTagData, {loading, refetch}] = useLazyQuery(get_all_tags, {
+    fetchPolicy: 'network-only',
     onCompleted: data => {
-      console.log(data);
+      setTagList(data.findAllTags);
+      console.log('onCompletedtagList' + JSON.stringify(data.findAllTags));
+    },
+    onError: error => {
+      console.log(error);
     },
   });
+
+  const updateTags = () => {
+    console.log('updateTags');
+    getTagData();
+  };
+
+  const [createTag, {data}] = useMutation(create_new_tag, {
+    onCompleted: data => {
+      setText('');
+      setColor('#000000');
+      updateTags();
+    },
+  });
+
   const handleCreateTag = (color, name) => {
     if (loggedInUser && loggedInUser.employeeId) {
       createTag({
@@ -65,8 +92,14 @@ const TagContainer = ({handleClose, open}) => {
       >
         <DialogTitle id="customized-dialog-title">Manage Tags</DialogTitle>
         <DialogContent dividers>
-          <AddTag handleCreateTag={handleCreateTag} />
-          <TagTable />
+          <AddTag
+            handleCreateTag={handleCreateTag}
+            text={text}
+            setText={setText}
+            color={color}
+            setColor={setColor}
+          />
+          <TagTable rows={tagList} />
         </DialogContent>
         <DialogActions>
           <ActionButton autoFocus onClick={handleClose} color="secondary">

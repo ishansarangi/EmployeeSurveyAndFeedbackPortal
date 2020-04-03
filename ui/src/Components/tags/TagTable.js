@@ -22,25 +22,6 @@ const columns = [
   },
 ];
 
-function createData(name, color, numOfMessages, tagId) {
-  return {name, color, numOfMessages, tagId};
-}
-
-const rows = [
-  createData('Important', '#FFC107', 0, 1),
-  createData('Follow Up', '#46B978', 0, 2),
-  createData('Idea', '#EEA5F6', 0, 3),
-  createData('Non Issue', '#2EACE2', 0, 4),
-  createData('Important1', '#FFC106', 0, 5),
-  createData('Follow Up1', '#46B977', 0, 6),
-  createData('Idea1', '#EEA5F5', 0, 7),
-  createData('Non Issue1', '#2EACE1', 0, 8),
-  createData('Important2', '#FFC106', 0, 9),
-  createData('Follow Up2', '#46B976', 0, 10),
-  createData('Idea2', '#EEA5F4', 0, 11),
-  createData('Non Issue2', '#2EACE0', 0, 12),
-];
-
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -50,7 +31,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TagTable() {
+const TagTable = ({rows}) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -136,4 +117,6 @@ export default function TagTable() {
       />
     </Paper>
   );
-}
+};
+
+export default TagTable;
