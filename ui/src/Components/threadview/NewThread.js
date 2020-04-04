@@ -15,6 +15,7 @@ import {create_new_thread} from '../apollo/Queries';
 import {useMutation} from '@apollo/react-hooks';
 import ManagerSelect from './ManagerSelect';
 import {useAuthUser} from '../auth/AuthUser';
+import {useStoreActions} from 'easy-peasy';
 
 const styles = theme => ({
   form: {
@@ -104,7 +105,7 @@ const ActionButton = withStyles(theme => ({
   },
 }))(Button);
 
-const NewThread = ({toggleFetch, managerList}) => {
+const NewThread = ({managerList}) => {
   const {loggedInUser} = useAuthUser();
   const [open, setOpen] = useState(false);
   const [manager, setManager] = useState('');
@@ -113,10 +114,14 @@ const NewThread = ({toggleFetch, managerList}) => {
   const [hasManagerError, setManagerError] = useState(false);
   const [hasSubjectError, setSubjectError] = useState(false);
   const [hasBodyError, setBodyError] = useState(false);
-  const [createThread, {data}] = useMutation(create_new_thread, {
+
+  const addNewThread = useStoreActions(
+    actions => actions.personalThreadList.addThread
+  );
+
+  const [createThread] = useMutation(create_new_thread, {
     onCompleted: data => {
-      console.log('createThread threadId: ' + data.newThread.threadId);
-      toggleFetch();
+      addNewThread(data.newThread);
     },
   });
 
@@ -128,9 +133,11 @@ const NewThread = ({toggleFetch, managerList}) => {
     }
     setManagerError(false);
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setSubjectError(false);
@@ -144,6 +151,7 @@ const NewThread = ({toggleFetch, managerList}) => {
     setBody('');
     setSubject('');
   };
+
   const handleSubmit = event => {
     if (subject === '') setSubjectError(true);
     else if (manager === '') setManagerError(true);
@@ -159,13 +167,6 @@ const NewThread = ({toggleFetch, managerList}) => {
       });
       handleClose();
     }
-  };
-
-  const getFullName = user => {
-    let fullName = '';
-    if (user.firstName) fullName = user.firstName;
-    if (user.lastName) fullName = fullName + ' ' + user.lastName;
-    return fullName;
   };
 
   return (

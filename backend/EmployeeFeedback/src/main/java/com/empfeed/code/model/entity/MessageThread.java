@@ -2,7 +2,6 @@ package com.empfeed.code.model.entity;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,8 +11,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,7 +34,14 @@ public @Data class MessageThread {
 	@OneToOne
 	private Employee sentTo;
 
-	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "thread_tag",
+            joinColumns = {
+                    @JoinColumn(name = "threadId", referencedColumnName = "thread_id"
+                     )},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "tagId", referencedColumnName = "tag_id"
+                           )})
 	private Set<Tag> tags = new HashSet<>();
 
 	private String subject;
@@ -44,10 +54,11 @@ public @Data class MessageThread {
 
 	@OneToOne
 	private Employee createdBy;
-	
+
 	@Transient
 	private Boolean read = false;
 
 	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Message> messages;
+	@OrderBy("createdAt")
+	private Set<Message> messages;
 }

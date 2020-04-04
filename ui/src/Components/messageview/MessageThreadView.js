@@ -10,22 +10,39 @@ import Typography from '@material-ui/core/Typography';
 import {FeedbackType} from '../feedback/FeedbackType';
 import {UserType} from '../UserType';
 import AddTagToThread from './AddTagToThread';
+import {useStoreActions} from 'easy-peasy';
 
-const MessageThreadView = ({
-  selectedThread,
-  feedbackType,
-  threadData,
-  toggleFetch,
-}) => {
-  const [sendMessage] = useMutation(send_reply_in_thread, {
-    onCompleted: data => {
-      setText('');
-      toggleFetch();
-    },
-  });
-
+const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
   const {loggedInUser} = useAuthUser();
   const [text, setText] = useState('');
+
+  const sendMessageToEmployeeThread = useStoreActions(
+    actions => actions.employeeThreadList.addMessageToThread
+  );
+  const sendMessageToPersonalThread = useStoreActions(
+    actions => actions.personalThreadList.addMessageToThread
+  );
+
+  const getThreadToBeUpdated = () => {
+    if (
+      feedbackType === FeedbackType.Employee &&
+      loggedInUser.userType === UserType.Manager
+    ) {
+      return sendMessageToEmployeeThread;
+    }
+    return sendMessageToPersonalThread;
+  };
+
+  const [sendMessage] = useMutation(send_reply_in_thread, {
+    onCompleted: data => {
+      console.log(data);
+      setText('');
+      getThreadToBeUpdated()(data.newMessage);
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
 
   const getNoMessageText = () => {
     if (

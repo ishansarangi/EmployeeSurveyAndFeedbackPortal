@@ -10,14 +10,7 @@ import FilterByTag from './FilterByTag';
 import {useAuthUser} from '../auth/AuthUser';
 import {UserType} from '../UserType';
 
-const Thread = ({
-  setSelectedThread,
-  selectedThread,
-  feedbackType,
-  threadData,
-  toggleFetch,
-  managerList,
-}) => {
+const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
   const {loggedInUser} = useAuthUser();
 
   const useStyles = makeStyles(theme => ({
@@ -67,6 +60,7 @@ const Thread = ({
             readFlag: thread.readFlag,
             subject: thread.subject,
             sentTo: thread.sentTo,
+            tags: thread.tags,
           }}
         />
       );
@@ -82,7 +76,6 @@ const Thread = ({
   };
 
   const classes = useStyles();
-
   return (
     <Fragment>
       <GridList cellHeight={400} className={classes.gridList}>
@@ -94,7 +87,7 @@ const Thread = ({
 
       <div className={classes.newThread}>
         {feedbackType === FeedbackType.Personal && (
-          <NewThread toggleFetch={toggleFetch} managerList={managerList} />
+          <NewThread managerList={managerList} />
         )}
       </div>
     </Fragment>

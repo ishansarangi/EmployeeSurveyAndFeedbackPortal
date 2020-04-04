@@ -3,6 +3,7 @@ import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import {useStoreState} from 'easy-peasy';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function FilterByTag() {
   const classes = useStyles();
-
+  const tagList = useStoreState(state => state.tagList.tags);
   return (
     <div className={classes.root}>
       <Autocomplete
@@ -67,10 +68,3 @@ export default function FilterByTag() {
     </div>
   );
 }
-
-const tagList = [
-  {name: 'Follow Up', tagId: 1, color: '#FFC107'},
-  {name: 'Important', tagId: 2, color: '#46B978'},
-  {name: 'Idea', tagId: 3, color: '#EEA5F6'},
-  {name: 'Non Issue', tagId: 4, color: '#2EACE2'},
-];
