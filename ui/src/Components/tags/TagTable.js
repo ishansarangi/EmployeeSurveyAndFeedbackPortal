@@ -19,27 +19,8 @@ const columns = [
     label: 'Total\u00a0Messages\u00a0using\u00a0Tag',
     minWidth: 170,
     align: 'right',
-    format: (value) => value.toLocaleString(),
+    format: value => value.toLocaleString(),
   },
-];
-
-function createData(name, color, numOfMessages, tagId) {
-  return {name, color, numOfMessages, tagId};
-}
-
-const rows = [
-  createData('Important', '#FFC107', 0, 1),
-  createData('Follow Up', '#46B978', 0, 2),
-  createData('Idea', '#EEA5F6', 0, 3),
-  createData('Non Issue', '#2EACE2', 0, 4),
-  createData('Important1', '#FFC106', 0, 5),
-  createData('Follow Up1', '#46B977', 0, 6),
-  createData('Idea1', '#EEA5F5', 0, 7),
-  createData('Non Issue1', '#2EACE1', 0, 8),
-  createData('Important2', '#FFC106', 0, 9),
-  createData('Follow Up2', '#46B976', 0, 10),
-  createData('Idea2', '#EEA5F4', 0, 11),
-  createData('Non Issue2', '#2EACE0', 0, 12),
 ];
 
 const useStyles = makeStyles({
@@ -52,7 +33,7 @@ const useStyles = makeStyles({
 });
 
 const TagTable = () => {
-  const rows = useStoreState((state) => state.tagList.tags);
+  const rows = useStoreState(state => state.tagList.tags);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -61,7 +42,7 @@ const TagTable = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -91,7 +72,7 @@ const TagTable = () => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map(column => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -113,7 +94,7 @@ const TagTable = () => {
                     tabIndex={-1}
                     key={row + index}
                   >
-                    {columns.map((column) => {
+                    {columns.map(column => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
@@ -139,3 +120,4 @@ const TagTable = () => {
     </Paper>
   );
 };
+export default TagTable;

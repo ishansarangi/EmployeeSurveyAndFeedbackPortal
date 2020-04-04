@@ -4,7 +4,6 @@ import Thread from '../threadview/Thread';
 import './Feedback.css';
 import {List} from '@material-ui/core';
 import {get_all_tags, get_threads_for_employee} from '../apollo/Queries';
-
 import {UserType} from '../UserType';
 import {FeedbackType} from './FeedbackType';
 import {useLazyQuery} from '@apollo/react-hooks';

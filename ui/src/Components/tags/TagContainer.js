@@ -1,5 +1,4 @@
 import React, {Fragment, useState} from 'react';
-
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,20 +14,20 @@ import {create_new_tag} from '../apollo/Queries';
 
 import {useStoreActions} from 'easy-peasy';
 
-const DialogContent = withStyles((theme) => ({
+const DialogContent = withStyles(theme => ({
   root: {
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
+const DialogActions = withStyles(theme => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
   },
 }))(MuiDialogActions);
 
-const ActionButton = withStyles((theme) => ({
+const ActionButton = withStyles(theme => ({
   root: {
     color: '#E87424',
     backgroundColor: 'white',
@@ -43,10 +42,10 @@ const TagContainer = ({handleClose, open}) => {
 
   const [text, setText] = useState('');
   const [color, setColor] = useState('#FF0000');
-  const addTag = useStoreActions((actions) => actions.tagList.add);
+  const addTag = useStoreActions(actions => actions.tagList.add);
 
   const [createTag] = useMutation(create_new_tag, {
-    onCompleted: (data) => {
+    onCompleted: data => {
       setText('');
       setColor('#FF0000');
       addTag(data.newTag);
