@@ -12,6 +12,8 @@ const useStyles = makeStyles(theme => ({
     '& > * + *': {
       marginTop: theme.spacing(1),
     },
+    maxHeight: 300,
+    overflow: 'auto',
   },
 }));
 

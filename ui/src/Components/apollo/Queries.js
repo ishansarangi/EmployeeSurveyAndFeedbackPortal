@@ -170,3 +170,13 @@ export const add_tags_to_thread = gql`
     }
   }
 `;
+
+export const get_all_tags = gql`
+  query findAllTags {
+    findAllTags {
+      tagId
+      color
+      name
+    }
+  }
+`;

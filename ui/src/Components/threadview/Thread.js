@@ -9,6 +9,7 @@ import {FeedbackType} from '../feedback/FeedbackType';
 import FilterByTag from './FilterByTag';
 import {useAuthUser} from '../auth/AuthUser';
 import {UserType} from '../UserType';
+import GridListTile from '@material-ui/core/GridListTile';
 
 const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
   const {loggedInUser} = useAuthUser();
@@ -34,6 +35,11 @@ const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
       padding: '16px',
       marginLeft: 'auto',
       marginRight: 'auto',
+    },
+    scrollableView: {
+      maxHeight: '800px',
+      width: 'inherit',
+      overflow: 'auto',
     },
   }));
 
@@ -83,8 +89,8 @@ const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
         {getFilterByTagView()}
         {wrapGridView()}
       </GridList>
-      {/* {threadData.length ? <Divider /> : <Fragment />} */}
 
+      {/* {threadData.length ? <Divider /> : <Fragment />} */}
       <div className={classes.newThread}>
         {feedbackType === FeedbackType.Personal && (
           <NewThread managerList={managerList} />

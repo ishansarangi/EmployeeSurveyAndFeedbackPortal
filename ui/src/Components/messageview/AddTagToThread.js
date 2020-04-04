@@ -108,6 +108,10 @@ const AddTagToThread = ({threadId}) => {
       height: 275,
       minHeight: 275,
     },
+    tagList: {
+      maxHeight: 225,
+      overflow: 'auto',
+    },
   });
 
   const PaperComponentCustom = options => {
@@ -116,8 +120,8 @@ const AddTagToThread = ({threadId}) => {
 
     return (
       <Paper className={classes.root} {...containerProps} square>
-        {children}
-        <div style={{bottom: '5%', position: 'absolute', marginLeft: '13%'}}>
+        <div className={classes.tagList}>{children}</div>
+        <div style={{bottom: '5%', position: 'absolute', marginLeft: '15%'}}>
           <ManageTagButton onMouseDown={handleClickOpen} fullWidth>
             MANAGE TAGS
           </ManageTagButton>
