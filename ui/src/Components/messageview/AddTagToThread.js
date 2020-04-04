@@ -14,6 +14,7 @@ import TagContainer from '../tags/TagContainer';
 import {add_tags_to_thread} from '../apollo/Queries';
 import {useAuthUser} from '../auth/AuthUser';
 import {useMutation} from '@apollo/react-hooks';
+import {useStoreState, useStoreActions} from 'easy-peasy';
 
 const ListItemCustom = withStyles(theme => ({
   gutters: {
@@ -62,15 +63,24 @@ const loadCustomStyles = () => {
 };
 
 const AddTagToThread = ({threadId}) => {
+  const tagList = useStoreState(state => state.tagList.tags);
+
   loadCustomStyles();
   const {loggedInUser} = useAuthUser();
   const [tags, setTags] = useState([]);
 
-  const [addTagsToThread] = useMutation(add_tags_to_thread, {
+  const [addTagsToThreads] = useMutation(add_tags_to_thread, {
     onCompleted: data => {
-      console.log('Tags added:' + data);
+      addTags(data.addTagToThread);
+    },
+    onError: error => {
+      console.log(error);
     },
   });
+
+  const addTags = useStoreActions(
+    actions => actions.employeeThreadList.addTagsToThread
+  );
 
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -81,7 +91,7 @@ const AddTagToThread = ({threadId}) => {
   };
 
   const handleSubmit = event => {
-    addTagsToThread({
+    addTagsToThreads({
       variables: {
         employeeId: loggedInUser.employeeId,
         tags: tags,
@@ -95,8 +105,8 @@ const AddTagToThread = ({threadId}) => {
     root: {
       minWidth: 275,
       width: 275,
-      height: 250,
-      minHeight: 250,
+      height: 275,
+      minHeight: 275,
     },
   });
 
@@ -181,12 +191,5 @@ const AddTagToThread = ({threadId}) => {
     </Fragment>
   );
 };
-
-const tagList = [
-  {name: 'Follow Up', tagId: 1, color: '#FFC107'},
-  {name: 'Important', tagId: 2, color: '#46B978'},
-  {name: 'Idea', tagId: 3, color: '#EEA5F6'},
-  {name: 'Non Issue', tagId: 4, color: '#2EACE2'},
-];
 
 export default AddTagToThread;

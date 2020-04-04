@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import {useStoreState} from 'easy-peasy';
 
 const columns = [
   {id: 'name', label: 'Name', minWidth: 170},
@@ -18,7 +19,7 @@ const columns = [
     label: 'Total\u00a0Messages\u00a0using\u00a0Tag',
     minWidth: 170,
     align: 'right',
-    format: value => value.toLocaleString(),
+    format: (value) => value.toLocaleString(),
   },
 ];
 
@@ -50,7 +51,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TagTable() {
+const TagTable = () => {
+  const rows = useStoreState((state) => state.tagList.tags);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -59,7 +61,7 @@ export default function TagTable() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -89,7 +91,7 @@ export default function TagTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map(column => (
+              {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -111,7 +113,7 @@ export default function TagTable() {
                     tabIndex={-1}
                     key={row + index}
                   >
-                    {columns.map(column => {
+                    {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
@@ -136,4 +138,4 @@ export default function TagTable() {
       />
     </Paper>
   );
-}
+};

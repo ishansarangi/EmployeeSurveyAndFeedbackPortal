@@ -1,4 +1,5 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
+
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,20 +13,22 @@ import TagTable from './TagTable';
 import AddTag from './AddTag';
 import {create_new_tag} from '../apollo/Queries';
 
-const DialogContent = withStyles(theme => ({
+import {useStoreActions} from 'easy-peasy';
+
+const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles(theme => ({
+const DialogActions = withStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
   },
 }))(MuiDialogActions);
 
-const ActionButton = withStyles(theme => ({
+const ActionButton = withStyles((theme) => ({
   root: {
     color: '#E87424',
     backgroundColor: 'white',
@@ -37,9 +40,16 @@ const ActionButton = withStyles(theme => ({
 
 const TagContainer = ({handleClose, open}) => {
   const {loggedInUser} = useAuthUser();
-  const [createTag, {data}] = useMutation(create_new_tag, {
-    onCompleted: data => {
-      console.log(data);
+
+  const [text, setText] = useState('');
+  const [color, setColor] = useState('#FF0000');
+  const addTag = useStoreActions((actions) => actions.tagList.add);
+
+  const [createTag] = useMutation(create_new_tag, {
+    onCompleted: (data) => {
+      setText('');
+      setColor('#FF0000');
+      addTag(data.newTag);
     },
   });
   const handleCreateTag = (color, name) => {
@@ -65,7 +75,13 @@ const TagContainer = ({handleClose, open}) => {
       >
         <DialogTitle id="customized-dialog-title">Manage Tags</DialogTitle>
         <DialogContent dividers>
-          <AddTag handleCreateTag={handleCreateTag} />
+          <AddTag
+            handleCreateTag={handleCreateTag}
+            text={text}
+            setText={setText}
+            color={color}
+            setColor={setColor}
+          />
           <TagTable />
         </DialogContent>
         <DialogActions>

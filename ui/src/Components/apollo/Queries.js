@@ -73,6 +73,26 @@ export const create_new_thread = gql`
       }
     ) {
       threadId
+      sentTo {
+        employeeId
+        firstName
+        lastName
+      }
+      subject
+      createdAt
+      modifiedAt
+      latestText
+      read
+      createdBy {
+        employeeId
+        firstName
+        lastName
+      }
+      messages {
+        text
+        createdAt
+        messageSender
+      }
     }
   }
 `;
@@ -83,6 +103,11 @@ export const send_reply_in_thread = gql`
       input: {threadId: $threadId, text: $text, employeeId: $from_employeeId}
     ) {
       threadId
+      messages {
+        text
+        createdAt
+        messageSender
+      }
     }
   }
 `;
@@ -128,15 +153,20 @@ export const create_new_tag = gql`
 `;
 
 export const add_tags_to_thread = gql`
-  mutation addTagListToThread(
+  mutation addTagToThread(
     $employeeId: Long!
     $threadId: Long!
-    $tags: [ID!]
+    $tags: [Long!]!
   ) {
-    addTagListToThread(
+    addTagToThread(
       input: {employeeId: $employeeId, threadId: $threadId, tags: $tags}
     ) {
       threadId
+      tags {
+        tagId
+        color
+        name
+      }
     }
   }
 `;
