@@ -5,28 +5,34 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
 
-const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
-  const useStyles = makeStyles(theme => ({
+const ThreadItem = ({
+  threadDetails,
+  setSelectedThread,
+  threadKey,
+  selectedIndex,
+}) => {
+  const useStyles = makeStyles((theme) => ({
     topSecionWithBadge: {
       display: 'flex',
-      justifyContent: 'space-between',
+      flexDirection: 'row',
       marginLeft: '30px',
       marginTop: '-27px',
     },
     topSecionWithoutBadge: {
       display: 'flex',
-      justifyContent: 'space-between',
+      flexDirection: 'row',
       marginLeft: '30px',
       paddingTop: '16px',
     },
     text: {
-      fontSize: '12px',
-      color: 'grey',
+      fontSize: '14px',
+      color: 'black',
     },
     date: {
       color: 'grey',
       fontSize: '12px',
-      float: 'right',
+      float: 'left',
+      marginTop: '20px',
     },
     readIcon: {
       marginTop: '16px',
@@ -35,29 +41,36 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
     preview: {
       fontSize: '14px',
       marginLeft: '30px',
-      overflowWrap: 'break-word',
+      textOverflow: 'ellipsis',
       color: 'black',
-      height: '43px',
+      maxLines: 3,
     },
     griditemlink: {
       width: '100%',
-      height: '100%',
+      height: '100% !important',
       padding: '0',
       marginTop: '0',
+      background: selectedIndex === threadKey ? 'red' : 'white',
+    },
+    GridListTileBar: {
+      color: selectedIndex === threadKey ? 'red' : 'white',
+    },
+    root: {
+      background: selectedIndex === threadKey ? 'red' : 'white',
     },
   }));
 
   const classes = useStyles();
 
-  const handleListItemClick = key => {
+  const handleListItemClick = (key) => {
     setSelectedThread(key);
   };
 
-  const GridItemLink = props => {
+  const GridItemLink = (props) => {
     return <GridListTile component="a" {...props} />;
   };
 
-  const getFullName = employee => {
+  const getFullName = (employee) => {
     if (employee) return employee.firstName + ' ' + employee.lastName;
     else return 'Anonymous';
   };
@@ -74,20 +87,22 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
             />
           </Fragment>
           <div className={classes.topSecionWithBadge}>
-            <span className={classes.text}>
-              {getFullName(threadDetails.createdBy)}
-            </span>
+            <span className={classes.text}>{threadDetails.subject}</span>
+          </div>
+          <div className={classes.topSecionWithBadge}>
             <span className={classes.date}> {threadDetails.latestDate}</span>
           </div>
         </div>
       );
     } else {
       return (
-        <div className={classes.topSecionWithoutBadge}>
-          <span className={classes.text}>
-            {getFullName(threadDetails.createdBy)}
-          </span>
-          <span className={classes.date}> {threadDetails.latestDate}</span>
+        <div>
+          <div className={classes.topSecionWithoutBadge}>
+            <span className={classes.text}>{threadDetails.subject}</span>
+          </div>
+          <div className={classes.topSecionWithoutBadge}>
+            <span className={classes.date}> {threadDetails.latestDate}</span>
+          </div>
         </div>
       );
     }
@@ -100,13 +115,19 @@ const ThreadItem = ({threadDetails, setSelectedThread, threadKey}) => {
       }}
       key={threadKey}
       className={classes.griditemlink}
+      selected={selectedIndex === threadKey}
+      style={{background: 'red'}}
     >
       <GridListTileBar
-        className={classes.tileBar}
+        style={{background: 'red'}}
         title={getHeader()}
         subtitle={
           <Fragment>
-            <Typography className={classes.preview}>
+            <Typography
+              className={classes.preview}
+              style={{wordWrap: 'break-word'}}
+              maxLines={3}
+            >
               {threadDetails.latestText}
             </Typography>
           </Fragment>
