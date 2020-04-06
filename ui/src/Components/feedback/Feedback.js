@@ -11,7 +11,7 @@ import {useAuthUser} from '../auth/AuthUser';
 import MessageThreadView from '../messageview/MessageThreadView';
 import {useStoreActions, useStoreState} from 'easy-peasy';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '99.3%',
     backgroundColor: theme.palette.background.paper,
@@ -27,20 +27,20 @@ const useStyles = makeStyles(theme => ({
 const Feedback = ({feedbackType, managerList}) => {
   const {loggedInUser} = useAuthUser();
   const classes = useStyles();
-  const setTags = useStoreActions(actions => actions.tagList.setTags);
+  const setTags = useStoreActions((actions) => actions.tagList.setTags);
   const employeeThreads = useStoreState(
-    state => state.employeeThreadList.threads
+    (state) => state.employeeThreadList.threads
   );
   const personalThreads = useStoreState(
-    actions => actions.personalThreadList.threads
+    (actions) => actions.personalThreadList.threads
   );
 
   const [getTagData] = useLazyQuery(get_all_tags, {
     fetchPolicy: 'network-only',
-    onCompleted: data => {
+    onCompleted: (data) => {
       setTags(data.findAllTags);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });
@@ -57,15 +57,15 @@ const Feedback = ({feedbackType, managerList}) => {
   const [selectedThread, setSelectedThread] = useState(-1);
 
   const setPersonalThreadList = useStoreActions(
-    actions => actions.personalThreadList.setThreads
+    (actions) => actions.personalThreadList.setThreads
   );
 
   const [getPersonalThreadData] = useLazyQuery(get_threads_for_employee, {
     fetchPolicy: 'network-only',
-    onCompleted: data => {
+    onCompleted: (data) => {
       setPersonalThreadList(data.findAllSentThreads);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });

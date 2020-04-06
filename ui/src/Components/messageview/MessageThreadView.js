@@ -17,10 +17,10 @@ const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
   const [text, setText] = useState('');
 
   const sendMessageToEmployeeThread = useStoreActions(
-    actions => actions.employeeThreadList.addMessageToThread
+    (actions) => actions.employeeThreadList.addMessageToThread
   );
   const sendMessageToPersonalThread = useStoreActions(
-    actions => actions.personalThreadList.addMessageToThread
+    (actions) => actions.personalThreadList.addMessageToThread
   );
 
   const getThreadToBeUpdated = () => {
@@ -34,12 +34,12 @@ const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
   };
 
   const [sendMessage] = useMutation(send_reply_in_thread, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       console.log(data);
       setText('');
       getThreadToBeUpdated()(data.newMessage);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });
@@ -73,7 +73,7 @@ const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
       threadData[selectedThread].messages
     )
       return threadData[selectedThread].messages.map((msg, index) => {
-        return <Message key={index} msg={msg} />;
+        return <Message key={index} msg={msg} type={feedbackType} />;
       });
     else {
       return getNoMessageText();
