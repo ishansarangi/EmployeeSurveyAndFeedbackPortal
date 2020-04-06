@@ -16,7 +16,7 @@ import {useAuthUser} from '../auth/AuthUser';
 import {useMutation} from '@apollo/react-hooks';
 import {useStoreState, useStoreActions} from 'easy-peasy';
 
-const ListItemCustom = withStyles(theme => ({
+const ListItemCustom = withStyles((theme) => ({
   gutters: {
     paddingLeft: 0,
     paddingRight: 0,
@@ -26,19 +26,19 @@ const ListItemCustom = withStyles(theme => ({
   },
 }))(ListItem);
 
-const AutocompleteCustom = withStyles(theme => ({
+const AutocompleteCustom = withStyles((theme) => ({
   endAdornment: {
     display: 'none',
   },
 }))(Autocomplete);
 
-const CreateButton = withStyles(theme => ({
+const CreateButton = withStyles((theme) => ({
   root: {
     color: '#E87424',
   },
 }))(Button);
 
-const ManageTagButton = withStyles(theme => ({
+const ManageTagButton = withStyles((theme) => ({
   root: {
     color: '#E87424',
   },
@@ -63,23 +63,23 @@ const loadCustomStyles = () => {
 };
 
 const AddTagToThread = ({threadId}) => {
-  const tagList = useStoreState(state => state.tagList.tags);
+  const tagList = useStoreState((state) => state.tagList.tags);
 
   loadCustomStyles();
   const {loggedInUser} = useAuthUser();
   const [tags, setTags] = useState([]);
 
   const [addTagsToThreads] = useMutation(add_tags_to_thread, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       addTags(data.addTagToThread);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });
 
   const addTags = useStoreActions(
-    actions => actions.employeeThreadList.addTagsToThread
+    (actions) => actions.employeeThreadList.addTagsToThread
   );
 
   const [open, setOpen] = useState(false);
@@ -90,7 +90,7 @@ const AddTagToThread = ({threadId}) => {
     setOpen(false);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     addTagsToThreads({
       variables: {
         employeeId: loggedInUser.employeeId,
@@ -114,7 +114,7 @@ const AddTagToThread = ({threadId}) => {
     },
   });
 
-  const PaperComponentCustom = options => {
+  const PaperComponentCustom = (options) => {
     const classes = useStyles();
     const {containerProps, children} = options;
 
@@ -133,7 +133,7 @@ const AddTagToThread = ({threadId}) => {
   return (
     <Fragment>
       <TagContainer open={open} handleClose={handleClose} />
-      <List dense={false}>
+      <List style={{marginBottom: '-20px'}} dense={false}>
         <ListItemCustom>
           <ListItemText>
             <AutocompleteCustom
@@ -144,10 +144,10 @@ const AddTagToThread = ({threadId}) => {
               noOptionsText="No more tags left!"
               filterSelectedOptions
               PaperComponent={PaperComponentCustom}
-              getOptionLabel={option => option.name}
+              getOptionLabel={(option) => option.name}
               onChange={(event, value) => {
                 let arr = [];
-                value.map(tagEntry => {
+                value.map((tagEntry) => {
                   arr.push(tagEntry.tagId);
                 });
                 setTags(arr);
@@ -160,12 +160,12 @@ const AddTagToThread = ({threadId}) => {
                       backgroundColor: option.color,
                     }}
                     label={option.name}
-                    size="medium"
+                    size="small"
                     {...getTagProps({index})}
                   />
                 ))
               }
-              renderOption={option => (
+              renderOption={(option) => (
                 <Chip
                   variant="default"
                   style={{
@@ -174,10 +174,10 @@ const AddTagToThread = ({threadId}) => {
                     marginLeft: '12px',
                   }}
                   label={option.name}
-                  size="medium"
+                  size="small"
                 />
               )}
-              renderInput={params => (
+              renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="filled"

@@ -12,7 +12,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {makeStyles} from '@material-ui/core/styles';
 
 const TextBox = ({text, setText, handleSubmit}) => {
-  const CreateButton = withStyles(theme => ({
+  const CreateButton = withStyles((theme) => ({
     root: {
       color: '#ffffff',
       backgroundColor: '#E87424',
@@ -22,7 +22,7 @@ const TextBox = ({text, setText, handleSubmit}) => {
     },
   }))(Button);
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
       maxWidth: '90%',
@@ -48,7 +48,7 @@ const TextBox = ({text, setText, handleSubmit}) => {
                 padding: 5,
               },
             }}
-            onChange={event => {
+            onChange={(event) => {
               event.preventDefault();
               setText(event.target.value);
             }}
