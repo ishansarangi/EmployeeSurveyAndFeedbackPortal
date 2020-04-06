@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,12 +10,12 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {FormControl, TextField} from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
 import {orange} from '@material-ui/core/colors';
 import {create_new_thread} from '../apollo/Queries';
-import {useLazyQuery, useMutation} from '@apollo/react-hooks';
+import {useMutation} from '@apollo/react-hooks';
 import ManagerSelect from './ManagerSelect';
 import {useAuthUser} from '../auth/AuthUser';
+import {useStoreActions} from 'easy-peasy';
 
 const styles = theme => ({
   form: {
@@ -105,7 +105,7 @@ const ActionButton = withStyles(theme => ({
   },
 }))(Button);
 
-const NewThread = ({toggleFetch, managerList}) => {
+const NewThread = ({managerList}) => {
   const {loggedInUser} = useAuthUser();
   const [open, setOpen] = useState(false);
   const [manager, setManager] = useState('');
@@ -114,10 +114,14 @@ const NewThread = ({toggleFetch, managerList}) => {
   const [hasManagerError, setManagerError] = useState(false);
   const [hasSubjectError, setSubjectError] = useState(false);
   const [hasBodyError, setBodyError] = useState(false);
-  const [createThread, {data}] = useMutation(create_new_thread, {
+
+  const addNewThread = useStoreActions(
+    actions => actions.personalThreadList.addThread
+  );
+
+  const [createThread] = useMutation(create_new_thread, {
     onCompleted: data => {
-      console.log('createThread threadId: ' + data.newThread.threadId);
-      toggleFetch();
+      addNewThread(data.newThread);
     },
   });
 
@@ -129,9 +133,11 @@ const NewThread = ({toggleFetch, managerList}) => {
     }
     setManagerError(false);
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setSubjectError(false);
@@ -145,6 +151,7 @@ const NewThread = ({toggleFetch, managerList}) => {
     setBody('');
     setSubject('');
   };
+
   const handleSubmit = event => {
     if (subject === '') setSubjectError(true);
     else if (manager === '') setManagerError(true);
@@ -160,13 +167,6 @@ const NewThread = ({toggleFetch, managerList}) => {
       });
       handleClose();
     }
-  };
-
-  const getFullName = user => {
-    let fullName = '';
-    if (user.firstName) fullName = user.firstName;
-    if (user.lastName) fullName = fullName + ' ' + user.lastName;
-    return fullName;
   };
 
   return (

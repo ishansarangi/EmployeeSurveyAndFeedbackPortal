@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {FeedbackType} from './FeedbackType';
 import Feedback from './Feedback';
-
 import {useAuthUser} from '../auth/AuthUser';
+import {useLazyQuery} from '@apollo/react-hooks';
+import {useStoreActions} from 'easy-peasy';
+import {get_threads_for_manager} from '../apollo/Queries';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,29 +23,40 @@ function ListItemLink(props) {
 }
 
 const ManagerPane = ({managerList}) => {
-  const {loggedInUser} = useAuthUser();
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const {loggedInUser} = useAuthUser();
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const setEmployeeThreadList = useStoreActions(
+    actions => actions.employeeThreadList.setThreads
+  );
+  const [getEmployeeThreadData] = useLazyQuery(get_threads_for_manager, {
+    fetchPolicy: 'network-only',
+    onCompleted: data => {
+      setEmployeeThreadList(data.findAllReceivedThreads);
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  useEffect(() => {
+    if (loggedInUser.employeeId) {
+      getEmployeeThreadData({
+        variables: {
+          employeeId: loggedInUser.employeeId,
+        },
+      });
+    }
+  }, []);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
 
   const feedbackView = index => {
-    if (index === 0) {
-      return (
-        <Feedback
-          managerList={managerList}
-          feedbackType={FeedbackType.Employee}
-        />
-      );
-    }
-    return (
-      <Feedback
-        managerList={managerList}
-        feedbackType={FeedbackType.Personal}
-      />
-    );
+    const fbType = index === 0 ? FeedbackType.Employee : FeedbackType.Personal;
+    return <Feedback managerList={managerList} feedbackType={fbType} />;
   };
 
   return (

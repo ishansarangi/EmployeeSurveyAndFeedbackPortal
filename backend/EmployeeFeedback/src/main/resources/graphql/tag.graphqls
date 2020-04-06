@@ -5,3 +5,17 @@ type Tag {
 	totalMessages: Long
 	createdBy: Employee
 }
+
+input TagInput {
+	employeeId: Long
+	name: String
+	color: String
+}
+
+extend type Mutation {
+	newTag(input: TagInput) : Tag!
+}
+
+extend type Query {
+	findAllTags: [Tag]!
+}

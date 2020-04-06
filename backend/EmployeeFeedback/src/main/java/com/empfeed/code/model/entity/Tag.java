@@ -1,5 +1,7 @@
 package com.empfeed.code.model.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,19 +9,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table
-public @Data class Tag {
+@Builder(toBuilder = true)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter(value = AccessLevel.PUBLIC)
+@Getter
+public class Tag {
 	@Id
 	@Column(name = "tag_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer tagId;
+	private Long tagId;
 
 	private String name;
 
@@ -30,8 +42,7 @@ public @Data class Tag {
 	@OneToOne
 	private Employee createdBy;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "thread_id", nullable = false)
-	private MessageThread messageThread;
+	@ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+	private Set<MessageThread> messageThread;
 
 }

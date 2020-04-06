@@ -3,7 +3,9 @@ package com.empfeed.code;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +17,7 @@ import com.empfeed.code.exception.GraphQLErrorAdapter;
 import com.empfeed.code.model.entity.Employee;
 import com.empfeed.code.model.entity.Message;
 import com.empfeed.code.model.entity.MessageThread;
+import com.empfeed.code.model.entity.Tag;
 import com.empfeed.code.repository.EmployeeRepository;
 import com.empfeed.code.repository.MessageRepository;
 import com.empfeed.code.repository.MessageThreadRepository;
@@ -34,7 +37,7 @@ public class EmployeeFeedbackApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeFeedbackApplication.class, args);
 	}
-	
+
 	@Bean
 	public GraphQLErrorHandler errorHandler() {
 		return new GraphQLErrorHandler() {
@@ -69,10 +72,10 @@ public class EmployeeFeedbackApplication {
 			MessageRepository messageRepository, TagRepository tagRepository) {
 		return new Query(employeeRepository, messageThreadRepository, messageRepository, tagRepository);
 	}
-	
+
 	@Bean
 	public CommandLineRunner demo(EmployeeRepository employeeRepository,
-			MessageThreadRepository messageThreadRepository) {
+			MessageThreadRepository messageThreadRepository, TagRepository tagRepository) {
 		return (args) -> {
 
 			// Entering users for testing purposes.
@@ -83,7 +86,7 @@ public class EmployeeFeedbackApplication {
 			manager1.setUserType(UserType.MANAGER.value());
 			manager1.setManagerId(null);
 			employeeRepository.save(manager1);
-			
+
 			Employee manager2 = new Employee();
 			manager2.setFirstName("Kelly");
 			manager2.setLastName("Williams");
@@ -91,7 +94,7 @@ public class EmployeeFeedbackApplication {
 			manager2.setUserType(UserType.MANAGER.value());
 			manager2.setManagerId(manager1.getEmployeeId());
 			employeeRepository.save(manager2);
-			
+
 			Employee manager3 = new Employee();
 			manager3.setFirstName("Jessica");
 			manager3.setLastName("Franklin");
@@ -113,28 +116,30 @@ public class EmployeeFeedbackApplication {
 			thread.setSubject("test thread");
 			thread.setSentTo(employeeRepository.findOne(manager3.getEmployeeId()));
 			thread.setCreatedBy(employeeRepository.findOne(employee.getEmployeeId()));
-			thread.setMessages(new ArrayList<>());
+			thread.setMessages(new HashSet<>());
 			thread.setCreatedAt(new Date(System.currentTimeMillis() - 300 * 1000));
 			messageThreadRepository.save(thread);
 
 			Long threadId = thread.getThreadId();
 			MessageThread messageThread1 = messageThreadRepository.findOne(threadId);
-			messageThread1.getMessages().addAll(Arrays.asList(
-					Message.builder()
-					.text("Employee-I have concerns about XYZ...")
-					.createdAt(new Date(System.currentTimeMillis() - 300 * 1000))
-					.messageSender(MessageSender.EMPLOYEE.value())
-					.messageThread(thread).build()
-					,
-					Message.builder()
-					.text("Manager-I can resolve your issues!")
-					.createdAt(new Date())
-					.messageSender(MessageSender.MANAGER.value())
-					.messageThread(thread).build()));
-			
+			messageThread1.getMessages()
+					.addAll(Arrays.asList(
+							Message.builder().text("Employee-I have concerns about XYZ...")
+									.createdAt(new Date(System.currentTimeMillis() - 300 * 1000))
+									.messageSender(MessageSender.EMPLOYEE.value()).messageThread(thread).build(),
+							Message.builder().text("Manager-I can resolve your issues!").createdAt(new Date())
+									.messageSender(MessageSender.MANAGER.value()).messageThread(thread).build()));
+
 			messageThread1.setLatestText("Manager-I can resolve your issues!");
 			messageThread1.setModifiedAt(new Date());
+			Set<MessageThread> set = new HashSet<>();
+			messageThread1.getTags()
+					.addAll(new HashSet<Tag>(
+							Arrays.asList(Tag.builder().name("Important").color("#46B978").messageThread(set).build(),
+									Tag.builder().name("Follow Up").color("#FFC107").messageThread(set).build())));
+			System.out.println(messageThread1);
 			messageThreadRepository.save(messageThread1);
+
 		};
 	}
 

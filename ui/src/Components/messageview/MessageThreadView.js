@@ -1,4 +1,4 @@
-import React, {useContext, useState, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import Message from './Message';
 import TextBox from './TextBox';
 import './message.css';
@@ -9,22 +9,40 @@ import {useAuthUser} from '../auth/AuthUser';
 import Typography from '@material-ui/core/Typography';
 import {FeedbackType} from '../feedback/FeedbackType';
 import {UserType} from '../UserType';
+import AddTagToThread from './AddTagToThread';
+import {useStoreActions} from 'easy-peasy';
 
-const MessageThreadView = ({
-  selectedThread,
-  feedbackType,
-  threadData,
-  toggleFetch,
-}) => {
-  const [sendMessage] = useMutation(send_reply_in_thread, {
-    onCompleted: data => {
-      setText('');
-      toggleFetch();
-    },
-  });
-
+const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
   const {loggedInUser} = useAuthUser();
   const [text, setText] = useState('');
+
+  const sendMessageToEmployeeThread = useStoreActions(
+    actions => actions.employeeThreadList.addMessageToThread
+  );
+  const sendMessageToPersonalThread = useStoreActions(
+    actions => actions.personalThreadList.addMessageToThread
+  );
+
+  const getThreadToBeUpdated = () => {
+    if (
+      feedbackType === FeedbackType.Employee &&
+      loggedInUser.userType === UserType.Manager
+    ) {
+      return sendMessageToEmployeeThread;
+    }
+    return sendMessageToPersonalThread;
+  };
+
+  const [sendMessage] = useMutation(send_reply_in_thread, {
+    onCompleted: data => {
+      console.log(data);
+      setText('');
+      getThreadToBeUpdated()(data.newMessage);
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
 
   const getNoMessageText = () => {
     if (
@@ -85,6 +103,18 @@ const MessageThreadView = ({
       );
   };
 
+  const getTagPanelView = () => {
+    if (
+      threadData &&
+      threadData.length &&
+      threadData[selectedThread] &&
+      threadData[selectedThread].threadId &&
+      feedbackType === FeedbackType.Employee &&
+      loggedInUser.userType !== UserType.Employee
+    )
+      return <AddTagToThread threadId={threadData[selectedThread].threadId} />;
+  };
+
   const handleSubmit = () => {
     sendMessage({
       variables: {
@@ -109,7 +139,10 @@ const MessageThreadView = ({
           <div id="chat" className="chat">
             {createMessageView()}
           </div>
-          <div className="component-footer">{getTextBoxView()}</div>
+          <div className="component-footer">
+            {getTagPanelView()}
+            {getTextBoxView()}
+          </div>
         </Fragment>
       );
     }

@@ -61,7 +61,7 @@ const LoggedUser = ({user, handleLogout}) => {
                     {user.firstName ? user.firstName + ' ' + user.lastName : ''}
                   </Typography>
                   <Typography component="li" variant="subtitle1" align="center">
-                    Usertype: {user.userType == 1 ? 'Employee' : 'Manager'}
+                    Usertype: {user.userType === 1 ? 'Employee' : 'Manager'}
                   </Typography>
                   <Typography component="li" variant="subtitle1" align="center">
                     Email: {user.email}
