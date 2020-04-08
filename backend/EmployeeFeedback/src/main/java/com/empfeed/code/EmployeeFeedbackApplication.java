@@ -85,6 +85,7 @@ public class EmployeeFeedbackApplication {
 			manager1.setEmail("manager1@gmail.com");
 			manager1.setUserType(UserType.MANAGER.value());
 			manager1.setManagerId(null);
+			manager1.setCreatedAt(new Date());
 			employeeRepository.save(manager1);
 
 			Employee manager2 = new Employee();
@@ -93,6 +94,7 @@ public class EmployeeFeedbackApplication {
 			manager2.setEmail("manager2@gmail.com");
 			manager2.setUserType(UserType.MANAGER.value());
 			manager2.setManagerId(manager1.getEmployeeId());
+			manager2.setCreatedAt(new Date());
 			employeeRepository.save(manager2);
 
 			Employee manager3 = new Employee();
@@ -101,6 +103,7 @@ public class EmployeeFeedbackApplication {
 			manager3.setEmail("manager3@gmail.com");
 			manager3.setUserType(UserType.MANAGER.value());
 			manager3.setManagerId(manager2.getEmployeeId());
+			manager3.setCreatedAt(new Date());
 			employeeRepository.save(manager3);
 
 			Employee employee = new Employee();
@@ -109,6 +112,7 @@ public class EmployeeFeedbackApplication {
 			employee.setManagerId(manager3.getEmployeeId());
 			employee.setEmail("employee1@gmail.com");
 			employee.setUserType(UserType.EMPLOYEE.value());
+			employee.setCreatedAt(new Date());
 			employeeRepository.save(employee);
 
 			// Entering a chat thread and messages for testing purposes.

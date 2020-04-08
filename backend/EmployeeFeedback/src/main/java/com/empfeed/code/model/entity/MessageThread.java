@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import lombok.Data;
@@ -46,8 +48,10 @@ public @Data class MessageThread {
 
 	private String subject;
 
+	@Temporal(value=TemporalType.TIMESTAMP)
 	private Date createdAt;
 
+	@Temporal(value=TemporalType.TIMESTAMP)
 	private Date modifiedAt;
 
 	private String latestText;
