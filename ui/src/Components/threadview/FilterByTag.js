@@ -5,15 +5,16 @@ import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {useStoreState} from 'easy-peasy';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: '8px',
   },
 }));
 
-export default function FilterByTag() {
+const FilterByTag = ({setTagFilter}) => {
   const classes = useStyles();
-  const tagList = useStoreState((state) => state.tagList.tags);
+  const tagList = useStoreState(state => state.tagList.tags);
+
   return (
     <div className={classes.root}>
       <Autocomplete
@@ -23,9 +24,9 @@ export default function FilterByTag() {
         options={tagList}
         noOptionsText="No more tags available!"
         filterSelectedOptions
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={option => option.name}
         onChange={(event, value) => {
-          console.log(value);
+          setTagFilter(value);
         }}
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
@@ -40,7 +41,7 @@ export default function FilterByTag() {
             />
           ))
         }
-        renderOption={(option) => (
+        renderOption={option => (
           <Chip
             variant="default"
             style={{
@@ -52,7 +53,7 @@ export default function FilterByTag() {
             size="small"
           />
         )}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField
             {...params}
             variant="filled"
@@ -63,4 +64,6 @@ export default function FilterByTag() {
       />
     </div>
   );
-}
+};
+
+export default FilterByTag;

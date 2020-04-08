@@ -1,4 +1,4 @@
-import {action, thunk} from 'easy-peasy';
+import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
 const tagModel = {
@@ -24,7 +24,6 @@ const employeeThreadModel = {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
-      console.log(index);
       if (item.threadId === thread.threadId) {
         id = index;
       }
@@ -45,7 +44,6 @@ const employeeThreadModel = {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
-      console.log(index);
       if (item.threadId === thread.threadId) {
         id = index;
       }

@@ -19,7 +19,7 @@ const Thread = ({
 }) => {
   const {loggedInUser} = useAuthUser();
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(theme => ({
     container: {
       height: '85px',
       padding: 0,

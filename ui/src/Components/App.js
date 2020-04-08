@@ -8,6 +8,7 @@ import Login from './auth/Login';
 import {ProtectedRoute} from './auth/ProtectedRoute';
 import {AuthUserProvider} from './auth/AuthUser';
 import FeedbackContainer from './feedback/FeedbackContainer';
+import {CssBaseline, Container} from '@material-ui/core';
 
 const NoMatch = () => {
   return (
@@ -22,7 +23,8 @@ const App = props => {
   return (
     <AuthUserProvider>
       <ApolloProvider client={apolloclient}>
-        <div className="container">
+        <Container maxWidth="false" style={{padding: 0, margin: 0}}>
+          <CssBaseline />
           <NavBar />
           <Switch>
             <Route exact path="/" component={() => <Login />} />
@@ -34,7 +36,7 @@ const App = props => {
             />
             <Route path="*" component={NoMatch} />
           </Switch>
-        </div>
+        </Container>
       </ApolloProvider>
     </AuthUserProvider>
   );

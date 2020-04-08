@@ -1,5 +1,5 @@
 import React, {useState, Fragment} from 'react';
-import Message from './Message';
+import MessageItem from './MessageItem';
 import TextBox from './TextBox';
 import './message.css';
 import ChatHeader from './ChatHeader';
@@ -12,15 +12,15 @@ import {UserType} from '../UserType';
 import AddTagToThread from './AddTagToThread';
 import {useStoreActions} from 'easy-peasy';
 
-const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
+const MessageThreadView = ({feedbackType, threadData}) => {
   const {loggedInUser} = useAuthUser();
   const [text, setText] = useState('');
 
   const sendMessageToEmployeeThread = useStoreActions(
-    (actions) => actions.employeeThreadList.addMessageToThread
+    actions => actions.employeeThreadList.addMessageToThread
   );
   const sendMessageToPersonalThread = useStoreActions(
-    (actions) => actions.personalThreadList.addMessageToThread
+    actions => actions.personalThreadList.addMessageToThread
   );
 
   const getThreadToBeUpdated = () => {
@@ -34,12 +34,11 @@ const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
   };
 
   const [sendMessage] = useMutation(send_reply_in_thread, {
-    onCompleted: (data) => {
-      console.log(data);
+    onCompleted: data => {
       setText('');
       getThreadToBeUpdated()(data.newMessage);
     },
-    onError: (error) => {
+    onError: error => {
       console.log(error);
     },
   });
@@ -66,38 +65,30 @@ const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
   };
 
   const createMessageView = () => {
-    if (
-      threadData &&
-      threadData.length &&
-      threadData[selectedThread] &&
-      threadData[selectedThread].messages
-    )
-      return threadData[selectedThread].messages.map((msg, index) => {
-        return <Message key={index} msg={msg} type={feedbackType} />;
+    //return <Message key={index} msg={msg} type={feedbackType} />;
+    if (threadData.messages)
+      return threadData.messages.map((msg, index) => {
+        return (
+          <MessageItem
+            key={index}
+            createdBy={threadData.createdBy}
+            sentTo={threadData.sentTo}
+            msg={msg}
+            feedbackType={feedbackType}
+          />
+        );
       });
-    else {
-      return getNoMessageText();
-    }
+    else return getNoMessageText();
   };
 
   const createHeaderView = () => {
-    if (threadData && threadData.length) {
-      return (
-        <ChatHeader
-          threadData={threadData[selectedThread]}
-          feedbackType={feedbackType}
-        />
-      );
+    if (threadData) {
+      return <ChatHeader threadData={threadData} feedbackType={feedbackType} />;
     }
   };
 
   const getTextBoxView = () => {
-    if (
-      threadData &&
-      threadData.length &&
-      threadData[selectedThread] &&
-      threadData[selectedThread].messages
-    )
+    if (threadData.messages)
       return (
         <TextBox text={text} setText={setText} handleSubmit={handleSubmit} />
       );
@@ -105,20 +96,17 @@ const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
 
   const getTagPanelView = () => {
     if (
-      threadData &&
-      threadData.length &&
-      threadData[selectedThread] &&
-      threadData[selectedThread].threadId &&
+      threadData.threadId &&
       feedbackType === FeedbackType.Employee &&
       loggedInUser.userType !== UserType.Employee
     )
-      return <AddTagToThread threadId={threadData[selectedThread].threadId} />;
+      return <AddTagToThread threadId={threadData.threadId} />;
   };
 
   const handleSubmit = () => {
     sendMessage({
       variables: {
-        threadId: threadData[selectedThread].threadId,
+        threadId: threadData.threadId,
         from_employeeId: loggedInUser.employeeId,
         text: text,
       },
@@ -126,7 +114,7 @@ const MessageThreadView = ({selectedThread, feedbackType, threadData}) => {
   };
 
   const getMessageView = () => {
-    if (selectedThread === -1 && threadData && threadData.length) {
+    if (!threadData) {
       return (
         <div id="chat" className="chat">
           <Typography align="center">Click a message to view.</Typography>
