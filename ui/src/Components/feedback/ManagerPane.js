@@ -16,6 +16,10 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  main: {
+    height: '90%',
+    display: 'flex',
+  },
 }));
 
 function ListItemLink(props) {
@@ -60,7 +64,7 @@ const ManagerPane = ({managerList}) => {
   };
 
   return (
-    <div className="main">
+    <div className={classes.main}>
       <nav className="navigation-bar">
         <div className={classes.root}>
           <List component="nav" aria-label="secondary mailbox folders">

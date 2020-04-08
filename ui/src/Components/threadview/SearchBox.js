@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SearchBox = () => {
+const SearchBox = ({setSearchText}) => {
   const classes = useStyles();
 
   return (
@@ -26,6 +26,11 @@ const SearchBox = () => {
         label="Search"
         type="search"
         variant="filled"
+        onKeyPress={event => {
+          if (event.key === 'Enter') {
+            setSearchText(event.target.value);
+          }
+        }}
       />
     </FormControl>
   );

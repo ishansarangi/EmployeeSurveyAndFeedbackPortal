@@ -148,6 +148,8 @@ export const create_new_tag = gql`
   mutation newTag($employeeId: Long!, $name: String, $color: String) {
     newTag(input: {employeeId: $employeeId, name: $name, color: $color}) {
       tagId
+      name
+      color
     }
   }
 `;
