@@ -1,4 +1,4 @@
-import {action, thunk} from 'easy-peasy';
+import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
 const tagModel = {
@@ -24,7 +24,6 @@ const employeeThreadModel = {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
-      console.log(index);
       if (item.threadId === thread.threadId) {
         id = index;
       }
@@ -45,7 +44,6 @@ const employeeThreadModel = {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
-      console.log(index);
       if (item.threadId === thread.threadId) {
         id = index;
       }
@@ -60,6 +58,31 @@ const employeeThreadModel = {
       },
     });
     actions.setThreads(new_state.threads);
+  }),
+  filterThreads: computed(state => (tags, searchText) => {
+    let filteredThreads = state.threads;
+    if (tags && tags.length) {
+      filteredThreads = state.threads.filter(thread => {
+        const checkIfExists = (tagId, tags) =>
+          tags.some(t => t.tagId === tagId);
+
+        if (
+          tags &&
+          thread.tags &&
+          tags.some(tag => checkIfExists(tag.tagId, thread.tags))
+        ) {
+          return thread;
+        }
+      });
+    }
+
+    if (searchText) {
+      return filteredThreads.filter(thread =>
+        thread.messages.some(message => message.text.match(searchText))
+      );
+    }
+
+    return filteredThreads;
   }),
 };
 
@@ -90,6 +113,18 @@ const personalThreadModel = {
       },
     });
     actions.setThreads(new_state.threads);
+  }),
+
+  filterThreads: computed(state => searchText => {
+    let filteredThreads = state.threads;
+
+    if (searchText) {
+      return filteredThreads.filter(thread =>
+        thread.messages.some(message => message.text.match(searchText))
+      );
+    }
+
+    return filteredThreads;
   }),
 };
 

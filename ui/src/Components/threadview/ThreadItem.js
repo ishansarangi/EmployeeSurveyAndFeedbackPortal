@@ -1,142 +1,138 @@
-import React, {Fragment} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import React from 'react';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Typography from '@material-ui/core/Typography';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
+import moment from 'moment';
+import Chip from '@material-ui/core/Chip';
+
+const useStyles = makeStyles(theme => ({
+  inline: {
+    display: 'inline',
+  },
+  readIcon: {
+    color: '#E87424',
+  },
+  chipDiv: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& > *': {
+      margin: theme.spacing(0.5),
+    },
+    marginTop: '5px',
+  },
+}));
+
+const ListItemLink = props => {
+  return <ListItem button component="a" {...props} />;
+};
 
 const ThreadItem = ({
-  threadDetails,
-  setSelectedThread,
+  key,
+  thread,
   threadKey,
-  selectedIndex,
+  selectedThread,
+  setSelectedThread,
 }) => {
-  const useStyles = makeStyles((theme) => ({
-    topSecionWithBadge: {
-      display: 'flex',
-      flexDirection: 'row',
-      marginLeft: '30px',
-      marginTop: '-27px',
-    },
-    topSecionWithoutBadge: {
-      display: 'flex',
-      flexDirection: 'row',
-      marginLeft: '30px',
-      paddingTop: '16px',
-    },
-    text: {
-      fontSize: '14px',
-      color: 'black',
-    },
-    date: {
-      color: 'grey',
-      fontSize: '12px',
-      float: 'left',
-      marginTop: '20px',
-    },
-    readIcon: {
-      marginTop: '16px',
-      color: '#E87424',
-    },
-    preview: {
-      fontSize: '14px',
-      marginLeft: '30px',
-      textOverflow: 'ellipsis',
-      color: 'black',
-      maxLines: 3,
-    },
-    griditemlink: {
-      width: '100%',
-      height: '100% !important',
-      padding: '0',
-      marginTop: '0',
-      background: selectedIndex === threadKey ? 'red' : 'white',
-    },
-    GridListTileBar: {
-      color: selectedIndex === threadKey ? 'red' : 'white',
-    },
-    root: {
-      background: selectedIndex === threadKey ? 'red' : 'white',
-    },
-  }));
-
-  const classes = useStyles();
-
-  const handleListItemClick = (key) => {
-    setSelectedThread(key);
-  };
-
-  const GridItemLink = (props) => {
-    return <GridListTile component="a" {...props} />;
-  };
-
-  const getFullName = (employee) => {
+  const getFullName = employee => {
     if (employee) return employee.firstName + ' ' + employee.lastName;
     else return 'Anonymous';
   };
 
-  const getHeader = () => {
-    if (!threadDetails.read) {
-      return (
-        <div>
-          <Fragment>
-            <FiberManualRecordSharpIcon
-              fontSize="inherit"
-              style={{fontSize: '15px'}}
-              className={classes.readIcon}
-            />
-          </Fragment>
-          <div className={classes.topSecionWithBadge}>
-            <span className={classes.text}>{threadDetails.subject}</span>
-          </div>
-          <div className={classes.topSecionWithBadge}>
-            <span className={classes.date}> {threadDetails.latestDate}</span>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <div className={classes.topSecionWithoutBadge}>
-            <span className={classes.text}>{threadDetails.subject}</span>
-          </div>
-          <div className={classes.topSecionWithoutBadge}>
-            <span className={classes.date}> {threadDetails.latestDate}</span>
-          </div>
-        </div>
-      );
+  const getDate = dateInput => {
+    if (dateInput) {
+      return moment(dateInput).format('YYYY-MM-DD h:mm A');
     }
   };
 
+  const ListItemAvatarCustom = withStyles(theme => ({
+    root: {
+      minWidth: '25px',
+    },
+  }))(ListItemAvatar);
+
+  const getTags = () => {
+    if (thread.tags) {
+      return thread.tags.map((tag, index) => {
+        return (
+          <li key={index} style={{listStyle: 'none'}}>
+            <Chip
+              variant="default"
+              style={{
+                backgroundColor: tag.color,
+              }}
+              label={tag.name}
+              size="small"
+            />
+          </li>
+        );
+      });
+    }
+  };
+  const classes = useStyles();
+
   return (
-    <GridItemLink
-      onClick={() => {
-        handleListItemClick(threadKey);
-      }}
-      key={threadKey}
-      className={classes.griditemlink}
-      selected={selectedIndex === threadKey}
-      style={{background: 'red'}}
-    >
-      <GridListTileBar
-        style={{background: 'red'}}
-        title={getHeader()}
-        subtitle={
-          <Fragment>
-            <Typography
-              className={classes.preview}
-              style={{wordWrap: 'break-word'}}
-              maxLines={3}
-            >
-              {threadDetails.latestText}
-            </Typography>
-          </Fragment>
-        }
-      />
-    </GridItemLink>
+    <>
+      <ListItemLink
+        alignItems="flex-start"
+        onClick={() => {
+          setSelectedThread(threadKey);
+        }}
+        key={threadKey}
+        selected={selectedThread === threadKey}
+      >
+        <ListItemAvatarCustom>
+          <FiberManualRecordSharpIcon
+            fontSize="inherit"
+            style={{fontSize: '20px'}}
+            className={classes.readIcon}
+          />
+        </ListItemAvatarCustom>
+        <ListItemText
+          primary={
+            <>
+              <Typography
+                component="span"
+                variant="body2"
+                className={classes.inline}
+                color="textSecondary"
+              >
+                {getFullName(thread.createdBy)}
+              </Typography>
+
+              <Typography
+                component="span"
+                variant="body2"
+                className={classes.inline}
+                color="textSecondary"
+                style={{float: 'right'}}
+              >
+                {getDate(thread.latestDate)}
+              </Typography>
+            </>
+          }
+          secondary={
+            <React.Fragment>
+              <Typography
+                component="span"
+                variant="subtitle1"
+                className={classes.inline}
+                color="textPrimary"
+              >
+                {thread.latestText}
+              </Typography>
+
+              <ul className={classes.chipDiv}>{getTags()}</ul>
+            </React.Fragment>
+          }
+        />
+      </ListItemLink>
+      <Divider variant="inset" component="li" style={{marginLeft: 0}} />
+    </>
   );
 };
-
-ThreadItem.propTypes = {};
 
 export default ThreadItem;

@@ -16,7 +16,7 @@ import {useAuthUser} from '../auth/AuthUser';
 import {useMutation} from '@apollo/react-hooks';
 import {useStoreState, useStoreActions} from 'easy-peasy';
 
-const ListItemCustom = withStyles((theme) => ({
+const ListItemCustom = withStyles(theme => ({
   gutters: {
     paddingLeft: 0,
     paddingRight: 0,
@@ -26,19 +26,19 @@ const ListItemCustom = withStyles((theme) => ({
   },
 }))(ListItem);
 
-const AutocompleteCustom = withStyles((theme) => ({
+const AutocompleteCustom = withStyles(theme => ({
   endAdornment: {
     display: 'none',
   },
 }))(Autocomplete);
 
-const CreateButton = withStyles((theme) => ({
+const CreateButton = withStyles(theme => ({
   root: {
     color: '#E87424',
   },
 }))(Button);
 
-const ManageTagButton = withStyles((theme) => ({
+const ManageTagButton = withStyles(theme => ({
   root: {
     color: '#E87424',
   },
@@ -58,28 +58,29 @@ const MuiFilledInputCustom = makeStyles(
   {name: 'MuiFilledInput'}
 );
 
-const loadCustomStyles = () => {
+function loadCustomStyles() {
   MuiFilledInputCustom();
-};
+}
 
 const AddTagToThread = ({threadId}) => {
-  const tagList = useStoreState((state) => state.tagList.tags);
+  const tagList = useStoreState(state => state.tagList.tags);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   loadCustomStyles();
   const {loggedInUser} = useAuthUser();
   const [tags, setTags] = useState([]);
 
   const [addTagsToThreads] = useMutation(add_tags_to_thread, {
-    onCompleted: (data) => {
+    onCompleted: data => {
       addTags(data.addTagToThread);
     },
-    onError: (error) => {
+    onError: error => {
       console.log(error);
     },
   });
 
   const addTags = useStoreActions(
-    (actions) => actions.employeeThreadList.addTagsToThread
+    actions => actions.employeeThreadList.addTagsToThread
   );
 
   const [open, setOpen] = useState(false);
@@ -90,7 +91,7 @@ const AddTagToThread = ({threadId}) => {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     addTagsToThreads({
       variables: {
         employeeId: loggedInUser.employeeId,
@@ -98,6 +99,7 @@ const AddTagToThread = ({threadId}) => {
         threadId: threadId,
       },
     });
+    setSelectedTags([]);
     handleClose();
   };
 
@@ -114,7 +116,7 @@ const AddTagToThread = ({threadId}) => {
     },
   });
 
-  const PaperComponentCustom = (options) => {
+  const PaperComponentCustom = options => {
     const classes = useStyles();
     const {containerProps, children} = options;
 
@@ -138,19 +140,21 @@ const AddTagToThread = ({threadId}) => {
           <ListItemText>
             <AutocompleteCustom
               multiple
+              value={selectedTags}
               id="size-small-filled-multi"
               size="medium"
               options={tagList}
               noOptionsText="No more tags left!"
               filterSelectedOptions
               PaperComponent={PaperComponentCustom}
-              getOptionLabel={(option) => option.name}
+              getOptionLabel={option => option.name}
               onChange={(event, value) => {
                 let arr = [];
-                value.map((tagEntry) => {
+                value.map(tagEntry => {
                   arr.push(tagEntry.tagId);
                 });
                 setTags(arr);
+                setSelectedTags(value);
               }}
               renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
@@ -165,7 +169,7 @@ const AddTagToThread = ({threadId}) => {
                   />
                 ))
               }
-              renderOption={(option) => (
+              renderOption={option => (
                 <Chip
                   variant="default"
                   style={{
@@ -177,7 +181,7 @@ const AddTagToThread = ({threadId}) => {
                   size="small"
                 />
               )}
-              renderInput={(params) => (
+              renderInput={params => (
                 <TextField
                   {...params}
                   variant="filled"

@@ -30,7 +30,7 @@ const ColorPicker = ({setColor, color}) => {
         aria-describedby={id}
         onClick={handleClick}
         variant="contained"
-      />
+      ></Button>
       <Popover
         id={id}
         open={open}

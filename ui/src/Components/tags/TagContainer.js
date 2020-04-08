@@ -39,7 +39,6 @@ const ActionButton = withStyles(theme => ({
 
 const TagContainer = ({handleClose, open}) => {
   const {loggedInUser} = useAuthUser();
-
   const [text, setText] = useState('');
   const [color, setColor] = useState('#FF0000');
   const addTag = useStoreActions(actions => actions.tagList.add);
@@ -51,12 +50,12 @@ const TagContainer = ({handleClose, open}) => {
       addTag(data.newTag);
     },
   });
-  const handleCreateTag = (color, name) => {
+  const handleCreateTag = () => {
     if (loggedInUser && loggedInUser.employeeId) {
       createTag({
         variables: {
           employeeId: loggedInUser.employeeId,
-          name: name,
+          name: text,
           color: color,
         },
       });

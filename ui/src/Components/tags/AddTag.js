@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {TextField} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -10,10 +10,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {makeStyles} from '@material-ui/core/styles';
 import ColorPicker from './ColorPicker';
 
-const AddTag = ({handleCreateTag}) => {
-  const [text, setText] = useState('');
-  const [color, setColor] = useState('#000000');
-
+const AddTag = ({handleCreateTag, text, setText, color, setColor}) => {
   const CreateButton = withStyles(theme => ({
     root: {
       color: '#ffffff',
@@ -75,7 +72,7 @@ const AddTag = ({handleCreateTag}) => {
           <CreateButton
             variant="contained"
             disabled={!text}
-            onClick={() => handleCreateTag(color, text)}
+            onClick={() => handleCreateTag()}
           >
             Create
           </CreateButton>
