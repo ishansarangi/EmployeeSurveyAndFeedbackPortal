@@ -95,13 +95,13 @@ export const findAllSentThreads = [
     messages: [
       {
         messageId: '1',
-        text: 'Employee-I have concerns about XYZ...',
+        text: 'I have concerns about XYZ...',
         createdAt: '2020-03-25 01:47:38.869',
         messageSender: 1,
       },
       {
         messageId: '2',
-        text: 'Manager-I can resolve your issues!',
+        text: 'I can resolve your issues!',
         createdAt: '2020-03-25 01:52:38.87',
         messageSender: 2,
       },

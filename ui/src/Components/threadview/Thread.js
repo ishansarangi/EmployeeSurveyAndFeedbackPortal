@@ -9,12 +9,17 @@ import {FeedbackType} from '../feedback/FeedbackType';
 import FilterByTag from './FilterByTag';
 import {useAuthUser} from '../auth/AuthUser';
 import {UserType} from '../UserType';
-import GridListTile from '@material-ui/core/GridListTile';
 
-const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
+const Thread = ({
+  setSelectedThread,
+  feedbackType,
+  threadData,
+  managerList,
+  selectedThread,
+}) => {
   const {loggedInUser} = useAuthUser();
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme) => ({
     container: {
       height: '85px',
       padding: 0,
@@ -22,7 +27,7 @@ const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
     },
     gridList: {
       height: '85px',
-      padding: 0,
+      paddingTop: 0,
       overflow: 'initial',
       background: 'white',
       margin: '0px',
@@ -35,11 +40,6 @@ const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
       padding: '16px',
       marginLeft: 'auto',
       marginRight: 'auto',
-    },
-    scrollableView: {
-      maxHeight: '800px',
-      width: 'inherit',
-      overflow: 'auto',
     },
   }));
 
@@ -57,6 +57,7 @@ const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
         <ThreadItem
           key={index}
           setSelectedThread={setSelectedThread}
+          selectedIndex={selectedThread}
           threadKey={index}
           threadDetails={{
             read: thread.read,
@@ -84,13 +85,11 @@ const Thread = ({setSelectedThread, feedbackType, threadData, managerList}) => {
   const classes = useStyles();
   return (
     <Fragment>
-      <GridList cellHeight={400} className={classes.gridList}>
+      <div style={{borderBottom: '100px', borderBottomColor: '#dcdcdc'}}>
         <SearchBox />
         {getFilterByTagView()}
-        {wrapGridView()}
-      </GridList>
-
-      {/* {threadData.length ? <Divider /> : <Fragment />} */}
+      </div>
+      <GridList className={classes.gridList}>{wrapGridView()}</GridList>
       <div className={classes.newThread}>
         {feedbackType === FeedbackType.Personal && (
           <NewThread managerList={managerList} />
