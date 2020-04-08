@@ -65,7 +65,6 @@ const MessageThreadView = ({feedbackType, threadData}) => {
   };
 
   const createMessageView = () => {
-    //return <Message key={index} msg={msg} type={feedbackType} />;
     if (threadData.messages)
       return threadData.messages.map((msg, index) => {
         return (
