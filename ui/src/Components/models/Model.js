@@ -59,6 +59,22 @@ const employeeThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
+  filterThreads: computed(state => (tags, searchText) => {
+    let filteredThreads = state.threads;
+    if (tags && tags.length) {
+      filteredThreads = state.threads.filter(thread => {
+        const containsAllTags = (selectedTags, threadTags) => {
+          return selectedTags.every(tag =>
+            threadTags.some(threadTag => threadTag.tagId === tag.tagId)
+          );
+        };
+        if (tags && thread.tags && containsAllTags(tags, thread.tags)) {
+          return thread;
+        }
+      });
+    }
+    return filteredThreads;
+  }),
 };
 
 const personalThreadModel = {
