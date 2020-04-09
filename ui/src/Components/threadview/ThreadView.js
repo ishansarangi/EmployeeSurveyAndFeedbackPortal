@@ -23,18 +23,25 @@ const ThreadView = ({
 }) => {
   const {loggedInUser} = useAuthUser();
   const [tagFilter, setTagFilter] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   const some1 = useStoreState(state =>
-    state.employeeThreadList.filterThreads(tagFilter, '')
+    state.employeeThreadList.filterThreads(tagFilter, searchText)
+  );
+
+  const some2 = useStoreState(state =>
+    state.personalThreadList.filterThreads(searchText)
   );
 
   if (
     feedbackType === FeedbackType.Employee &&
     loggedInUser.userType === UserType.Manager
   ) {
-    if (tagFilter && tagFilter.length) {
+    if ((tagFilter && tagFilter.length) || searchText) {
       threadData = some1;
     }
+  } else {
+    threadData = some2;
   }
 
   const useStyles = makeStyles(theme => ({
@@ -84,7 +91,6 @@ const ThreadView = ({
     return threadData.map((thread, index) => {
       return (
         <ThreadItem
-          key={index}
           selectedThread={selectedThread}
           setSelectedThread={setSelectedThread}
           threadKey={thread.threadId}
@@ -135,7 +141,7 @@ const ThreadView = ({
             height: 'fit-content',
           }}
         >
-          <SearchBox />
+          <SearchBox setSearchText={setSearchText} />
           {getFilterByTagView()}
         </Grid>
         <Grid item xs={12}>
