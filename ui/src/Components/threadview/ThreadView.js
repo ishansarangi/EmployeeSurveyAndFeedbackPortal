@@ -22,6 +22,21 @@ const ThreadView = ({
   managerList,
 }) => {
   const {loggedInUser} = useAuthUser();
+  const [tagFilter, setTagFilter] = useState([]);
+
+  const some1 = useStoreState(state =>
+    state.employeeThreadList.filterThreads(tagFilter, '')
+  );
+
+  if (
+    feedbackType === FeedbackType.Employee &&
+    loggedInUser.userType === UserType.Manager
+  ) {
+    if (tagFilter && tagFilter.length) {
+      threadData = some1;
+    }
+  }
+
   const useStyles = makeStyles(theme => ({
     root: {
       width: '100%',
@@ -93,7 +108,7 @@ const ThreadView = ({
       loggedInUser.userType !== UserType.Employee &&
       feedbackType === FeedbackType.Employee
     )
-      return <FilterByTag />;
+      return <FilterByTag setTagFilter={setTagFilter} />;
   };
 
   const PaperCustom = withStyles(theme => ({
