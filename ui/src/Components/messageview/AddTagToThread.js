@@ -123,7 +123,7 @@ const AddTagToThread = ({threadId}) => {
     return (
       <Paper className={classes.root} {...containerProps} square>
         <div className={classes.tagList}>{children}</div>
-        <div style={{bottom: '5%', position: 'absolute', marginLeft: '15%'}}>
+        <div style={{bottom: '5%', position: 'absolute', marginLeft: '10%'}}>
           <ManageTagButton onMouseDown={handleClickOpen} fullWidth>
             MANAGE TAGS
           </ManageTagButton>
