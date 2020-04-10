@@ -28,11 +28,11 @@ const ThreadView = ({
 
   const debouncedSearchTerm = useDebounce(searchText, 500);
 
-  const some1 = useStoreState((state) =>
+  const some1 = useStoreState(state =>
     state.employeeThreadList.filterThreads(tagFilter, debouncedSearchTerm)
   );
 
-  const some2 = useStoreState((state) =>
+  const some2 = useStoreState(state =>
     state.personalThreadList.filterThreads(debouncedSearchTerm)
   );
 
@@ -47,7 +47,7 @@ const ThreadView = ({
     threadData = some2;
   }
 
-  const useStyles = makeStyles((theme) => ({
+  const useStyles = makeStyles(theme => ({
     root: {
       width: '100%',
       backgroundColor: theme.palette.background.paper,
@@ -120,7 +120,7 @@ const ThreadView = ({
       return <FilterByTag setTagFilter={setTagFilter} />;
   };
 
-  const PaperCustom = withStyles((theme) => ({
+  const PaperCustom = withStyles(theme => ({
     outlined: {
       border: 0,
     },
