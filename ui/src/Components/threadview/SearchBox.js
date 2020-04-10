@@ -3,7 +3,7 @@ import {TextField} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {FormControl} from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     padding: '8px',
@@ -26,11 +26,7 @@ const SearchBox = ({setSearchText}) => {
         label="Search"
         type="search"
         variant="filled"
-        onKeyPress={event => {
-          if (event.key === 'Enter') {
-            setSearchText(event.target.value);
-          }
-        }}
+        onChange={(e) => setSearchText(e.target.value)}
       />
     </FormControl>
   );
