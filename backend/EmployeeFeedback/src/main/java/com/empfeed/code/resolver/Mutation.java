@@ -1,15 +1,21 @@
+
 package com.empfeed.code.resolver;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.empfeed.code.model.entity.Employee;
 import com.empfeed.code.model.entity.Message;
 import com.empfeed.code.model.entity.Message.MessageBuilder;
 import com.empfeed.code.model.entity.MessageThread;
+import com.empfeed.code.model.entity.Tag;
 import com.empfeed.code.model.input.MessageInput;
+import com.empfeed.code.model.input.TagInput;
 import com.empfeed.code.model.input.ThreadInput;
+import com.empfeed.code.model.input.ThreadTagInput;
 import com.empfeed.code.repository.EmployeeRepository;
 import com.empfeed.code.repository.MessageRepository;
 import com.empfeed.code.repository.MessageThreadRepository;
@@ -18,6 +24,12 @@ import com.empfeed.code.util.Constant.MessageSender;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * The class has all the graphQL mutations.
+ * 
+ * @version 1.0
+ * @author Sabyasachi Mohanty,Kumar Prabhu Kalyan,Kirti Jha
+ */
 @AllArgsConstructor
 public class Mutation implements GraphQLMutationResolver {
 
@@ -38,11 +50,18 @@ public class Mutation implements GraphQLMutationResolver {
 		return employee;
 	}
 
+	/**
+	 * This method creates a new message in the database mapped to a thread.
+	 * 
+	 * @param messageInput
+	 * @return MessageThread
+	 */
 	public MessageThread newMessage(MessageInput messageInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(messageInput.getThreadId());
 
 		if (messageThread == null) {
-			//throw new MessageThreadNotFound("Thread not found", messageInput.getThreadId());
+			// throw new MessageThreadNotFound("Thread not found",
+			// messageInput.getThreadId());
 		}
 
 		messageThread.setModifiedAt(new Date());
@@ -60,6 +79,12 @@ public class Mutation implements GraphQLMutationResolver {
 		return messageThread;
 	}
 
+	/**
+	 * This method creates a new thread in the database.
+	 * 
+	 * @param threadInput
+	 * @return MessageThread
+	 */
 	public MessageThread newThread(ThreadInput threadInput) {
 		MessageThread messageThread = new MessageThread();
 		messageThread.setSentTo(employeeRepository.findOne(threadInput.getSentTo()));
@@ -68,7 +93,7 @@ public class Mutation implements GraphQLMutationResolver {
 		messageThread.setModifiedAt(new Date());
 		messageThread.setLatestText(threadInput.getText());
 		messageThread.setCreatedBy(employeeRepository.findOne(threadInput.getEmployeeId()));
-		messageThread.setMessages(new ArrayList<>());
+		messageThread.setMessages(new HashSet<>());
 		messageThread.setRead(Boolean.FALSE);
 		messageThreadRepository.save(messageThread);
 		Long threadId = messageThread.getThreadId();
@@ -78,13 +103,80 @@ public class Mutation implements GraphQLMutationResolver {
 
 		messageThread1.getMessages().add(message);
 		messageThreadRepository.save(messageThread1);
+		System.out.println(messageThread1);
 		return messageThread1;
 	}
 
+	/**
+	 * This method saves the state of the message, changes it to "read".
+	 * 
+	 * @param threadId
+	 * @return MessageThread
+	 */
 	public MessageThread readMessageThread(Long threadId) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadId);
 		messageThread.setRead(Boolean.TRUE);
 		messageThreadRepository.save(messageThread);
 		return messageThread;
 	}
+
+	/**
+	 * This method creates a new tag in the database.
+	 * 
+	 * @param tagInput
+	 * @return Tag
+	 */
+	public Tag newTag(TagInput tagInput) {
+		Employee createdBy = employeeRepository.findOne(tagInput.getEmployeeId());
+		Tag tag = Tag.builder().color(tagInput.getColor()).createdBy(createdBy).name(tagInput.getName()).build();
+		tagRepository.save(tag);
+		return tag;
+	}
+
+	/**
+	 * This method removes tag/tags from a given thread.
+	 * 
+	 * @param threadTagInput
+	 * @return
+	 */
+	public MessageThread removeTagFromThread(ThreadTagInput threadTagInput) {
+		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
+		if (messageThread != null) {
+
+			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
+			Set<Tag> set = new HashSet<>();
+			for (Tag t : list) {
+				set.add(t);
+			}
+
+			messageThread.setTags(set);
+			;
+			messageThreadRepository.save(messageThread);
+		}
+
+		return messageThread;
+	}
+
+	/**
+	 * This method adds tag/tags to a given thread.
+	 * 
+	 * @param threadTagInput
+	 * @return
+	 */
+	public MessageThread addTagToThread(ThreadTagInput threadTagInput) {
+
+		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
+		if (messageThread != null) {
+			Set<Tag> set = new HashSet<>();
+			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
+			for (Tag t : list) {
+				set.add(t);
+			}
+			messageThread.getTags().addAll(set);
+			messageThreadRepository.save(messageThread);
+		}
+
+		return messageThread;
+	}
+
 }

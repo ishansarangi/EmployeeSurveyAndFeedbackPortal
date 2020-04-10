@@ -11,8 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {makeStyles} from '@material-ui/core/styles';
 
-const TextBox = ({setText, handleSubmit}) => {
-  const CreateButton = withStyles(theme => ({
+const TextBox = ({text, setText, handleSubmit}) => {
+  const CreateButton = withStyles((theme) => ({
     root: {
       color: '#ffffff',
       backgroundColor: '#E87424',
@@ -22,10 +22,10 @@ const TextBox = ({setText, handleSubmit}) => {
     },
   }))(Button);
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
-      maxWidth: '95%',
+      maxWidth: '90%',
       backgroundColor: theme.palette.background.paper,
     },
   }));
@@ -42,12 +42,13 @@ const TextBox = ({setText, handleSubmit}) => {
             placeholder="Type Something..."
             multiline
             rowsMax={5}
+            value={text}
             inputProps={{
               style: {
                 padding: 5,
               },
             }}
-            onChange={event => {
+            onChange={(event) => {
               event.preventDefault();
               setText(event.target.value);
             }}
@@ -55,8 +56,12 @@ const TextBox = ({setText, handleSubmit}) => {
         </ListItemText>
 
         <ListItemSecondaryAction>
-          <CreateButton variant="contained">
-            <SendIcon style={{color: '#FFF'}} onClick={handleSubmit}></SendIcon>
+          <CreateButton
+            variant="contained"
+            disabled={!text}
+            onClick={handleSubmit}
+          >
+            <SendIcon style={{color: '#FFF'}}></SendIcon>
           </CreateButton>
         </ListItemSecondaryAction>
       </ListItem>

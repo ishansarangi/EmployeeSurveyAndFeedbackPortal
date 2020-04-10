@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import NavBar from './NavBar';
-import PropTypes from 'prop-types';
 import {ApolloProvider} from 'react-apollo';
-import {apolloclient} from './ApolloClient';
-import {UserContext} from './UserContext';
+import {apolloclient} from './apollo/ApolloClient';
 import {Route, Switch} from 'react-router-dom';
-import FeedbackContainer from './FeedbackContainer';
-import Login from './Login';
+import Login from './auth/Login';
+import {ProtectedRoute} from './auth/ProtectedRoute';
+import {AuthUserProvider} from './auth/AuthUser';
+import FeedbackContainer from './feedback/FeedbackContainer';
+import {CssBaseline, Container} from '@material-ui/core';
 
 const NoMatch = () => {
   return (
@@ -17,29 +18,27 @@ const NoMatch = () => {
     </div>
   );
 };
+
 const App = props => {
-  const [user, setUser] = useState({});
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <AuthUserProvider>
       <ApolloProvider client={apolloclient}>
-        <div className="container">
+        <Container maxWidth="false" style={{padding: 0, margin: 0}}>
+          <CssBaseline />
           <NavBar />
           <Switch>
-            <Route
+            <Route exact path="/" component={() => <Login />} />
+            <Route path="/login" component={() => <Login />} />
+            <ProtectedRoute
               exact
-              path="/"
-              component={() => <Login setUser={setUser} />}
+              path="/feedbackview"
+              component={FeedbackContainer}
             />
-            <Route
-              path="/login"
-              component={() => <Login setUser={setUser} />}
-            />
-            <Route path="/feedbackview" component={FeedbackContainer} />
             <Route path="*" component={NoMatch} />
           </Switch>
-        </div>
+        </Container>
       </ApolloProvider>
-    </UserContext.Provider>
+    </AuthUserProvider>
   );
 };
 

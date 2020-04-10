@@ -9,11 +9,26 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import {useHistory} from 'react-router-dom';
+import {useAuthUser} from './auth/AuthUser';
 
 const useStyles = makeStyles(theme => ({
   addUser: {
     marginRight: theme.spacing(1),
     marginTop: theme.spacing(1),
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    float: 'right',
+  },
+  sectionDesktop: {
+    width: '100%',
   },
 }));
 
@@ -24,7 +39,41 @@ const NavButton = withStyles(theme => ({
 }))(Button);
 
 const NavBar = props => {
+  let history = useHistory();
   const classes = useStyles();
+  const {loggedInUser} = useAuthUser();
+  const menuId = 'primary-search-account-menu';
+  const menuTitle = loggedInUser ? 'Profile' : 'Login';
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleProfileMenuOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogin = () => {
+    handleMenuClose();
+    history.push('/login');
+  };
+
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+      id={menuId}
+      keepMounted
+      transformOrigin={{vertical: 'top', horizontal: 'right'}}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleLogin}>{menuTitle}</MenuItem>
+    </Menu>
+  );
 
   return (
     <AppBar className={classes.searchBar} position="static" elevation={0}>
@@ -49,6 +98,15 @@ const NavBar = props => {
               </Link>
             </ListItemText>
             <ListItemText inset>
+              <Link to="/reports" style={{color: '#FFF'}}>
+                <NavButton>
+                  <Typography color="inherit" variant="h6" component="h6">
+                    Reports
+                  </Typography>
+                </NavButton>
+              </Link>
+            </ListItemText>
+            <ListItemText inset>
               <Link to="/feedbackview" style={{color: '#FFF'}}>
                 <NavButton>
                   <Typography color="inherit" variant="h6" component="h6">
@@ -57,18 +115,22 @@ const NavBar = props => {
                 </NavButton>
               </Link>
             </ListItemText>
-
-            <ListItemText inset>
-              <Link to="/login" style={{color: '#FFF'}}>
-                <NavButton>
-                  <Typography color="inherit" variant="h6" component="h6">
-                    Login
-                  </Typography>
-                </NavButton>
-              </Link>
-            </ListItemText>
           </ListItem>
         </List>
+        <div className={classes.sectionDesktop}>
+          <IconButton
+            className={classes.menuButton}
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </div>
+        {renderMenu}
       </Toolbar>
     </AppBar>
   );

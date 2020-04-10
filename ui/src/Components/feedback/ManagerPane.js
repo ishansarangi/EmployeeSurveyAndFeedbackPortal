@@ -1,11 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Feedback from './Feedback';
 import {FeedbackType} from './FeedbackType';
+import Feedback from './Feedback';
+import {useAuthUser} from '../auth/AuthUser';
+import {useLazyQuery} from '@apollo/react-hooks';
+import {useStoreActions} from 'easy-peasy';
+import {get_threads_for_manager} from '../apollo/Queries';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,29 +16,55 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  main: {
+    height: '90%',
+    display: 'flex',
+  },
 }));
 
-const feedbackView = index => {
-  if (index === 0) {
-    return <Feedback feedbackType={FeedbackType.Employee} />;
-  }
-  return <Feedback feedbackType={FeedbackType.Personal} />;
-};
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-const ManagerPane = props => {
+const ManagerPane = ({managerList}) => {
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const {loggedInUser} = useAuthUser();
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const setEmployeeThreadList = useStoreActions(
+    actions => actions.employeeThreadList.setThreads
+  );
+  const [getEmployeeThreadData] = useLazyQuery(get_threads_for_manager, {
+    fetchPolicy: 'network-only',
+    onCompleted: data => {
+      setEmployeeThreadList(data.findAllReceivedThreads);
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  useEffect(() => {
+    if (loggedInUser.employeeId) {
+      getEmployeeThreadData({
+        variables: {
+          employeeId: loggedInUser.employeeId,
+        },
+      });
+    }
+  }, []);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
+  };
 
+  const feedbackView = index => {
+    const fbType = index === 0 ? FeedbackType.Employee : FeedbackType.Personal;
+    return <Feedback managerList={managerList} feedbackType={fbType} />;
   };
 
   return (
-    <div className="main">
+    <div className={classes.main}>
       <nav className="navigation-bar">
         <div className={classes.root}>
           <List component="nav" aria-label="secondary mailbox folders">
@@ -62,10 +91,6 @@ const ManagerPane = props => {
       </div>
     </div>
   );
-};
-
-ManagerPane.propTypes = {
-  children: PropTypes.element.isRequired,
 };
 
 export default ManagerPane;

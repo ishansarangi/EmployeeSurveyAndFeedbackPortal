@@ -49,6 +49,11 @@ export const get_threads_for_manager = gql`
         createdAt
         messageSender
       }
+      tags {
+        tagId
+        name
+        color
+      }
     }
   }
 `;
@@ -68,6 +73,26 @@ export const create_new_thread = gql`
       }
     ) {
       threadId
+      sentTo {
+        employeeId
+        firstName
+        lastName
+      }
+      subject
+      createdAt
+      modifiedAt
+      latestText
+      read
+      createdBy {
+        employeeId
+        firstName
+        lastName
+      }
+      messages {
+        text
+        createdAt
+        messageSender
+      }
     }
   }
 `;
@@ -78,6 +103,11 @@ export const send_reply_in_thread = gql`
       input: {threadId: $threadId, text: $text, employeeId: $from_employeeId}
     ) {
       threadId
+      messages {
+        text
+        createdAt
+        messageSender
+      }
     }
   }
 `;
@@ -110,6 +140,45 @@ export const get_employee_by_email = gql`
       lastName
       userType
       email
+    }
+  }
+`;
+
+export const create_new_tag = gql`
+  mutation newTag($employeeId: Long!, $name: String, $color: String) {
+    newTag(input: {employeeId: $employeeId, name: $name, color: $color}) {
+      tagId
+      name
+      color
+    }
+  }
+`;
+
+export const add_tags_to_thread = gql`
+  mutation addTagToThread(
+    $employeeId: Long!
+    $threadId: Long!
+    $tags: [Long!]!
+  ) {
+    addTagToThread(
+      input: {employeeId: $employeeId, threadId: $threadId, tags: $tags}
+    ) {
+      threadId
+      tags {
+        tagId
+        color
+        name
+      }
+    }
+  }
+`;
+
+export const get_all_tags = gql`
+  query findAllTags {
+    findAllTags {
+      tagId
+      color
+      name
     }
   }
 `;

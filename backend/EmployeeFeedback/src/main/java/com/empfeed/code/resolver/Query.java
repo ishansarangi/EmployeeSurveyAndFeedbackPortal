@@ -3,13 +3,19 @@ package com.empfeed.code.resolver;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import com.empfeed.code.model.entity.Employee;
 import com.empfeed.code.model.entity.MessageThread;
+import com.empfeed.code.model.entity.Tag;
 import com.empfeed.code.repository.EmployeeRepository;
 import com.empfeed.code.repository.MessageRepository;
 import com.empfeed.code.repository.MessageThreadRepository;
 import com.empfeed.code.repository.TagRepository;
 
 import lombok.AllArgsConstructor;
-
+/**
+* The class has all the graphQL mutations.
+* And output
+* @version 1.0
+* @author Sabyasachi Mohanty,Kumar Prabhu Kalyan,Kirti Jha
+*/
 @AllArgsConstructor
 public class Query implements GraphQLQueryResolver {
 	
@@ -23,7 +29,8 @@ public class Query implements GraphQLQueryResolver {
     	//TODO: To recursively find all managers using 
     	// single inheritance relationship in JPA
     	//It returns the list of managers for now.
-    	return employeeRepository.findAll();
+		Employee emp = employeeRepository.findOne(employeeId);
+    	return employeeRepository.findManager(emp.getManagerId());
     }
     
     public Employee findEmployee(Long employeeId) {
@@ -40,5 +47,9 @@ public class Query implements GraphQLQueryResolver {
     
     public Employee findEmployeeByEmail(String emailId) {
     	return employeeRepository.findEmployeeByEmail(emailId);
+    }
+    
+    public Iterable<Tag> findAllTags(){
+    	return tagRepository.findAll();
     }
 }
