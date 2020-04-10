@@ -56,18 +56,32 @@ const MessageThreadView = ({
   };
 
   const getFooterView = () => {
-    if (
-      threadData &&
-      threadData.threadId &&
-      feedbackType === FeedbackType.Employee &&
-      loggedInUser.userType !== UserType.Employee
-    )
-      return (
-        <div className="component-footer">
-          <AddTagToThread threadId={threadData.threadId} />
-          <TextBox text={text} setText={setText} handleSubmit={handleSubmit} />
-        </div>
-      );
+    if (threadData && threadData.threadId)
+      if (
+        feedbackType === FeedbackType.Employee &&
+        loggedInUser.userType !== UserType.Employee
+      )
+        return (
+          <div className="component-footer">
+            <AddTagToThread threadId={threadData.threadId} />
+            <TextBox
+              text={text}
+              setText={setText}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        );
+      else {
+        return (
+          <div className="component-footer">
+            <TextBox
+              text={text}
+              setText={setText}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        );
+      }
   };
 
   const getStaticViews = () => {
