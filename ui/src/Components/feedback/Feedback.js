@@ -60,6 +60,13 @@ const Feedback = ({feedbackType, managerList}) => {
     actions => actions.personalThreadList.setThreads
   );
 
+  const personalThreadCount = useStoreState(
+    state => state.personalThreadList.count
+  );
+  const employeeThreadCount = useStoreState(
+    state => state.employeeThreadList.count
+  );
+
   const [getPersonalThreadData] = useLazyQuery(get_threads_for_employee, {
     fetchPolicy: 'network-only',
     onCompleted: data => {
@@ -69,6 +76,16 @@ const Feedback = ({feedbackType, managerList}) => {
       console.log(error);
     },
   });
+
+  const getThreadCount = () => {
+    if (
+      feedbackType === FeedbackType.Employee &&
+      loggedInUser.userType === UserType.Manager
+    ) {
+      return employeeThreadCount;
+    }
+    return personalThreadCount;
+  };
 
   const getThreads = () => {
     if (
@@ -111,6 +128,7 @@ const Feedback = ({feedbackType, managerList}) => {
             selectedThread={selectedThread}
             feedbackType={feedbackType}
             threadData={getThreadById(selectedThread)}
+            threadCount={getThreadCount()}
           />
         </div>
       </div>

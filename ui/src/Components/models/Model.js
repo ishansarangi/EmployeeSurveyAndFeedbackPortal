@@ -19,7 +19,7 @@ const employeeThreadModel = {
   setThreads: action((state, threads) => {
     state.threads = threads;
   }),
-
+  count: computed(state => Object.values(state.threads).length),
   addTagsToThread: thunk((actions, thread, {getState}) => {
     let temp = getState();
     let id;
@@ -91,6 +91,7 @@ const personalThreadModel = {
   addThread: action((state, thread) => {
     state.threads.push(thread);
   }),
+  count: computed(state => Object.values(state.threads).length),
   addMessageToThread: thunk((actions, thread, {getState}) => {
     let temp = getState();
     let id;

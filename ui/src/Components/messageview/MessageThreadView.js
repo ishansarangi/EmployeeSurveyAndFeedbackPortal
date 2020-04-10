@@ -11,8 +11,14 @@ import {FeedbackType} from '../feedback/FeedbackType';
 import {UserType} from '../UserType';
 import AddTagToThread from './AddTagToThread';
 import {useStoreActions} from 'easy-peasy';
+import ChatBody from './ChatBody';
 
-const MessageThreadView = ({feedbackType, threadData}) => {
+const MessageThreadView = ({
+  feedbackType,
+  threadData,
+  threadCount,
+  selectedThread,
+}) => {
   const {loggedInUser} = useAuthUser();
   const [text, setText] = useState('');
 
@@ -43,8 +49,45 @@ const MessageThreadView = ({feedbackType, threadData}) => {
     },
   });
 
-  const getNoMessageText = () => {
-    if (
+  const getHeaderView = () => {
+    if (threadData) {
+      return <ChatHeader threadData={threadData} feedbackType={feedbackType} />;
+    }
+  };
+
+  const getFooterView = () => {
+    if (threadData && threadData.threadId)
+      if (
+        feedbackType === FeedbackType.Employee &&
+        loggedInUser.userType !== UserType.Employee
+      )
+        return (
+          <div className="component-footer">
+            <AddTagToThread threadId={threadData.threadId} />
+            <TextBox
+              text={text}
+              setText={setText}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        );
+      else {
+        return (
+          <div className="component-footer">
+            <TextBox
+              text={text}
+              setText={setText}
+              handleSubmit={handleSubmit}
+            />
+          </div>
+        );
+      }
+  };
+
+  const getStaticViews = () => {
+    if (threadCount > 0 && selectedThread === -1) {
+      return <Typography align="center">Click a message to view.</Typography>;
+    } else if (
       feedbackType === FeedbackType.Employee &&
       loggedInUser.userType === UserType.Manager
     ) {
@@ -64,44 +107,6 @@ const MessageThreadView = ({feedbackType, threadData}) => {
     }
   };
 
-  const createMessageView = () => {
-    if (threadData.messages)
-      return threadData.messages.map((msg, index) => {
-        return (
-          <MessageItem
-            key={index}
-            createdBy={threadData.createdBy}
-            sentTo={threadData.sentTo}
-            msg={msg}
-            feedbackType={feedbackType}
-          />
-        );
-      });
-    else return getNoMessageText();
-  };
-
-  const createHeaderView = () => {
-    if (threadData) {
-      return <ChatHeader threadData={threadData} feedbackType={feedbackType} />;
-    }
-  };
-
-  const getTextBoxView = () => {
-    if (threadData.messages)
-      return (
-        <TextBox text={text} setText={setText} handleSubmit={handleSubmit} />
-      );
-  };
-
-  const getTagPanelView = () => {
-    if (
-      threadData.threadId &&
-      feedbackType === FeedbackType.Employee &&
-      loggedInUser.userType !== UserType.Employee
-    )
-      return <AddTagToThread threadId={threadData.threadId} />;
-  };
-
   const handleSubmit = () => {
     sendMessage({
       variables: {
@@ -113,23 +118,18 @@ const MessageThreadView = ({feedbackType, threadData}) => {
   };
 
   const getMessageView = () => {
-    if (!threadData) {
+    if (selectedThread === -1 || threadCount == 0) {
       return (
         <div id="chat" className="chat">
-          <Typography align="center">Click a message to view.</Typography>
+          {getStaticViews()}
         </div>
       );
     } else {
       return (
         <Fragment>
-          <div className="component-header">{createHeaderView()}</div>
-          <div id="chat" className="chat">
-            {createMessageView()}
-          </div>
-          <div className="component-footer">
-            {getTagPanelView()}
-            {getTextBoxView()}
-          </div>
+          <div className="component-header">{getHeaderView()}</div>
+          <ChatBody threadData={threadData} feedbackType={feedbackType} />
+          {getFooterView()}
         </Fragment>
       );
     }

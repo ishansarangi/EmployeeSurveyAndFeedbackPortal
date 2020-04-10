@@ -1,3 +1,6 @@
+/***
+ * 
+ */
 package com.empfeed.code;
 
 import java.util.ArrayList;
@@ -30,7 +33,11 @@ import com.empfeed.code.util.Constant.UserType;
 import graphql.ExceptionWhileDataFetching;
 import graphql.GraphQLError;
 import graphql.servlet.GraphQLErrorHandler;
-
+/**
+ * 
+ * @author Kumar Prabhu Kalyan, Sabyasachi Mohanty, Kirti Jha
+ *
+ */
 @SpringBootApplication
 public class EmployeeFeedbackApplication {
 
@@ -38,6 +45,10 @@ public class EmployeeFeedbackApplication {
 		SpringApplication.run(EmployeeFeedbackApplication.class, args);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	@Bean
 	public GraphQLErrorHandler errorHandler() {
 		return new GraphQLErrorHandler() {
@@ -60,7 +71,14 @@ public class EmployeeFeedbackApplication {
 			}
 		};
 	}
-
+/**
+ * 
+ * @param employeeRepository
+ * @param messageThreadRepository
+ * @param messageRepository
+ * @param tagRepository
+ * @return
+ */
 	@Bean
 	public Mutation mutation(EmployeeRepository employeeRepository, MessageThreadRepository messageThreadRepository,
 			MessageRepository messageRepository, TagRepository tagRepository) {
