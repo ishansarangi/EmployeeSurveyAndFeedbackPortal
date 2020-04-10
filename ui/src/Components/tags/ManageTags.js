@@ -68,6 +68,7 @@ const ManageTags = () => {
                 maxWidth={'sm'}
                 aria-labelledby="managetags-dialog-title"
                 open={tagOpen}
+               open
             >
                 <DialogTitle id="managetags-dialog-title">Manage Tags</DialogTitle>
                 <DialogContent dividers>

@@ -1,3 +1,4 @@
+
 package com.empfeed.code.resolver;
 
 import java.util.ArrayList;
@@ -23,6 +24,12 @@ import com.empfeed.code.util.Constant.MessageSender;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * The class has all the graphQL mutations.
+ * 
+ * @version 1.0
+ * @author Sabyasachi Mohanty,Kumar Prabhu Kalyan,Kirti Jha
+ */
 @AllArgsConstructor
 public class Mutation implements GraphQLMutationResolver {
 
@@ -43,6 +50,12 @@ public class Mutation implements GraphQLMutationResolver {
 		return employee;
 	}
 
+	/**
+	 * This method creates a new message in the database mapped to a thread.
+	 * 
+	 * @param messageInput
+	 * @return MessageThread
+	 */
 	public MessageThread newMessage(MessageInput messageInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(messageInput.getThreadId());
 
@@ -66,6 +79,12 @@ public class Mutation implements GraphQLMutationResolver {
 		return messageThread;
 	}
 
+	/**
+	 * This method creates a new thread in the database.
+	 * 
+	 * @param threadInput
+	 * @return MessageThread
+	 */
 	public MessageThread newThread(ThreadInput threadInput) {
 		MessageThread messageThread = new MessageThread();
 		messageThread.setSentTo(employeeRepository.findOne(threadInput.getSentTo()));
@@ -88,6 +107,12 @@ public class Mutation implements GraphQLMutationResolver {
 		return messageThread1;
 	}
 
+	/**
+	 * This method saves the state of the message, changes it to "read".
+	 * 
+	 * @param threadId
+	 * @return MessageThread
+	 */
 	public MessageThread readMessageThread(Long threadId) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadId);
 		messageThread.setRead(Boolean.TRUE);
@@ -95,6 +120,12 @@ public class Mutation implements GraphQLMutationResolver {
 		return messageThread;
 	}
 
+	/**
+	 * This method creates a new tag in the database.
+	 * 
+	 * @param tagInput
+	 * @return Tag
+	 */
 	public Tag newTag(TagInput tagInput) {
 		Employee createdBy = employeeRepository.findOne(tagInput.getEmployeeId());
 		Tag tag = Tag.builder().color(tagInput.getColor()).createdBy(createdBy).name(tagInput.getName()).build();
@@ -102,6 +133,12 @@ public class Mutation implements GraphQLMutationResolver {
 		return tag;
 	}
 
+	/**
+	 * This method removes tag/tags from a given thread.
+	 * 
+	 * @param threadTagInput
+	 * @return
+	 */
 	public MessageThread removeTagFromThread(ThreadTagInput threadTagInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
 		if (messageThread != null) {
@@ -120,6 +157,12 @@ public class Mutation implements GraphQLMutationResolver {
 		return messageThread;
 	}
 
+	/**
+	 * This method adds tag/tags to a given thread.
+	 * 
+	 * @param threadTagInput
+	 * @return
+	 */
 	public MessageThread addTagToThread(ThreadTagInput threadTagInput) {
 
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());

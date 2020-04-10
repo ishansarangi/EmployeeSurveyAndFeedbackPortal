@@ -10,7 +10,12 @@ import com.empfeed.code.repository.MessageThreadRepository;
 import com.empfeed.code.repository.TagRepository;
 
 import lombok.AllArgsConstructor;
-
+/**
+* The class has all the graphQL mutations.
+* And output
+* @version 1.0
+* @author Sabyasachi Mohanty,Kumar Prabhu Kalyan,Kirti Jha
+*/
 @AllArgsConstructor
 public class Query implements GraphQLQueryResolver {
 	

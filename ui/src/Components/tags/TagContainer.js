@@ -70,6 +70,7 @@ const TagContainer = ({handleClose, open}) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+      
       >
         <DialogTitle id="customized-dialog-title">Manage Tags</DialogTitle>
         <DialogContent dividers>
