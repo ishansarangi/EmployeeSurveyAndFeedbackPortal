@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import NewThread from './NewThread';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import clsx from 'clsx';
 import List from '@material-ui/core/List';
 import {useStoreState} from 'easy-peasy';
+import useDebounce from '../util/UseDebounce';
 
 const ThreadView = ({
   selectedThread,
@@ -25,26 +26,28 @@ const ThreadView = ({
   const [tagFilter, setTagFilter] = useState([]);
   const [searchText, setSearchText] = useState('');
 
-  const some1 = useStoreState(state =>
-    state.employeeThreadList.filterThreads(tagFilter, searchText)
+  const debouncedSearchTerm = useDebounce(searchText, 500);
+
+  const some1 = useStoreState((state) =>
+    state.employeeThreadList.filterThreads(tagFilter, debouncedSearchTerm)
   );
 
-  const some2 = useStoreState(state =>
-    state.personalThreadList.filterThreads(searchText)
+  const some2 = useStoreState((state) =>
+    state.personalThreadList.filterThreads(debouncedSearchTerm)
   );
 
   if (
     feedbackType === FeedbackType.Employee &&
     loggedInUser.userType === UserType.Manager
   ) {
-    if ((tagFilter && tagFilter.length) || searchText) {
+    if ((tagFilter && tagFilter.length) || debouncedSearchTerm) {
       threadData = some1;
     }
   } else {
     threadData = some2;
   }
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
       backgroundColor: theme.palette.background.paper,
@@ -117,7 +120,7 @@ const ThreadView = ({
       return <FilterByTag setTagFilter={setTagFilter} />;
   };
 
-  const PaperCustom = withStyles(theme => ({
+  const PaperCustom = withStyles((theme) => ({
     outlined: {
       border: 0,
     },
