@@ -27,6 +27,7 @@ input ThreadTagInput {
 extend type Mutation {
 	newThread(input: ThreadInput) : MessageThread!	
 	addTagToThread(input: ThreadTagInput) : MessageThread!
+	removeTagToThread(input: ThreadTagInput) : MessageThread!
 }
 
 extend type Query {
