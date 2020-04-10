@@ -102,8 +102,26 @@ public class Mutation implements GraphQLMutationResolver {
 		return tag;
 	}
 
+	public MessageThread removeTagFromThread(ThreadTagInput threadTagInput) {
+		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
+		if (messageThread != null) {
+
+			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
+			Set<Tag> set = new HashSet<>();
+			for (Tag t : list) {
+				set.add(t);
+			}
+
+			messageThread.setTags(set);
+			;
+			messageThreadRepository.save(messageThread);
+		}
+
+		return messageThread;
+	}
+
 	public MessageThread addTagToThread(ThreadTagInput threadTagInput) {
-		
+
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
 		if (messageThread != null) {
 			Set<Tag> set = new HashSet<>();
@@ -114,7 +132,7 @@ public class Mutation implements GraphQLMutationResolver {
 			messageThread.getTags().addAll(set);
 			messageThreadRepository.save(messageThread);
 		}
-		System.out.println(messageThread);
+
 		return messageThread;
 	}
 
