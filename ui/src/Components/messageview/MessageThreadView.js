@@ -11,6 +11,7 @@ import {FeedbackType} from '../feedback/FeedbackType';
 import {UserType} from '../UserType';
 import AddTagToThread from './AddTagToThread';
 import {useStoreActions} from 'easy-peasy';
+import ChatBody from './ChatBody';
 
 const MessageThreadView = ({
   feedbackType,
@@ -47,21 +48,6 @@ const MessageThreadView = ({
       console.log(error);
     },
   });
-
-  const getMessageBodyView = () => {
-    if (threadData && threadData.messages)
-      return threadData.messages.map((msg, index) => {
-        return (
-          <MessageItem
-            key={index}
-            createdBy={threadData.createdBy}
-            sentTo={threadData.sentTo}
-            msg={msg}
-            feedbackType={feedbackType}
-          />
-        );
-      });
-  };
 
   const getHeaderView = () => {
     if (threadData) {
@@ -128,9 +114,7 @@ const MessageThreadView = ({
       return (
         <Fragment>
           <div className="component-header">{getHeaderView()}</div>
-          <div id="chat" className="chat">
-            {getMessageBodyView()}
-          </div>
+          <ChatBody threadData={threadData} feedbackType={feedbackType} />
           {getFooterView()}
         </Fragment>
       );
