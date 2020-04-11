@@ -40,19 +40,28 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 
 ## Release Notes
+
+- v0.5.0
+  - Managers can create new tags.
+  - Managers can add a tag to a message thread from an employee.
+  - Managers can delete an already added tag.
+  - Managers can filter employee feedback message threads by tags.
+  - Employees and managers can search through their feedback message threads.
+  - Several bug fixes
+
 - v0.4.0
-  - manager can now switch between their own feedbacks and feedback from emplyees who report to them.
-  - added functionality to show limited info in manager viewto show only relevant info.
-  - added a login component to save the user in the context by calling the graphQL API.
-  - integrated backend with graphQL
-  - fixed several UI styling issues
+  - Manager can now switch between their own feedbacks and feedback from emplyees who report to them.
+  - Added functionality to show limited info in manager viewto show only relevant info.
+  - Added a login component to save the user in the context by calling the graphQL API.
+  - Integrated backend with graphQL
+  - Fixed several UI styling issues
   
 - v0.3.0
-  - save messages and update thread in database
-  - added Message subject and recipient name to the discussion pane
-  - added sender's name and date-time to each message bubble
-  - added functionality to change the UI based on user type
-  - fixed several UI styling issues
+  - Save messages and update thread in database
+  - Added Message subject and recipient name to the discussion pane
+  - Added sender's name and date-time to each message bubble
+  - Added functionality to change the UI based on user type
+  - Fixed several UI styling issues
 
 - v0.2.0
   - New Manager Pane
