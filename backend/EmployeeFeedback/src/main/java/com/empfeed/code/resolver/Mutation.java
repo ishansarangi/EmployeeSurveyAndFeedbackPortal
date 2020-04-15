@@ -1,6 +1,5 @@
 package com.empfeed.code.resolver;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,7 +35,7 @@ public class Mutation implements GraphQLMutationResolver {
 		Employee employee = new Employee();
 		employee.setFirstName(firstName);
 		employee.setLastName(lastName);
-		employee.setManagerId(managerId);
+		//employee.setManagerId(managerId);
 		employee.setCreatedAt(new Date());
 		employee.setEmail(email);
 		employeeRepository.save(employee);

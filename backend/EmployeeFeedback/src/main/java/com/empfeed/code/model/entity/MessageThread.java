@@ -46,6 +46,7 @@ public @Data class MessageThread {
 
 	private String subject;
 
+	@OrderBy("DESC")
 	private Date createdAt;
 
 	private Date modifiedAt;
