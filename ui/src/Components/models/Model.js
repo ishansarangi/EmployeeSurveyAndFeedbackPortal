@@ -39,7 +39,25 @@ const employeeThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
-
+  readMessageThread: thunk((actions, thread, {getState}) => {
+    let temp = getState();
+    let id;
+    temp.threads.forEach((item, index) => {
+      if (item.threadId === thread.threadId) {
+        id = index;
+      }
+    });
+    let new_state = update(temp, {
+      threads: {
+        [id]: {
+          readByManagers: {
+            $push: [thread.employeeId],
+          },
+        },
+      },
+    });
+    actions.setThreads(new_state.threads);
+  }),
   addMessageToThread: thunk((actions, thread, {getState}) => {
     let temp = getState();
     let id;
@@ -96,7 +114,6 @@ const personalThreadModel = {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
-      console.log(index);
       if (item.threadId === thread.threadId) {
         id = index;
       }
@@ -106,6 +123,25 @@ const personalThreadModel = {
         [id]: {
           messages: {
             $set: thread.messages,
+          },
+        },
+      },
+    });
+    actions.setThreads(new_state.threads);
+  }),
+  readMessageThread: thunk((actions, thread, {getState}) => {
+    let temp = getState();
+    let id;
+    temp.threads.forEach((item, index) => {
+      if (item.threadId === thread.threadId) {
+        id = index;
+      }
+    });
+    let new_state = update(temp, {
+      threads: {
+        [id]: {
+          readByEmployee: {
+            $set: thread.employeeId,
           },
         },
       },

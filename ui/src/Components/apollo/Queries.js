@@ -13,7 +13,7 @@ export const get_threads_for_employee = gql`
       createdAt
       modifiedAt
       latestText
-      read
+      readByEmployee
       createdBy {
         employeeId
         firstName
@@ -39,10 +39,10 @@ export const get_threads_for_manager = gql`
         lastName
       }
       subject
-      read
       createdAt
       latestText
       modifiedAt
+      readByManagers
       messages {
         messageId
         text
@@ -82,7 +82,6 @@ export const create_new_thread = gql`
       createdAt
       modifiedAt
       latestText
-      read
       createdBy {
         employeeId
         firstName
@@ -179,6 +178,14 @@ export const get_all_tags = gql`
       tagId
       color
       name
+    }
+  }
+`;
+
+export const read_message_thread = gql`
+  mutation readMessageThread($employeeId: Long!, $threadId: Long!) {
+    readMessageThread(employeeId: $employeeId, threadId: $threadId) {
+      threadId
     }
   }
 `;

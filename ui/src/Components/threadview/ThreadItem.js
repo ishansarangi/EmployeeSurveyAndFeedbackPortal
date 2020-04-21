@@ -30,13 +30,7 @@ const ListItemLink = props => {
   return <ListItem button component="a" {...props} />;
 };
 
-const ThreadItem = ({
-  key,
-  thread,
-  threadKey,
-  selectedThread,
-  setSelectedThread,
-}) => {
+const ThreadItem = ({thread, threadKey, selectedThread, readThread}) => {
   const getFullName = employee => {
     if (employee) return employee.firstName + ' ' + employee.lastName;
     else return 'Anonymous';
@@ -77,9 +71,10 @@ const ThreadItem = ({
   return (
     <>
       <ListItemLink
+        key={threadKey}
         alignItems="flex-start"
         onClick={() => {
-          setSelectedThread(threadKey);
+          readThread(threadKey);
         }}
         key={threadKey}
         selected={selectedThread === threadKey}

@@ -7,7 +7,6 @@ const ChatBody = ({threadData, feedbackType}) => {
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
-      console.log(chatBodyRef);
     }
   }, [chatBodyRef, threadData]);
 
