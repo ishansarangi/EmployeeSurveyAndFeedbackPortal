@@ -31,10 +31,6 @@ export function register(config) {
       return;
     }
 
-    if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
-      __REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function() {};
-    }
-
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
