@@ -1,7 +1,7 @@
 
 package com.empfeed.code.resolver;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -66,15 +66,22 @@ public class Mutation implements GraphQLMutationResolver {
 
 		messageThread.setModifiedAt(new Date());
 		messageThread.setLatestText(messageInput.getText());
-		messageThread.setRead(Boolean.FALSE);
+		// messageThread.setRead(Boolean.FALSE);
 		MessageBuilder messageBuilder = Message.builder().text(messageInput.getText()).createdAt(new Date())
 				.messageThread(messageThread);
 		if (messageInput.getEmployeeId() == messageThread.getCreatedBy().getEmployeeId()) {
 			messageBuilder.messageSender(MessageSender.EMPLOYEE.value());
+			// This new message is sent by employee so change the read flags of manager.
+			messageThread.getReadByEmployee().add(messageInput.getEmployeeId());
+			messageThread.setReadByManagers(new HashSet<>());
 		} else {
 			messageBuilder.messageSender(MessageSender.MANAGER.value());
+			// This new message is sent by employee so change the read flags of employee.
+			messageThread.setReadByEmployee(new HashSet<>());
+			messageThread.setReadByManagers(new HashSet<>(Arrays.asList(messageInput.getEmployeeId())));
 		}
 		messageThread.getMessages().add(messageBuilder.build());
+
 		messageThreadRepository.save(messageThread);
 		return messageThread;
 	}
@@ -87,21 +94,24 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public MessageThread newThread(ThreadInput threadInput) {
 		MessageThread messageThread = new MessageThread();
-		messageThread.setSentTo(employeeRepository.findOne(threadInput.getSentTo()));
+		Employee sentToEmp = employeeRepository.findOne(threadInput.getSentTo());
+		messageThread.setSentTo(sentToEmp);
 		messageThread.setSubject(threadInput.getSubject());
 		messageThread.setCreatedAt(new Date());
 		messageThread.setModifiedAt(new Date());
 		messageThread.setLatestText(threadInput.getText());
-		messageThread.setCreatedBy(employeeRepository.findOne(threadInput.getEmployeeId()));
+		Employee createdByEmp = employeeRepository.findOne(threadInput.getEmployeeId());
+		messageThread.setCreatedBy(createdByEmp);
 		messageThread.setMessages(new HashSet<>());
-		messageThread.setRead(Boolean.FALSE);
 		messageThreadRepository.save(messageThread);
+
 		Long threadId = messageThread.getThreadId();
 		MessageThread messageThread1 = messageThreadRepository.findOne(threadId);
 		Message message = Message.builder().text(threadInput.getText()).createdAt(new Date())
 				.messageThread(messageThread1).messageSender(MessageSender.EMPLOYEE.value()).build();
-
 		messageThread1.getMessages().add(message);
+		// This new message is sent by employee so change the read flags of employee.
+		messageThread1.getReadByEmployee().add(threadInput.getEmployeeId());
 		messageThreadRepository.save(messageThread1);
 		System.out.println(messageThread1);
 		return messageThread1;
@@ -113,9 +123,21 @@ public class Mutation implements GraphQLMutationResolver {
 	 * @param threadId
 	 * @return MessageThread
 	 */
-	public MessageThread readMessageThread(Long threadId) {
+	public MessageThread readMessageThread(Long threadId, Long employeeId) {
+		Employee readByEmp = employeeRepository.findOne(employeeId);
 		MessageThread messageThread = messageThreadRepository.findOne(threadId);
-		messageThread.setRead(Boolean.TRUE);
+		if (readByEmp == null || messageThread == null) {
+			new MessageThread();
+		}
+
+		if (readByEmp.equals(messageThread.getCreatedBy())) {
+			// This is the manager in the thread.
+			messageThread.getReadByEmployee().add(readByEmp.getEmployeeId());
+		} else {
+			// This is the employee in the thread.
+			messageThread.getReadByManagers().add(readByEmp.getEmployeeId());
+		}
+
 		messageThreadRepository.save(messageThread);
 		return messageThread;
 	}
@@ -164,7 +186,6 @@ public class Mutation implements GraphQLMutationResolver {
 	 * @return
 	 */
 	public MessageThread addTagToThread(ThreadTagInput threadTagInput) {
-
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
 		if (messageThread != null) {
 			Set<Tag> set = new HashSet<>();
@@ -172,6 +193,7 @@ public class Mutation implements GraphQLMutationResolver {
 			for (Tag t : list) {
 				set.add(t);
 			}
+			
 			messageThread.getTags().addAll(set);
 			messageThreadRepository.save(messageThread);
 		}

@@ -8,7 +8,8 @@ type MessageThread {
 	latestText: String
 	createdBy: Employee
 	messages: [Message]
-	read: Boolean
+	readByManagers: [Long]
+	readByEmployee: [Long]
 }
 
 input ThreadInput {
@@ -28,6 +29,7 @@ extend type Mutation {
 	newThread(input: ThreadInput) : MessageThread!	
 	addTagToThread(input: ThreadTagInput) : MessageThread!
 	removeTagFromThread(input: ThreadTagInput) : MessageThread!
+	readMessageThread(threadId: Long!, employeeId: Long!) : MessageThread!
 }
 
 extend type Query {

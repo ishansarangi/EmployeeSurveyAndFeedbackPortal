@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -35,13 +36,9 @@ public @Data class MessageThread {
 	private Employee sentTo;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "thread_tag",
-            joinColumns = {
-                    @JoinColumn(name = "threadId", referencedColumnName = "thread_id"
-                     )},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "tagId", referencedColumnName = "tag_id"
-                           )})
+	@JoinTable(name = "thread_tag", joinColumns = {
+			@JoinColumn(name = "threadId", referencedColumnName = "thread_id") }, inverseJoinColumns = {
+					@JoinColumn(name = "tagId", referencedColumnName = "tag_id") })
 	private Set<Tag> tags = new HashSet<>();
 
 	private String subject;
@@ -55,10 +52,15 @@ public @Data class MessageThread {
 	@OneToOne
 	private Employee createdBy;
 
-	@Transient
-	private Boolean read = false;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "readByManagers", joinColumns = @JoinColumn(name = "message_thread_id"))
+	private Set<Long> readByManagers = new HashSet<>();
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "readByEmployee", joinColumns = @JoinColumn(name = "message_thread_id"))
+	private Set<Long> readByEmployee = new HashSet<>();
 
 	@OneToMany(mappedBy = "messageThread", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@OrderBy("createdAt")
-	private Set<Message> messages;
+	private Set<Message> messages = new HashSet<>();
 }

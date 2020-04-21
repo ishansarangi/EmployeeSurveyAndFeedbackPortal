@@ -131,7 +131,7 @@ public class EmployeeFeedbackApplication {
 
 			// Entering a chat thread and messages for testing purposes.
 			MessageThread thread = new MessageThread();
-			thread.setSubject("test thread");
+			thread.setSubject("Lacinia at quis risus sed vulpulate odio ut enim");
 			thread.setSentTo(employeeRepository.findOne(manager3.getEmployeeId()));
 			thread.setCreatedBy(employeeRepository.findOne(employee.getEmployeeId()));
 			thread.setMessages(new HashSet<>());
@@ -142,13 +142,15 @@ public class EmployeeFeedbackApplication {
 			MessageThread messageThread1 = messageThreadRepository.findOne(threadId);
 			messageThread1.getMessages()
 					.addAll(Arrays.asList(
-							Message.builder().text("Employee-I have concerns about XYZ...")
+							Message.builder().text("I have concerns about XYZ...")
 									.createdAt(new Date(System.currentTimeMillis() - 300 * 1000))
 									.messageSender(MessageSender.EMPLOYEE.value()).messageThread(thread).build(),
-							Message.builder().text("Manager-I can resolve your issues!").createdAt(new Date())
+							Message.builder().text("I can resolve your issues!").createdAt(new Date())
 									.messageSender(MessageSender.MANAGER.value()).messageThread(thread).build()));
-
-			messageThread1.setLatestText("Manager-I can resolve your issues!");
+			messageThread1.getReadByEmployee().add(employee.getEmployeeId());
+			messageThread1.getReadByManagers().addAll(Arrays.asList(manager3.getEmployeeId()));
+			
+			messageThread1.setLatestText("I can resolve your issues!");
 			messageThread1.setModifiedAt(new Date());
 			Set<MessageThread> set = new HashSet<>();
 			messageThread1.getTags()
