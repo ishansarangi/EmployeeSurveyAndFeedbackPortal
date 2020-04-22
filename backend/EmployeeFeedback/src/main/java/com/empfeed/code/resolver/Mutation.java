@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import com.empfeed.code.exception.EmployeeNotFound;
+import com.empfeed.code.exception.MessageThreadNotFound;
+import com.empfeed.code.exception.TagCreateFailed;
 import com.empfeed.code.model.entity.Employee;
 import com.empfeed.code.model.entity.Message;
 import com.empfeed.code.model.entity.Message.MessageBuilder;
@@ -42,7 +45,7 @@ public class Mutation implements GraphQLMutationResolver {
 		Employee employee = new Employee();
 		employee.setFirstName(firstName);
 		employee.setLastName(lastName);
-		//employee.setManagerId(managerId);
+		// employee.setManagerId(managerId);
 		employee.setCreatedAt(new Date());
 		employee.setEmail(email);
 		employeeRepository.save(employee);
@@ -59,8 +62,7 @@ public class Mutation implements GraphQLMutationResolver {
 		MessageThread messageThread = messageThreadRepository.findOne(messageInput.getThreadId());
 
 		if (messageThread == null) {
-			// throw new MessageThreadNotFound("Thread not found",
-			// messageInput.getThreadId());
+			throw new MessageThreadNotFound("Thread not found", messageInput.getThreadId());
 		}
 
 		messageThread.setModifiedAt(new Date());
@@ -79,7 +81,6 @@ public class Mutation implements GraphQLMutationResolver {
 			messageThread.setReadByManagers(new HashSet<>(Arrays.asList(messageInput.getEmployeeId())));
 		}
 		messageThread.getMessages().add(messageBuilder.build());
-
 		messageThreadRepository.save(messageThread);
 		return messageThread;
 	}
@@ -93,12 +94,18 @@ public class Mutation implements GraphQLMutationResolver {
 	public MessageThread newThread(ThreadInput threadInput) {
 		MessageThread messageThread = new MessageThread();
 		Employee sentToEmp = employeeRepository.findOne(threadInput.getSentTo());
+		if (sentToEmp == null) {
+			throw new EmployeeNotFound("Employee Id of the manager is invalid", threadInput.getSentTo());
+		}
 		messageThread.setSentTo(sentToEmp);
 		messageThread.setSubject(threadInput.getSubject());
 		messageThread.setCreatedAt(new Date());
 		messageThread.setModifiedAt(new Date());
 		messageThread.setLatestText(threadInput.getText());
 		Employee createdByEmp = employeeRepository.findOne(threadInput.getEmployeeId());
+		if (createdByEmp == null) {
+			throw new EmployeeNotFound("Employee Id of the employee is invalid", threadInput.getEmployeeId());
+		}
 		messageThread.setCreatedBy(createdByEmp);
 		messageThread.setMessages(new HashSet<>());
 		messageThreadRepository.save(messageThread);
@@ -111,7 +118,6 @@ public class Mutation implements GraphQLMutationResolver {
 		// This new message is sent by employee so change the read flags of employee.
 		messageThread1.getReadByEmployee().add(threadInput.getEmployeeId());
 		messageThreadRepository.save(messageThread1);
-		System.out.println(messageThread1);
 		return messageThread1;
 	}
 
@@ -125,7 +131,7 @@ public class Mutation implements GraphQLMutationResolver {
 		Employee readByEmp = employeeRepository.findOne(employeeId);
 		MessageThread messageThread = messageThreadRepository.findOne(threadId);
 		if (readByEmp == null || messageThread == null) {
-			new MessageThread();
+			new MessageThreadNotFound("Thread does not exist!", threadId);
 		}
 
 		if (readByEmp.equals(messageThread.getCreatedBy())) {
@@ -148,6 +154,9 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public Tag newTag(TagInput tagInput) {
 		Employee createdBy = employeeRepository.findOne(tagInput.getEmployeeId());
+		if (createdBy == null) {
+			throw new TagCreateFailed("Tag was not created, employeeID does not exist", tagInput.getEmployeeId());
+		}
 		Tag tag = Tag.builder().color(tagInput.getColor()).createdBy(createdBy).name(tagInput.getName()).build();
 		tagRepository.save(tag);
 		return tag;
@@ -161,7 +170,9 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public MessageThread removeTagFromThread(ThreadTagInput threadTagInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
-		if (messageThread != null) {
+		if (messageThread == null) {
+			throw new MessageThreadNotFound("Thread not found", threadTagInput.getThreadId());
+		} else {
 
 			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
 			Set<Tag> set = new HashSet<>();
@@ -170,7 +181,6 @@ public class Mutation implements GraphQLMutationResolver {
 			}
 
 			messageThread.setTags(set);
-			;
 			messageThreadRepository.save(messageThread);
 		}
 
@@ -185,13 +195,15 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public MessageThread addTagToThread(ThreadTagInput threadTagInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
-		if (messageThread != null) {
+		if (messageThread == null) {
+			throw new MessageThreadNotFound("Thread not found", threadTagInput.getThreadId());
+		} else {
 			Set<Tag> set = new HashSet<>();
 			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
 			for (Tag t : list) {
 				set.add(t);
 			}
-			
+
 			messageThread.getTags().addAll(set);
 			messageThreadRepository.save(messageThread);
 		}

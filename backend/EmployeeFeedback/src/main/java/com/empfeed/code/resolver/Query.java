@@ -1,6 +1,7 @@
 package com.empfeed.code.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import com.empfeed.code.exception.EmployeeNotFound;
 import com.empfeed.code.model.entity.Employee;
 import com.empfeed.code.model.entity.MessageThread;
 import com.empfeed.code.model.entity.Tag;
@@ -33,8 +34,12 @@ public class Query implements GraphQLQueryResolver {
     	return employeeRepository.findManager(emp.getEmployeeId());
     }
     
-    public Employee findEmployee(Long employeeId) {
-    	return employeeRepository.findOne(employeeId);
+    public Employee findEmployee(Long employeeId){
+    	Employee employee = employeeRepository.findOne(employeeId);
+    	if(employee==null) {
+    		throw new EmployeeNotFound("Employee not found", employeeId);
+    	}
+    	return employee;
     }
     
     public Iterable<MessageThread> findAllSentThreads(Long employeeId){
