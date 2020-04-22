@@ -1,4 +1,3 @@
-
 package com.empfeed.code.resolver;
 
 import java.util.Arrays;
@@ -43,7 +42,7 @@ public class Mutation implements GraphQLMutationResolver {
 		Employee employee = new Employee();
 		employee.setFirstName(firstName);
 		employee.setLastName(lastName);
-		employee.setManagerId(managerId);
+		//employee.setManagerId(managerId);
 		employee.setCreatedAt(new Date());
 		employee.setEmail(email);
 		employeeRepository.save(employee);
@@ -66,7 +65,6 @@ public class Mutation implements GraphQLMutationResolver {
 
 		messageThread.setModifiedAt(new Date());
 		messageThread.setLatestText(messageInput.getText());
-		// messageThread.setRead(Boolean.FALSE);
 		MessageBuilder messageBuilder = Message.builder().text(messageInput.getText()).createdAt(new Date())
 				.messageThread(messageThread);
 		if (messageInput.getEmployeeId() == messageThread.getCreatedBy().getEmployeeId()) {

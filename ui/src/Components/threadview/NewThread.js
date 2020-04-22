@@ -105,7 +105,7 @@ const ActionButton = withStyles(theme => ({
   },
 }))(Button);
 
-const NewThread = ({managerList}) => {
+const NewThread = () => {
   const {loggedInUser} = useAuthUser();
   const [open, setOpen] = useState(false);
   const [manager, setManager] = useState('');
@@ -129,7 +129,7 @@ const NewThread = ({managerList}) => {
     if (event.length === 0) {
       setManager('');
     } else {
-      setManager(event[0].employeeId);
+      setManager(event.employeeId);
     }
     setManagerError(false);
   };
@@ -203,10 +203,7 @@ const NewThread = ({managerList}) => {
           </FormControl>
 
           <FormControl margin="normal" fullWidth>
-            <ManagerSelect
-              managerList={managerList}
-              handleManagerSelection={handleManagerSelection}
-            />
+            <ManagerSelect handleManagerSelection={handleManagerSelection} />
             {hasManagerError && (
               <FormHelperText error focused={hasManagerError}>
                 Please select a manager for the message.

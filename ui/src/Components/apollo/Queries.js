@@ -189,3 +189,13 @@ export const read_message_thread = gql`
     }
   }
 `;
+
+export const get_manager_hierarchy = gql`
+  query findManagerHierarchy($employeeId: ID!) {
+    findManagerHierarchy(employeeId: $employeeId) {
+      employeeId
+      firstName
+      lastName
+    }
+  }
+`;
