@@ -7,7 +7,7 @@ import {FeedbackType} from './FeedbackType';
 import Feedback from './Feedback';
 import {useAuthUser} from '../auth/AuthUser';
 import {useLazyQuery} from '@apollo/react-hooks';
-import {useStoreActions} from 'easy-peasy';
+import {useStoreActions, useStoreState} from 'easy-peasy';
 import {get_threads_for_manager} from '../apollo/Queries';
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +26,7 @@ function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-const ManagerPane = ({managerList}) => {
+const ManagerPane = () => {
   const classes = useStyles();
   const {loggedInUser} = useAuthUser();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -34,6 +34,9 @@ const ManagerPane = ({managerList}) => {
   const setEmployeeThreadList = useStoreActions(
     actions => actions.employeeThreadList.setThreads
   );
+
+  const managerCount = useStoreState(state => state.managerList.count);
+
   const [getEmployeeThreadData] = useLazyQuery(get_threads_for_manager, {
     fetchPolicy: 'network-only',
     onCompleted: data => {
@@ -60,7 +63,7 @@ const ManagerPane = ({managerList}) => {
 
   const feedbackView = index => {
     const fbType = index === 0 ? FeedbackType.Employee : FeedbackType.Personal;
-    return <Feedback managerList={managerList} feedbackType={fbType} />;
+    return <Feedback feedbackType={fbType} />;
   };
 
   return (
@@ -75,13 +78,16 @@ const ManagerPane = ({managerList}) => {
             >
               <ListItemText primary="Employee Feedback" />
             </ListItemLink>
-            <ListItemLink
-              href="#my-feedback"
-              selected={selectedIndex === 1}
-              onClick={event => handleListItemClick(event, 1)}
-            >
-              <ListItemText primary="My Feedback" />
-            </ListItemLink>
+
+            {managerCount !== 0 && (
+              <ListItemLink
+                href="#my-feedback"
+                selected={selectedIndex === 1}
+                onClick={event => handleListItemClick(event, 1)}
+              >
+                <ListItemText primary="My Feedback" />
+              </ListItemLink>
+            )}
           </List>
         </div>
       </nav>

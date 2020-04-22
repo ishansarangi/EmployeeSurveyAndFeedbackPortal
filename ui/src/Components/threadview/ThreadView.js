@@ -15,13 +15,7 @@ import List from '@material-ui/core/List';
 import {useStoreState} from 'easy-peasy';
 import useDebounce from '../util/UseDebounce';
 
-const ThreadView = ({
-  selectedThread,
-  setSelectedThread,
-  feedbackType,
-  threadData,
-  managerList,
-}) => {
+const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
   const {loggedInUser} = useAuthUser();
   const [tagFilter, setTagFilter] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -94,8 +88,9 @@ const ThreadView = ({
     return threadData.map((thread, index) => {
       return (
         <ThreadItem
+          key={index}
           selectedThread={selectedThread}
-          setSelectedThread={setSelectedThread}
+          readThread={readThread}
           threadKey={thread.threadId}
           thread={{
             read: thread.read,
@@ -173,9 +168,7 @@ const ThreadView = ({
               marginRight: '3%',
             }}
           >
-            {feedbackType === FeedbackType.Personal && (
-              <NewThread managerList={managerList} />
-            )}
+            {feedbackType === FeedbackType.Personal && <NewThread />}
           </PaperCustom>
         </Grid>
       </Grid>

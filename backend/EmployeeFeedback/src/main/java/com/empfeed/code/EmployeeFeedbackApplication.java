@@ -102,7 +102,6 @@ public class EmployeeFeedbackApplication {
 			manager1.setLastName("Attwood");
 			manager1.setEmail("manager1@gmail.com");
 			manager1.setUserType(UserType.MANAGER.value());
-			manager1.setManagerId(null);
 			employeeRepository.save(manager1);
 
 			Employee manager2 = new Employee();
@@ -110,7 +109,7 @@ public class EmployeeFeedbackApplication {
 			manager2.setLastName("Williams");
 			manager2.setEmail("manager2@gmail.com");
 			manager2.setUserType(UserType.MANAGER.value());
-			manager2.setManagerId(manager1.getEmployeeId());
+			manager2.setManager(manager1);
 			employeeRepository.save(manager2);
 
 			Employee manager3 = new Employee();
@@ -118,20 +117,20 @@ public class EmployeeFeedbackApplication {
 			manager3.setLastName("Franklin");
 			manager3.setEmail("manager3@gmail.com");
 			manager3.setUserType(UserType.MANAGER.value());
-			manager3.setManagerId(manager2.getEmployeeId());
+			manager3.setManager(manager2);
 			employeeRepository.save(manager3);
 
 			Employee employee = new Employee();
 			employee.setFirstName("Sunny");
 			employee.setLastName("Mohanty");
-			employee.setManagerId(manager3.getEmployeeId());
+			employee.setManager(manager3);
 			employee.setEmail("employee1@gmail.com");
 			employee.setUserType(UserType.EMPLOYEE.value());
 			employeeRepository.save(employee);
-
+			
 			// Entering a chat thread and messages for testing purposes.
 			MessageThread thread = new MessageThread();
-			thread.setSubject("test thread");
+			thread.setSubject("Lacinia at quis risus sed vulpulate odio ut enim");
 			thread.setSentTo(employeeRepository.findOne(manager3.getEmployeeId()));
 			thread.setCreatedBy(employeeRepository.findOne(employee.getEmployeeId()));
 			thread.setMessages(new HashSet<>());
@@ -142,13 +141,15 @@ public class EmployeeFeedbackApplication {
 			MessageThread messageThread1 = messageThreadRepository.findOne(threadId);
 			messageThread1.getMessages()
 					.addAll(Arrays.asList(
-							Message.builder().text("Employee-I have concerns about XYZ...")
+							Message.builder().text("I have concerns about XYZ...")
 									.createdAt(new Date(System.currentTimeMillis() - 300 * 1000))
 									.messageSender(MessageSender.EMPLOYEE.value()).messageThread(thread).build(),
-							Message.builder().text("Manager-I can resolve your issues!").createdAt(new Date())
+							Message.builder().text("I can resolve your issues!").createdAt(new Date())
 									.messageSender(MessageSender.MANAGER.value()).messageThread(thread).build()));
-
-			messageThread1.setLatestText("Manager-I can resolve your issues!");
+			messageThread1.getReadByEmployee().add(employee.getEmployeeId());
+			messageThread1.getReadByManagers().addAll(Arrays.asList(manager3.getEmployeeId()));
+			
+			messageThread1.setLatestText("I can resolve your issues!");
 			messageThread1.setModifiedAt(new Date());
 			Set<MessageThread> set = new HashSet<>();
 			messageThread1.getTags()
@@ -157,6 +158,10 @@ public class EmployeeFeedbackApplication {
 									Tag.builder().name("Follow Up").color("#FFC107").messageThread(set).build())));
 			System.out.println(messageThread1);
 			messageThreadRepository.save(messageThread1);
+			
+			
+			System.out.println(employeeRepository.findManagerHierarchy(new Long(4)));
+			
 
 		};
 	}

@@ -1,6 +1,14 @@
 import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
+const managerModel = {
+  managers: [],
+  setManagers: action((state, managers) => {
+    state.managers = managers;
+  }),
+  count: computed(state => Object.values(state.managers).length),
+};
+
 const tagModel = {
   tags: [],
   setTags: action((state, tags) => {
@@ -39,7 +47,25 @@ const employeeThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
-
+  readMessageThread: thunk((actions, thread, {getState}) => {
+    let temp = getState();
+    let id;
+    temp.threads.forEach((item, index) => {
+      if (item.threadId === thread.threadId) {
+        id = index;
+      }
+    });
+    let new_state = update(temp, {
+      threads: {
+        [id]: {
+          readByManagers: {
+            $push: [thread.employeeId],
+          },
+        },
+      },
+    });
+    actions.setThreads(new_state.threads);
+  }),
   addMessageToThread: thunk((actions, thread, {getState}) => {
     let temp = getState();
     let id;
@@ -96,7 +122,6 @@ const personalThreadModel = {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
-      console.log(index);
       if (item.threadId === thread.threadId) {
         id = index;
       }
@@ -106,6 +131,25 @@ const personalThreadModel = {
         [id]: {
           messages: {
             $set: thread.messages,
+          },
+        },
+      },
+    });
+    actions.setThreads(new_state.threads);
+  }),
+  readMessageThread: thunk((actions, thread, {getState}) => {
+    let temp = getState();
+    let id;
+    temp.threads.forEach((item, index) => {
+      if (item.threadId === thread.threadId) {
+        id = index;
+      }
+    });
+    let new_state = update(temp, {
+      threads: {
+        [id]: {
+          readByEmployee: {
+            $set: thread.employeeId,
           },
         },
       },
@@ -127,6 +171,7 @@ const personalThreadModel = {
 };
 
 export const storeModel = {
+  managerList: managerModel,
   tagList: tagModel,
   employeeThreadList: employeeThreadModel,
   personalThreadList: personalThreadModel,
