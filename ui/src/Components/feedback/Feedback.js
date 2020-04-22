@@ -2,10 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import ThreadView from '../threadview/ThreadView';
 import './Feedback.css';
-import {get_all_tags, get_threads_for_employee} from '../apollo/Queries';
+import {
+  get_all_tags,
+  get_threads_for_employee,
+  read_message_thread,
+} from '../apollo/Queries';
 import {UserType} from '../UserType';
 import {FeedbackType} from './FeedbackType';
-import {useLazyQuery} from '@apollo/react-hooks';
+import {useLazyQuery, useMutation} from '@apollo/react-hooks';
 import {useAuthUser} from '../auth/AuthUser';
 import MessageThreadView from '../messageview/MessageThreadView';
 import {useStoreActions, useStoreState} from 'easy-peasy';
@@ -60,6 +64,14 @@ const Feedback = ({feedbackType, managerList}) => {
     actions => actions.personalThreadList.setThreads
   );
 
+  const readMessageEmployeeThread = useStoreActions(
+    actions => actions.employeeThreadList.readMessageThread
+  );
+
+  const readMessagePersonalThread = useStoreActions(
+    actions => actions.personalThreadList.readMessageThread
+  );
+
   const personalThreadCount = useStoreState(
     state => state.personalThreadList.count
   );
@@ -76,6 +88,32 @@ const Feedback = ({feedbackType, managerList}) => {
       console.log(error);
     },
   });
+
+  const [readMessageThread] = useMutation(read_message_thread, {
+    onCompleted: data => {
+      let thread = getThreadById(data.readMessageThread.threadId);
+      if (thread.createdBy)
+        readMessagePersonalThread({
+          threadId: data.readMessageThread.threadId,
+          employeeId: loggedInUser.employeeId,
+        });
+      else
+        readMessageEmployeeThread({
+          threadId: data.readMessageThread.threadId,
+          employeeId: loggedInUser.employeeId,
+        });
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
+
+  const readThread = threadKey => {
+    setSelectedThread(threadKey);
+    readMessageThread({
+      variables: {employeeId: loggedInUser.employeeId, threadId: threadKey},
+    });
+  };
 
   const getThreadCount = () => {
     if (
@@ -120,6 +158,7 @@ const Feedback = ({feedbackType, managerList}) => {
           feedbackType={feedbackType}
           threadData={getThreads()}
           managerList={managerList}
+          readThread={readThread}
         />
       </nav>
       <div className="fb-child-content">

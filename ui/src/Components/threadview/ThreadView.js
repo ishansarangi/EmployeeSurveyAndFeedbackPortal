@@ -17,10 +17,10 @@ import useDebounce from '../util/UseDebounce';
 
 const ThreadView = ({
   selectedThread,
-  setSelectedThread,
   feedbackType,
   threadData,
   managerList,
+  readThread,
 }) => {
   const {loggedInUser} = useAuthUser();
   const [tagFilter, setTagFilter] = useState([]);
@@ -94,8 +94,9 @@ const ThreadView = ({
     return threadData.map((thread, index) => {
       return (
         <ThreadItem
+          key={index}
           selectedThread={selectedThread}
-          setSelectedThread={setSelectedThread}
+          readThread={readThread}
           threadKey={thread.threadId}
           thread={{
             read: thread.read,
