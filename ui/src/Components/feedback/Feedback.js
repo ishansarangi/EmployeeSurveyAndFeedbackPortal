@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Feedback = ({feedbackType, managerList}) => {
+const Feedback = ({feedbackType}) => {
   const {loggedInUser} = useAuthUser();
   const classes = useStyles();
   const setTags = useStoreActions(actions => actions.tagList.setTags);
@@ -157,7 +157,6 @@ const Feedback = ({feedbackType, managerList}) => {
           selectedThread={selectedThread}
           feedbackType={feedbackType}
           threadData={getThreads()}
-          managerList={managerList}
           readThread={readThread}
         />
       </nav>

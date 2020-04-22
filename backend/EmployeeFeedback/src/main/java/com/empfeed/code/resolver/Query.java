@@ -30,7 +30,7 @@ public class Query implements GraphQLQueryResolver {
     	// single inheritance relationship in JPA
     	//It returns the list of managers for now.
 		Employee emp = employeeRepository.findOne(employeeId);
-    	return employeeRepository.findManager(emp.getManagerId());
+    	return employeeRepository.findManager(emp.getEmployeeId());
     }
     
     public Employee findEmployee(Long employeeId) {
@@ -51,5 +51,9 @@ public class Query implements GraphQLQueryResolver {
     
     public Iterable<Tag> findAllTags(){
     	return tagRepository.findAll();
+    }
+    
+    public Iterable<Employee> findManagerHierarchy(Long employeeId){
+    	return employeeRepository.findManagerHierarchy(employeeId);
     }
 }

@@ -1,6 +1,14 @@
 import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
+const managerModel = {
+  managers: [],
+  setManagers: action((state, managers) => {
+    state.managers = managers;
+  }),
+  count: computed(state => Object.values(state.managers).length),
+};
+
 const tagModel = {
   tags: [],
   setTags: action((state, tags) => {
@@ -163,6 +171,7 @@ const personalThreadModel = {
 };
 
 export const storeModel = {
+  managerList: managerModel,
   tagList: tagModel,
   employeeThreadList: employeeThreadModel,
   personalThreadList: personalThreadModel,
