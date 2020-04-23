@@ -22,11 +22,11 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
 
   const debouncedSearchTerm = useDebounce(searchText, 500);
 
-  const some1 = useStoreState(state =>
+  const some1 = useStoreState((state) =>
     state.employeeThreadList.filterThreads(tagFilter, debouncedSearchTerm)
   );
 
-  const some2 = useStoreState(state =>
+  const some2 = useStoreState((state) =>
     state.personalThreadList.filterThreads(debouncedSearchTerm)
   );
 
@@ -41,7 +41,7 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
     threadData = some2;
   }
 
-  const useStyles = makeStyles(theme => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
       width: '100%',
       backgroundColor: theme.palette.background.paper,
@@ -93,7 +93,10 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
           readThread={readThread}
           threadKey={thread.threadId}
           thread={{
-            read: thread.read,
+            read:
+              feedbackType === FeedbackType.Employee
+                ? thread.readByManagers.indexOf(loggedInUser.employeeId) > -1
+                : thread.readByEmployee.indexOf(loggedInUser.employeeId) > -1,
             createdBy: thread.createdBy,
             latestText: thread.latestText,
             latestDate: thread.modifiedAt,
@@ -115,7 +118,7 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
       return <FilterByTag setTagFilter={setTagFilter} />;
   };
 
-  const PaperCustom = withStyles(theme => ({
+  const PaperCustom = withStyles((theme) => ({
     outlined: {
       border: 0,
     },

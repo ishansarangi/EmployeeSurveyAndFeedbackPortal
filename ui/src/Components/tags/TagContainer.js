@@ -11,7 +11,6 @@ import {useMutation} from '@apollo/react-hooks';
 import TagTable from './TagTable';
 import AddTag from './AddTag';
 import {create_new_tag} from '../apollo/Queries';
-
 import {useStoreActions} from 'easy-peasy';
 
 const DialogContent = withStyles(theme => ({
@@ -42,12 +41,23 @@ const TagContainer = ({handleClose, open}) => {
   const [text, setText] = useState('');
   const [color, setColor] = useState('#FF0000');
   const addTag = useStoreActions(actions => actions.tagList.add);
+  const showSnack = useStoreActions(actions => actions.snackBarModel.showSnack);
 
   const [createTag] = useMutation(create_new_tag, {
     onCompleted: data => {
       setText('');
       setColor('#FF0000');
       addTag(data.newTag);
+      showSnack({
+        message: 'Tag Created!',
+        severity: 'success',
+      });
+    },
+    onError: data => {
+      showSnack({
+        message: 'Tag Creation Failed!',
+        severity: 'error',
+      });
     },
   });
   const handleCreateTag = () => {
@@ -70,7 +80,6 @@ const TagContainer = ({handleClose, open}) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-      
       >
         <DialogTitle id="customized-dialog-title">Manage Tags</DialogTitle>
         <DialogContent dividers>

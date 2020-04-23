@@ -118,7 +118,7 @@ const MessageThreadView = ({
   };
 
   const getMessageView = () => {
-    if (selectedThread === -1 || threadCount == 0) {
+    if (selectedThread === -1 || threadCount === 0) {
       return (
         <div id="chat" className="chat">
           {getStaticViews()}

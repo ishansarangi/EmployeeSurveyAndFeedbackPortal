@@ -1,6 +1,28 @@
 import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
+const snackBarModel = {
+  snackbar: {
+    open: false,
+    message: '',
+    severity: '',
+  },
+  showSnack: action((state, newState) => {
+    state.snackbar = {
+      open: true,
+      message: newState.message,
+      severity: newState.severity,
+    };
+  }),
+  hideSnack: action(state => {
+    state.snackbar = {
+      open: false,
+      message: '',
+      severity: '',
+    };
+  }),
+};
+
 const managerModel = {
   managers: [],
   setManagers: action((state, managers) => {
@@ -171,6 +193,7 @@ const personalThreadModel = {
 };
 
 export const storeModel = {
+  snackBarModel: snackBarModel,
   managerList: managerModel,
   tagList: tagModel,
   employeeThreadList: employeeThreadModel,

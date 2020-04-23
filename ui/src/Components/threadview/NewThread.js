@@ -119,9 +119,21 @@ const NewThread = () => {
     actions => actions.personalThreadList.addThread
   );
 
+  const showSnack = useStoreActions(actions => actions.snackBarModel.showSnack);
+
   const [createThread] = useMutation(create_new_thread, {
     onCompleted: data => {
       addNewThread(data.newThread);
+      showSnack({
+        message: 'Thread was Created!',
+        severity: 'success',
+      });
+    },
+    onError: data => {
+      showSnack({
+        message: 'Thread Creation Failed!',
+        severity: 'error',
+      });
     },
   });
 

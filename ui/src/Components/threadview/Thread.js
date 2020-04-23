@@ -59,7 +59,7 @@ const Thread = ({
           setSelectedThread={setSelectedThread}
           selectedIndex={selectedThread}
           threadKey={index}
-          threadDetails={{
+          thread={{
             read: thread.read,
             createdBy: thread.createdBy,
             latestText: thread.latestText,
