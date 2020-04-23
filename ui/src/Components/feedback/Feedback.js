@@ -14,7 +14,7 @@ import {useAuthUser} from '../auth/AuthUser';
 import MessageThreadView from '../messageview/MessageThreadView';
 import {useStoreActions, useStoreState} from 'easy-peasy';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
@@ -30,21 +30,25 @@ const useStyles = makeStyles(theme => ({
 const Feedback = ({feedbackType}) => {
   const {loggedInUser} = useAuthUser();
   const classes = useStyles();
-  const setTags = useStoreActions(actions => actions.tagList.setTags);
+  const setTags = useStoreActions((actions) => actions.tagList.setTags);
 
-  const employeeThreads = useStoreState(
-    state => state.employeeThreadList.threads
+  const employeeThreads = useStoreState((state) =>
+    state.employeeThreadList.threads.sort(
+      (a, b) => new Date(b.modifiedAt) - new Date(a.modifiedAt)
+    )
   );
-  const personalThreads = useStoreState(
-    actions => actions.personalThreadList.threads
+  const personalThreads = useStoreState((actions) =>
+    actions.personalThreadList.threads.sort(
+      (a, b) => new Date(b.modifiedAt) - new Date(a.modifiedAt)
+    )
   );
 
   const [getTagData] = useLazyQuery(get_all_tags, {
     fetchPolicy: 'network-only',
-    onCompleted: data => {
+    onCompleted: (data) => {
       setTags(data.findAllTags);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });
@@ -61,36 +65,36 @@ const Feedback = ({feedbackType}) => {
   const [selectedThread, setSelectedThread] = useState(-1);
 
   const setPersonalThreadList = useStoreActions(
-    actions => actions.personalThreadList.setThreads
+    (actions) => actions.personalThreadList.setThreads
   );
 
   const readMessageEmployeeThread = useStoreActions(
-    actions => actions.employeeThreadList.readMessageThread
+    (actions) => actions.employeeThreadList.readMessageThread
   );
 
   const readMessagePersonalThread = useStoreActions(
-    actions => actions.personalThreadList.readMessageThread
+    (actions) => actions.personalThreadList.readMessageThread
   );
 
   const personalThreadCount = useStoreState(
-    state => state.personalThreadList.count
+    (state) => state.personalThreadList.count
   );
   const employeeThreadCount = useStoreState(
-    state => state.employeeThreadList.count
+    (state) => state.employeeThreadList.count
   );
 
   const [getPersonalThreadData] = useLazyQuery(get_threads_for_employee, {
     fetchPolicy: 'network-only',
-    onCompleted: data => {
+    onCompleted: (data) => {
       if (data) setPersonalThreadList(data.findAllSentThreads);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });
 
   const [readMessageThread] = useMutation(read_message_thread, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       let thread = getThreadById(data.readMessageThread.threadId);
       if (thread.createdBy)
         readMessagePersonalThread({
@@ -103,12 +107,12 @@ const Feedback = ({feedbackType}) => {
           employeeId: loggedInUser.employeeId,
         });
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });
 
-  const readThread = threadKey => {
+  const readThread = (threadKey) => {
     setSelectedThread(threadKey);
     readMessageThread({
       variables: {employeeId: loggedInUser.employeeId, threadId: threadKey},
@@ -135,16 +139,16 @@ const Feedback = ({feedbackType}) => {
     return personalThreads;
   };
 
-  const getThreadById = selectedThread => {
+  const getThreadById = (selectedThread) => {
     if (
       feedbackType === FeedbackType.Employee &&
       loggedInUser.userType === UserType.Manager
     ) {
-      return employeeThreads.find(thread => {
+      return employeeThreads.find((thread) => {
         return thread.threadId === selectedThread;
       });
     }
-    return personalThreads.find(thread => {
+    return personalThreads.find((thread) => {
       return thread.threadId === selectedThread;
     });
   };

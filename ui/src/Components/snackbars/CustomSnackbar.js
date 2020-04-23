@@ -4,12 +4,13 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import {makeStyles} from '@material-ui/core/styles';
 import {useStoreActions, useStoreState} from 'easy-peasy';
+import Fade from '@material-ui/core/Fade';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     '& > * + *': {
@@ -20,9 +21,9 @@ const useStyles = makeStyles(theme => ({
 
 const CustomSnackbar = () => {
   const classes = useStyles();
-  const snackState = useStoreState(state => state.snackBarModel.snackbar);
+  const snackState = useStoreState((state) => state.snackBarModel.snackbar);
   const hideSnackAction = useStoreActions(
-    actions => actions.snackBarModel.hideSnack
+    (actions) => actions.snackBarModel.hideSnack
   );
 
   const handleClose = (event, reason) => {
@@ -40,8 +41,9 @@ const CustomSnackbar = () => {
           vertical: 'bottom',
           horizontal: 'left',
         }}
-        autoHideDuration={1000}
+        autoHideDuration={2000}
         onClose={handleClose}
+        TransitionComponent={Fade}
       >
         <Alert onClose={handleClose} severity={snackState.severity}>
           {snackState.message}
