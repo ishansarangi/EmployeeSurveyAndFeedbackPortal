@@ -1,6 +1,25 @@
 import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
+const DialogModel = {
+  dialog: {
+    open: false,
+    message: '',
+  },
+  showDialog: action((state, newState) => {
+    state.dialog = {
+      open: true,
+      message: newState.message,
+    };
+  }),
+  closeDialog: action(state => {
+    state.dialog = {
+      open: false,
+      message: '',
+    };
+  }),
+};
+
 const snackBarModel = {
   snackbar: {
     open: false,
@@ -193,6 +212,7 @@ const personalThreadModel = {
 };
 
 export const storeModel = {
+  DialogModel: DialogModel,
   snackBarModel: snackBarModel,
   managerList: managerModel,
   tagList: tagModel,
