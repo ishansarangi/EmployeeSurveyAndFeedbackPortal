@@ -42,6 +42,13 @@ const tagModel = {
   remove: action((state, tagId) => {
     state.tags = state.tags.filter(tag => tag.tagId !== tagId);
   }),
+  filterTags: computed(state => searchText => {
+    let filteredTags = state.tags;
+    if (searchText) {
+      return filteredTags.filter(tag => tag.name.match(searchText));
+    }
+    return filteredTags;
+  }),
 };
 
 const employeeThreadModel = {

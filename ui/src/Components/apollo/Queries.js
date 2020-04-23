@@ -154,13 +154,28 @@ export const create_new_tag = gql`
 `;
 
 export const add_tags_to_thread = gql`
-  mutation addTagToThread(
+  mutation addTagToThread($employeeId: Long!, $threadId: Long!, $tagId: Long!) {
+    addTagToThread(
+      input: {employeeId: $employeeId, threadId: $threadId, tagId: $tagId}
+    ) {
+      threadId
+      tags {
+        tagId
+        color
+        name
+      }
+    }
+  }
+`;
+
+export const remove_tag_from_thread = gql`
+  mutation removeTagFromThread(
     $employeeId: Long!
     $threadId: Long!
-    $tags: [Long!]!
+    $tagId: Long!
   ) {
-    addTagToThread(
-      input: {employeeId: $employeeId, threadId: $threadId, tags: $tags}
+    removeTagFromThread(
+      input: {employeeId: $employeeId, threadId: $threadId, tagId: $tagId}
     ) {
       threadId
       tags {

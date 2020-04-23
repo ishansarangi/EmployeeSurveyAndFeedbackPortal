@@ -63,7 +63,7 @@ const MessageThreadView = ({
       )
         return (
           <div className="component-footer">
-            <AddTagToThread threadId={threadData.threadId} />
+            <AddTagToThread threadData={threadData} />
             <TextBox
               text={text}
               setText={setText}
