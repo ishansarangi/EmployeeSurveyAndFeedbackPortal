@@ -69,7 +69,9 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
     },
 
     threadContainer: {
-      overflow: 'auto',
+      height: '100%',
+      overflow: 'scroll',
+      paddingBottom: '-50px',
     },
     threadContainerFull: {
       maxHeight: 750,
@@ -95,7 +97,11 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
           thread={{
             read:
               feedbackType === FeedbackType.Employee
-                ? thread.readByManagers.indexOf(loggedInUser.employeeId) > -1
+                ? typeof thread.readByManagers === 'undefined'
+                  ? false
+                  : thread.readByManagers.indexOf(loggedInUser.employeeId) > -1
+                : typeof thread.readByEmployee === 'undefined'
+                ? false
                 : thread.readByEmployee.indexOf(loggedInUser.employeeId) > -1,
             createdBy: thread.createdBy,
             latestText: thread.latestText,

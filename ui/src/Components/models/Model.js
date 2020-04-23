@@ -1,12 +1,34 @@
 import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
+const snackBarModel = {
+  snackbar: {
+    open: false,
+    message: '',
+    severity: '',
+  },
+  showSnack: action((state, newState) => {
+    state.snackbar = {
+      open: true,
+      message: newState.message,
+      severity: newState.severity,
+    };
+  }),
+  hideSnack: action((state) => {
+    state.snackbar = {
+      open: false,
+      message: '',
+      severity: '',
+    };
+  }),
+};
+
 const managerModel = {
   managers: [],
   setManagers: action((state, managers) => {
     state.managers = managers;
   }),
-  count: computed(state => Object.values(state.managers).length),
+  count: computed((state) => Object.values(state.managers).length),
 };
 
 const tagModel = {
@@ -18,7 +40,7 @@ const tagModel = {
     state.tags = [...state.tags, tag];
   }),
   remove: action((state, tagId) => {
-    state.tags = state.tags.filter(tag => tag.tagId !== tagId);
+    state.tags = state.tags.filter((tag) => tag.tagId !== tagId);
   }),
 };
 
@@ -27,7 +49,7 @@ const employeeThreadModel = {
   setThreads: action((state, threads) => {
     state.threads = threads;
   }),
-  count: computed(state => Object.values(state.threads).length),
+  count: computed((state) => Object.values(state.threads).length),
   addTagsToThread: thunk((actions, thread, {getState}) => {
     let temp = getState();
     let id;
@@ -85,13 +107,13 @@ const employeeThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
-  filterThreads: computed(state => (tags, searchText) => {
+  filterThreads: computed((state) => (tags, searchText) => {
     let filteredThreads = state.threads;
     if (tags && tags.length) {
-      filteredThreads = state.threads.filter(thread => {
+      filteredThreads = state.threads.filter((thread) => {
         const containsAllTags = (selectedTags, threadTags) => {
-          return selectedTags.every(tag =>
-            threadTags.some(threadTag => threadTag.tagId === tag.tagId)
+          return selectedTags.every((tag) =>
+            threadTags.some((threadTag) => threadTag.tagId === tag.tagId)
           );
         };
         if (tags && thread.tags && containsAllTags(tags, thread.tags)) {
@@ -101,8 +123,8 @@ const employeeThreadModel = {
     }
 
     if (searchText) {
-      return filteredThreads.filter(thread =>
-        thread.messages.some(message => message.text.match(searchText))
+      return filteredThreads.filter((thread) =>
+        thread.messages.some((message) => message.text.match(searchText))
       );
     }
     return filteredThreads;
@@ -115,9 +137,9 @@ const personalThreadModel = {
     state.threads = threads;
   }),
   addThread: action((state, thread) => {
-    state.threads.push(thread);
+    state.threads = [thread, ...state.threads];
   }),
-  count: computed(state => Object.values(state.threads).length),
+  count: computed((state) => Object.values(state.threads).length),
   addMessageToThread: thunk((actions, thread, {getState}) => {
     let temp = getState();
     let id;
@@ -157,12 +179,12 @@ const personalThreadModel = {
     actions.setThreads(new_state.threads);
   }),
 
-  filterThreads: computed(state => searchText => {
+  filterThreads: computed((state) => (searchText) => {
     let filteredThreads = state.threads;
 
     if (searchText) {
-      return filteredThreads.filter(thread =>
-        thread.messages.some(message => message.text.match(searchText))
+      return filteredThreads.filter((thread) =>
+        thread.messages.some((message) => message.text.match(searchText))
       );
     }
 
@@ -171,6 +193,7 @@ const personalThreadModel = {
 };
 
 export const storeModel = {
+  snackBarModel: snackBarModel,
   managerList: managerModel,
   tagList: tagModel,
   employeeThreadList: employeeThreadModel,

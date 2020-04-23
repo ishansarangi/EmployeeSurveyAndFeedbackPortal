@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   leftPart: {
+    flex: '0 0 30px',
     width: '30px',
   },
   rightPart: {
-    marginLeft: '4px',
-    marginTop: '6px',
+    marginTop: '-3px',
   },
   topSecionWithoutBadge: {
     display: 'flex',
@@ -76,13 +76,13 @@ const ThreadItem = ({thread, threadKey, selectedThread, readThread}) => {
   const getReadIcon = () => {
     if (!thread.read) {
       return (
-        <ListItemAvatarCustom>
+        <Fragment>
           <FiberManualRecordSharpIcon
             fontSize="inherit"
             style={{fontSize: '15px'}}
             className={classes.readIcon}
           />
-        </ListItemAvatarCustom>
+        </Fragment>
       );
     }
   };
@@ -100,12 +100,6 @@ const ThreadItem = ({thread, threadKey, selectedThread, readThread}) => {
       </div>
     );
   };
-
-  const ListItemAvatarCustom = withStyles((theme) => ({
-    root: {
-      minWidth: '25px',
-    },
-  }))(ListItemAvatar);
 
   const getTags = () => {
     if (thread.tags) {

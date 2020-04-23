@@ -7,6 +7,7 @@ import Feedback from './Feedback';
 import {get_manager_hierarchy} from '../apollo/Queries';
 import {useLazyQuery} from '@apollo/react-hooks';
 import {useStoreActions} from 'easy-peasy';
+import CustomSnackbar from '../snackbars/CustomSnackbar';
 
 const FeedbackContainer = props => {
   const {loggedInUser} = useAuthUser();
@@ -42,6 +43,7 @@ const FeedbackContainer = props => {
             <Feedback feedbackType={FeedbackType.Personal} />
           </div>
         )}
+        <CustomSnackbar />
       </Fragment>
     );
   return <h1>Please login</h1>;

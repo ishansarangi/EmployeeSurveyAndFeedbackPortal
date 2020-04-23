@@ -17,7 +17,7 @@ import ManagerSelect from './ManagerSelect';
 import {useAuthUser} from '../auth/AuthUser';
 import {useStoreActions} from 'easy-peasy';
 
-const styles = theme => ({
+const styles = (theme) => ({
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -53,7 +53,7 @@ const styles = theme => ({
   },
 });
 
-const DialogTitle = withStyles(styles)(props => {
+const DialogTitle = withStyles(styles)((props) => {
   const {children, classes, onClose, ...other} = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -71,20 +71,20 @@ const DialogTitle = withStyles(styles)(props => {
   );
 });
 
-const DialogContent = withStyles(theme => ({
+const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles(theme => ({
+const DialogActions = withStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
   },
 }))(MuiDialogActions);
 
-const CreateButton = withStyles(theme => ({
+const CreateButton = withStyles((theme) => ({
   root: {
     color: '#ffffff',
     width: '100%',
@@ -95,7 +95,7 @@ const CreateButton = withStyles(theme => ({
   },
 }))(Button);
 
-const ActionButton = withStyles(theme => ({
+const ActionButton = withStyles((theme) => ({
   root: {
     color: '#E87424',
     backgroundColor: 'white',
@@ -116,16 +116,30 @@ const NewThread = () => {
   const [hasBodyError, setBodyError] = useState(false);
 
   const addNewThread = useStoreActions(
-    actions => actions.personalThreadList.addThread
+    (actions) => actions.personalThreadList.addThread
+  );
+
+  const showSnack = useStoreActions(
+    (actions) => actions.snackBarModel.showSnack
   );
 
   const [createThread] = useMutation(create_new_thread, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       addNewThread(data.newThread);
+      showSnack({
+        message: 'Thread was Created!',
+        severity: 'success',
+      });
+    },
+    onError: (data) => {
+      showSnack({
+        message: 'Thread Creation Failed!',
+        severity: 'error',
+      });
     },
   });
 
-  const handleManagerSelection = event => {
+  const handleManagerSelection = (event) => {
     if (event.length === 0) {
       setManager('');
     } else {
@@ -152,7 +166,7 @@ const NewThread = () => {
     setSubject('');
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     if (subject === '') setSubjectError(true);
     else if (manager === '') setManagerError(true);
     else if (body === '') setBodyError(true);
@@ -189,7 +203,7 @@ const NewThread = () => {
               id="filled-basic"
               label="Subject"
               variant="filled"
-              onChange={event => {
+              onChange={(event) => {
                 event.preventDefault();
                 setSubjectError(false);
                 setSubject(event.target.value);
@@ -217,7 +231,7 @@ const NewThread = () => {
               multiline={true}
               rows={10}
               rowsMax={10}
-              onChange={event => {
+              onChange={(event) => {
                 event.preventDefault();
                 setBodyError(false);
                 setBody(event.target.value);
