@@ -14,6 +14,7 @@ input TagInput {
 
 extend type Mutation {
 	newTag(input: TagInput) : Tag!
+	removeTag(input: TagInput) : Tag!
 }
 
 extend type Query {

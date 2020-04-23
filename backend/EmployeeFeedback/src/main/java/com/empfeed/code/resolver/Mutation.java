@@ -3,6 +3,7 @@ package com.empfeed.code.resolver;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
@@ -162,18 +163,27 @@ public class Mutation implements GraphQLMutationResolver {
 	public MessageThread removeTagFromThread(ThreadTagInput threadTagInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
 		if (messageThread != null) {
-
+            Set<Tag> tagList =  messageThread.getTags();
 			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
+			
 			Set<Tag> set = new HashSet<>();
 			for (Tag t : list) {
 				set.add(t);
+				tagList.remove(t);
 			}
-
+            
+			for(Tag t: tagList) {
+				t.setTotalMessages(t.getTotalMessages()-1);
+				tagRepository.save(t);
+			}
+			
 			messageThread.setTags(set);
-			;
+			
 			messageThreadRepository.save(messageThread);
 		}
 
+		
+		
 		return messageThread;
 	}
 
@@ -189,10 +199,13 @@ public class Mutation implements GraphQLMutationResolver {
 			Set<Tag> set = new HashSet<>();
 			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
 			for (Tag t : list) {
+				t.setTotalMessages(t.getTotalMessages()+1);
+				tagRepository.save(t);
 				set.add(t);
 			}
 			
 			messageThread.getTags().addAll(set);
+			
 			messageThreadRepository.save(messageThread);
 		}
 
