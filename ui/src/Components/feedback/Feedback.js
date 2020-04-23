@@ -82,7 +82,7 @@ const Feedback = ({feedbackType}) => {
   const [getPersonalThreadData] = useLazyQuery(get_threads_for_employee, {
     fetchPolicy: 'network-only',
     onCompleted: data => {
-      setPersonalThreadList(data.findAllSentThreads);
+      if (data) setPersonalThreadList(data.findAllSentThreads);
     },
     onError: error => {
       console.log(error);
