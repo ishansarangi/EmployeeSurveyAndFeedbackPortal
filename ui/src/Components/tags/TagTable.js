@@ -12,6 +12,14 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import { useStoreState } from 'easy-peasy';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useMutation } from '@apollo/react-hooks';
+import { delete_tag } from '../apollo/Queries';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -35,11 +43,35 @@ const useStyles = makeStyles({
   },
 });
 
+
 const TagTable = () => {
   const rows = useStoreState(state => state.tagList.tags);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
+  const [deleteTagID, setDeleteTagID] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const DialogActionButton = withStyles(theme => ({
+    root: {
+      color: '#E87424',
+    },
+  }))(Button);
+
+  const [deleteTag] = useMutation(delete_tag, {
+    onCompleted: data => {
+      setDeleteTagID(0);
+    },
+  });
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,7 +82,51 @@ const TagTable = () => {
     setPage(0);
   };
 
-  const handleColumnValue = (col, value) => {
+  const handleDeleteTag = () => {
+
+    handleClickOpen();
+
+    // deleteTag({
+    //   variables: {
+    //     tagId: deleteTagID,
+    //   },
+    // })
+  }
+
+  const DialogView = ({ totalMessages }) => {
+
+    const mesg = (!totalMessages & totalMessages === 0) ? 'Are you sure you want to delete it?' : 'This tag is being used by message threads. Do you still want to delete it?';
+    console.log(mesg);
+    return (
+
+      <>
+        < Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Delete Tag?"}</DialogTitle>
+          <DialogContent>
+
+            <DialogContentText id="alert-dialog-description">
+              {mesg}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <DialogActionButton onClick={handleClose} >
+              Yes
+  </DialogActionButton>
+            <DialogActionButton onClick={handleClose} autoFocus>
+              No
+  </DialogActionButton>
+          </DialogActions>
+        </Dialog >
+      </>
+    );
+  }
+
+  const handleColumnValue = (col, value, row) => {
     if (col.format && typeof value === 'number') return col.format(value);
     else if (col.id === 'color') {
       return (
@@ -65,9 +141,17 @@ const TagTable = () => {
         />
       );
     } else if (col.id === 'delete') {
-      return (<IconButton aria-label="delete">
-        <DeleteIcon />
-      </IconButton>);
+      console.log(row);
+      return (
+        <div>
+          <IconButton aria-label="delete" onClick={handleDeleteTag}>
+            <DeleteIcon />
+          </IconButton>
+        </div>
+      );
+    }
+    else if (col.id === 'numOfMessages') {
+      return row.totalMessages;
     }
     else {
       return value;
@@ -76,6 +160,7 @@ const TagTable = () => {
 
   return (
     <Paper className={classes.root}>
+      <DialogView />
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -106,7 +191,7 @@ const TagTable = () => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {handleColumnValue(column, value)}
+                          {handleColumnValue(column, value, row)}
                         </TableCell>
                       );
                     })}

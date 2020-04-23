@@ -1,4 +1,4 @@
-import {gql} from 'apollo-boost';
+import { gql } from 'apollo-boost';
 
 export const get_threads_for_employee = gql`
   query findAllSentThreads($employeeId: ID!) {
@@ -178,6 +178,16 @@ export const get_all_tags = gql`
       tagId
       color
       name
+      totalMessages
+    }
+  }
+`;
+export const delete_tag = gql`
+  mutation deleteTag($tagId: Long!)
+   {
+    deleteTag (input: {tagId: $tagId})
+    {
+      tagId
     }
   }
 `;
