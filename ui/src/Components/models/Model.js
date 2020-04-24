@@ -1,5 +1,19 @@
-import {action, thunk, computed} from 'easy-peasy';
+import { action, thunk, computed } from 'easy-peasy';
 import update from 'immutability-helper';
+
+const dialogModel = {
+  dialog: {
+    open: false,
+    message: '',
+    Id: '',
+  },
+  setDialog: action((state, newState) => {
+    state.dialog = {
+      open: newState.open,
+      message: newState.message,
+    };
+  }),
+};
 
 const snackBarModel = {
   snackbar: {
@@ -57,7 +71,7 @@ const employeeThreadModel = {
     state.threads = threads;
   }),
   count: computed((state) => Object.values(state.threads).length),
-  addTagsToThread: thunk((actions, thread, {getState}) => {
+  addTagsToThread: thunk((actions, thread, { getState }) => {
     console.log(thread);
     let temp = getState();
     let id;
@@ -77,7 +91,7 @@ const employeeThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
-  removeTagFromThread: thunk((actions, thread, {getState}) => {
+  removeTagFromThread: thunk((actions, thread, { getState }) => {
     console.log(thread);
     let temp = getState();
     let id;
@@ -102,7 +116,7 @@ const employeeThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
-  readMessageThread: thunk((actions, thread, {getState}) => {
+  readMessageThread: thunk((actions, thread, { getState }) => {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
@@ -121,7 +135,7 @@ const employeeThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
-  addMessageToThread: thunk((actions, thread, {getState}) => {
+  addMessageToThread: thunk((actions, thread, { getState }) => {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
@@ -172,7 +186,7 @@ const personalThreadModel = {
     state.threads = [thread, ...state.threads];
   }),
   count: computed((state) => Object.values(state.threads).length),
-  addMessageToThread: thunk((actions, thread, {getState}) => {
+  addMessageToThread: thunk((actions, thread, { getState }) => {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
@@ -191,7 +205,7 @@ const personalThreadModel = {
     });
     actions.setThreads(new_state.threads);
   }),
-  readMessageThread: thunk((actions, thread, {getState}) => {
+  readMessageThread: thunk((actions, thread, { getState }) => {
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
@@ -225,6 +239,7 @@ const personalThreadModel = {
 };
 
 export const storeModel = {
+  dialogModel: dialogModel,
   snackBarModel: snackBarModel,
   managerList: managerModel,
   tagList: tagModel,

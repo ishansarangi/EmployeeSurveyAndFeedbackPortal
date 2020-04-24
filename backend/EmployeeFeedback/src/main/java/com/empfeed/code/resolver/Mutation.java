@@ -225,10 +225,10 @@ public class Mutation implements GraphQLMutationResolver {
 		return toBeAdded;
 	}
 	
-	public Tag removeTag(DeleteTagInput input) {
-		if(null!=input) {
-		Tag tag =  tagRepository.findOne(input.getTagId());
-		Iterable<MessageThread> taggedThreads =  messageThreadRepository.findAllTaggedThreads(input.getTagId());
+	public Tag removeTag(Long tagId) {
+		System.out.println("Tag ID :"+tagId);
+		Tag tag =  tagRepository.findOne(tagId);
+		Iterable<MessageThread> taggedThreads =  messageThreadRepository.findAllTaggedThreads(tagId);
 		if(null!=tag) {
 		for(MessageThread thread: taggedThreads) {
 			if(thread.getTags()!=null) {
@@ -239,13 +239,10 @@ public class Mutation implements GraphQLMutationResolver {
 		tagRepository.delete(tag);
 		}
 		else {
-			throw new TagNotFound("Tag not found for TagId", input.getTagId());
+			throw new TagNotFound("Tag not found for TagId",tagId);
 		}
 		return tag;
-		}
-		else {
-			throw new TagNotFound("Invalid Input",null);
-		}
+		
 		
 	}
 
