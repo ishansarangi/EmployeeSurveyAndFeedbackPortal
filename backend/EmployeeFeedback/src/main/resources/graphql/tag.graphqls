@@ -19,7 +19,7 @@ input DeleteTagInput {
 
 extend type Mutation {
 	newTag(input: TagInput) : Tag!
-	removeTag(input: DeleteTagInput): Tag!
+	removeTag(tagId: Long!): Tag!
 
 }
 
