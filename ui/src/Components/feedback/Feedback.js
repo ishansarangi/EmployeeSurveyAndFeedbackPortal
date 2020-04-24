@@ -83,6 +83,10 @@ const Feedback = ({feedbackType}) => {
     (state) => state.employeeThreadList.count
   );
 
+  const showSnack = useStoreActions(
+    (actions) => actions.snackBarModel.showSnack
+  );
+
   const [getPersonalThreadData] = useLazyQuery(get_threads_for_employee, {
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
@@ -90,6 +94,10 @@ const Feedback = ({feedbackType}) => {
     },
     onError: (error) => {
       console.log(error);
+      showSnack({
+        message: 'Failed to fetch threads!',
+        severity: 'error',
+      });
     },
   });
 

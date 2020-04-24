@@ -44,4 +44,10 @@ public class Tag {
 	@ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
 	private Set<MessageThread> messageThread;
 
+	@Override
+	public String toString() {
+		return "Tag [tagId=" + tagId + ", name=" + name + ", color=" + color + ", totalMessages=" + totalMessages
+				+ ", createdBy=" + createdBy + "]";
+	}
+
 }

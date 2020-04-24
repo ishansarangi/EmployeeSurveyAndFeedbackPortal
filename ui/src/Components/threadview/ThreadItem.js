@@ -101,12 +101,13 @@ const ThreadItem = ({thread, threadKey, selectedThread, readThread}) => {
     );
   };
 
-  const getTags = () => {
-    if (thread.tags) {
-      return thread.tags.map((tag, index) => {
+  const getChipArray = (tags) => {
+    return tags.map((tag, index) => {
+      if (index < 3)
         return (
           <li key={index} style={{listStyle: 'none'}}>
             <Chip
+              key={index}
               variant="default"
               style={{
                 backgroundColor: tag.color,
@@ -116,7 +117,36 @@ const ThreadItem = ({thread, threadKey, selectedThread, readThread}) => {
             />
           </li>
         );
-      });
+    });
+  };
+
+  const getChipLeftCount = (leftChipsCount) => {
+    if (leftChipsCount > 0)
+      return (
+        <li key={leftChipsCount + 3} style={{listStyle: 'none'}}>
+          <Chip
+            key={leftChipsCount + 3}
+            variant="default"
+            label={'+' + leftChipsCount}
+            size="small"
+          />
+        </li>
+      );
+  };
+
+  const getTags = () => {
+    if (thread.tags) {
+      let count = thread.tags.length;
+      let leftChipsCount;
+      if (count > 3) {
+        leftChipsCount = count - 3;
+      }
+      return (
+        <Fragment>
+          {getChipArray(thread.tags)}
+          {getChipLeftCount(leftChipsCount)}
+        </Fragment>
+      );
     }
   };
   const classes = useStyles();

@@ -9,7 +9,7 @@ import {useAuthUser} from '../auth/AuthUser';
 import Typography from '@material-ui/core/Typography';
 import {FeedbackType} from '../feedback/FeedbackType';
 import {UserType} from '../UserType';
-import AddTagToThread from './AddTagToThread';
+import AddTagToThread from './tags/AddTagToThread';
 import {useStoreActions} from 'easy-peasy';
 import ChatBody from './ChatBody';
 
@@ -23,10 +23,10 @@ const MessageThreadView = ({
   const [text, setText] = useState('');
 
   const sendMessageToEmployeeThread = useStoreActions(
-    actions => actions.employeeThreadList.addMessageToThread
+    (actions) => actions.employeeThreadList.addMessageToThread
   );
   const sendMessageToPersonalThread = useStoreActions(
-    actions => actions.personalThreadList.addMessageToThread
+    (actions) => actions.personalThreadList.addMessageToThread
   );
 
   const getThreadToBeUpdated = () => {
@@ -40,11 +40,11 @@ const MessageThreadView = ({
   };
 
   const [sendMessage] = useMutation(send_reply_in_thread, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       setText('');
       getThreadToBeUpdated()(data.newMessage);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
     },
   });
@@ -63,7 +63,7 @@ const MessageThreadView = ({
       )
         return (
           <div className="component-footer">
-            <AddTagToThread threadId={threadData.threadId} />
+            <AddTagToThread threadData={threadData} />
             <TextBox
               text={text}
               setText={setText}

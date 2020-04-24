@@ -9,19 +9,19 @@ import {useLazyQuery} from '@apollo/react-hooks';
 import {useStoreActions} from 'easy-peasy';
 import CustomSnackbar from '../snackbars/CustomSnackbar';
 
-const FeedbackContainer = props => {
+const FeedbackContainer = (props) => {
   const {loggedInUser} = useAuthUser();
 
   const setManagerList = useStoreActions(
-    actions => actions.managerList.setManagers
+    (actions) => actions.managerList.setManagers
   );
 
   const [getManagerList] = useLazyQuery(get_manager_hierarchy, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       setManagerList(data.findManagerHierarchy);
     },
-    onError: error => {
-      console.log(error);
+    onError: (error) => {
+      console.log('Failed to fetch the manager list for the employee' + error);
     },
   });
 
