@@ -169,9 +169,13 @@ const employeeThreadModel = {
       });
     }
     if (searchText) {
-      return filteredThreads.filter((thread) =>
-        thread.messages.some((message) => message.text.match(searchText))
-      );
+      return filteredThreads.filter((thread) => {
+        return (
+          thread.messages.some((message) =>
+            message.text.toLowerCase().match(searchText.toLowerCase())
+          ) || thread.subject.toLowerCase().match(searchText.toLowerCase())
+        );
+      });
     }
     return filteredThreads;
   }),
@@ -229,9 +233,15 @@ const personalThreadModel = {
     let filteredThreads = state.threads;
 
     if (searchText) {
-      return filteredThreads.filter((thread) =>
-        thread.messages.some((message) => message.text.match(searchText))
-      );
+      if (searchText) {
+        return filteredThreads.filter((thread) => {
+          return (
+            thread.messages.some((message) =>
+              message.text.toLowerCase().match(searchText.toLowerCase())
+            ) || thread.subject.toLowerCase().match(searchText.toLowerCase())
+          );
+        });
+      }
     }
 
     return filteredThreads;
