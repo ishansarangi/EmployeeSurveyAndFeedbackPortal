@@ -42,6 +42,13 @@ const tagModel = {
   remove: action((state, tagId) => {
     state.tags = state.tags.filter((tag) => tag.tagId !== tagId);
   }),
+  filterTags: computed((state) => (searchText) => {
+    let filteredTags = state.tags;
+    if (searchText) {
+      return filteredTags.filter((tag) => tag.name.match(searchText));
+    }
+    return filteredTags;
+  }),
 };
 
 const employeeThreadModel = {
@@ -51,6 +58,7 @@ const employeeThreadModel = {
   }),
   count: computed((state) => Object.values(state.threads).length),
   addTagsToThread: thunk((actions, thread, {getState}) => {
+    console.log(thread);
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
@@ -62,7 +70,32 @@ const employeeThreadModel = {
       threads: {
         [id]: {
           tags: {
-            $set: thread.tags,
+            $push: [thread.tag],
+          },
+        },
+      },
+    });
+    actions.setThreads(new_state.threads);
+  }),
+  removeTagFromThread: thunk((actions, thread, {getState}) => {
+    console.log(thread);
+    let temp = getState();
+    let id;
+    let tags = [];
+    temp.threads.forEach((item, index) => {
+      if (item.threadId === thread.threadId) {
+        id = index;
+        item.tags.forEach((t) => {
+          if (t.tagId !== thread.tagId) tags.push(t);
+        });
+      }
+    });
+
+    let new_state = update(temp, {
+      threads: {
+        [id]: {
+          tags: {
+            $set: tags,
           },
         },
       },
@@ -121,7 +154,6 @@ const employeeThreadModel = {
         }
       });
     }
-
     if (searchText) {
       return filteredThreads.filter((thread) =>
         thread.messages.some((message) => message.text.match(searchText))

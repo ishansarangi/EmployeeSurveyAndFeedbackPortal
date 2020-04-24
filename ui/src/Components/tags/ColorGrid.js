@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ColorGrid = ({setColor}) => {
+const ColorGrid = ({setColor, handleClose}) => {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,8 @@ const ColorGrid = ({setColor}) => {
         setSuccess(entry);
         setLoading(false);
         setColor(entry);
-      }, 100);
+        handleClose();
+      }, 300);
     }
   };
 
