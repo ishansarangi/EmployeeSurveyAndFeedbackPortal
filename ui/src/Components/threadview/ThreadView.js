@@ -70,11 +70,12 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
 
     threadContainer: {
       height: '100%',
-      overflow: 'scroll',
-      paddingBottom: '-50px',
+      overflow: 'hidden',
+      overflowY: 'scroll',
+      paddingBottom: '100px',
     },
     threadContainerFull: {
-      maxHeight: 750,
+      maxHeight: 620,
     },
   }));
 
@@ -151,7 +152,13 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
           <SearchBox setSearchText={setSearchText} />
           {getFilterByTagView()}
         </Grid>
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+          style={{
+            marginBottom: '80px',
+          }}
+        >
           <PaperCustom
             square
             variant="outlined"
