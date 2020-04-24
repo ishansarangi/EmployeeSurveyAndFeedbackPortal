@@ -87,6 +87,23 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
     }
   };
 
+  const isRead = (thread) => {
+    if (feedbackType === FeedbackType.Personal) {
+      return thread.messages[thread.messages.length - 1].messageSender !== 1
+        ? typeof thread.readByEmployee === 'undefined'
+          ? false
+          : thread.readByEmployee.indexOf(loggedInUser.employeeId) > -1 ||
+            thread.readByEmployee.indexOf(Number(loggedInUser.employeeId)) > -1
+        : true;
+    } else {
+      return thread.messages[thread.messages.length - 1].messageSender !== 2
+        ? typeof thread.readByManagers === 'undefined'
+          ? false
+          : thread.readByManagers.indexOf(loggedInUser.employeeId) > -1 ||
+            thread.readByManagers.indexOf(Number(loggedInUser.employeeId)) > -1
+        : true;
+    }
+  };
   const getThreadsView = () => {
     return threadData.map((thread, index) => {
       return (
@@ -96,14 +113,7 @@ const ThreadView = ({selectedThread, feedbackType, threadData, readThread}) => {
           readThread={readThread}
           threadKey={thread.threadId}
           thread={{
-            read:
-              feedbackType === FeedbackType.Employee
-                ? typeof thread.readByManagers === 'undefined'
-                  ? false
-                  : thread.readByManagers.indexOf(loggedInUser.employeeId) > -1
-                : typeof thread.readByEmployee === 'undefined'
-                ? false
-                : thread.readByEmployee.indexOf(loggedInUser.employeeId) > -1,
+            read: isRead(thread),
             createdBy: thread.createdBy,
             latestText: thread.latestText,
             latestDate: thread.modifiedAt,
