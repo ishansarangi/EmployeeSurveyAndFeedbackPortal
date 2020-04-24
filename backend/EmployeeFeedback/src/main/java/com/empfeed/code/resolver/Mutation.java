@@ -3,13 +3,13 @@ package com.empfeed.code.resolver;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.empfeed.code.exception.EmployeeNotFound;
 import com.empfeed.code.exception.MessageThreadNotFound;
 import com.empfeed.code.exception.TagCreateFailed;
+import com.empfeed.code.exception.TagNotFound;
 import com.empfeed.code.model.entity.Employee;
 import com.empfeed.code.model.entity.Message;
 import com.empfeed.code.model.entity.Message.MessageBuilder;
@@ -171,32 +171,22 @@ public class Mutation implements GraphQLMutationResolver {
 	 */
 	public MessageThread removeTagFromThread(ThreadTagInput threadTagInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
-
 		if (messageThread == null) {
 			throw new MessageThreadNotFound("Thread not found", threadTagInput.getThreadId());
 		} else {
-
-			Set<Tag> tagList = messageThread.getTags();
-			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
-
-			Set<Tag> set = new HashSet<>();
-			for (Tag t : list) {
-				set.add(t);
-				tagList.remove(t);
+			Tag toBeDeleted = tagRepository.findOne(threadTagInput.getTagId());
+			Set<Tag> tagSet = new HashSet<>();
+			for (Tag t : messageThread.getTags()) {
+				if (t.getTagId().compareTo(threadTagInput.getTagId()) != 0)
+					tagSet.add(t);
+				else
+					toBeDeleted.setTotalMessages(toBeDeleted.getTotalMessages() - 1);
 			}
-
-			for (Tag t : tagList) {
-				t.setTotalMessages(t.getTotalMessages() - 1);
-				tagRepository.save(t);
-			}
-
-			messageThread.setTags(set);
-
+			tagRepository.save(toBeDeleted);
+			messageThread.setTags(tagSet);
 			messageThreadRepository.save(messageThread);
 			return messageThread;
-
 		}
-
 	}
 
 	/**
@@ -210,16 +200,20 @@ public class Mutation implements GraphQLMutationResolver {
 		if (messageThread == null) {
 			throw new MessageThreadNotFound("Thread not found", threadTagInput.getThreadId());
 		} else {
-			Set<Tag> set = new HashSet<>();
-			Iterable<Tag> list = tagRepository.findAll(threadTagInput.getTags());
-			for (Tag t : list) {
-				t.setTotalMessages(t.getTotalMessages() + 1);
-				tagRepository.save(t);
-				set.add(t);
+			Tag toBeAdded = tagRepository.findOne(threadTagInput.getTagId());
+			if (toBeAdded == null) {
+				throw new TagNotFound("Tag not found for TagId", threadTagInput.getTagId());
+			}
+			for (Tag t : messageThread.getTags()) {
+				if (t.getName().equals(toBeAdded.getName()) && t.getColor().equals(toBeAdded.getColor())) {
+					return messageThread;
+				}
 			}
 
-			messageThread.getTags().addAll(set);
+			toBeAdded.setTotalMessages(toBeAdded.getTotalMessages() + 1);
+			tagRepository.save(toBeAdded);
 
+			messageThread.getTags().add(toBeAdded);
 			messageThreadRepository.save(messageThread);
 		}
 

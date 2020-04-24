@@ -45,7 +45,7 @@ const ColorPicker = ({setColor, color}) => {
           horizontal: 'center',
         }}
       >
-        <ColorGrid setColor={setColor} />
+        <ColorGrid setColor={setColor} handleClose={handleClose} />
       </Popover>
     </div>
   );

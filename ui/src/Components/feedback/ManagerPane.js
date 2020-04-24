@@ -10,7 +10,7 @@ import {useLazyQuery} from '@apollo/react-hooks';
 import {useStoreActions, useStoreState} from 'easy-peasy';
 import {get_threads_for_manager} from '../apollo/Queries';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     maxWidth: 360,
@@ -30,20 +30,26 @@ const ManagerPane = () => {
   const classes = useStyles();
   const {loggedInUser} = useAuthUser();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const showSnack = useStoreActions(
+    (actions) => actions.snackBarModel.showSnack
+  );
   const setEmployeeThreadList = useStoreActions(
-    actions => actions.employeeThreadList.setThreads
+    (actions) => actions.employeeThreadList.setThreads
   );
 
-  const managerCount = useStoreState(state => state.managerList.count);
+  const managerCount = useStoreState((state) => state.managerList.count);
 
   const [getEmployeeThreadData] = useLazyQuery(get_threads_for_manager, {
     fetchPolicy: 'network-only',
-    onCompleted: data => {
+    onCompleted: (data) => {
       setEmployeeThreadList(data.findAllReceivedThreads);
     },
-    onError: error => {
+    onError: (error) => {
       console.log(error);
+      showSnack({
+        message: 'Failed to fetch threads!',
+        severity: 'error',
+      });
     },
   });
 
@@ -61,7 +67,7 @@ const ManagerPane = () => {
     setSelectedIndex(index);
   };
 
-  const feedbackView = index => {
+  const feedbackView = (index) => {
     const fbType = index === 0 ? FeedbackType.Employee : FeedbackType.Personal;
     return <Feedback feedbackType={fbType} />;
   };
@@ -74,7 +80,7 @@ const ManagerPane = () => {
             <ListItemLink
               href="#employee-feedback"
               selected={selectedIndex === 0}
-              onClick={event => handleListItemClick(event, 0)}
+              onClick={(event) => handleListItemClick(event, 0)}
             >
               <ListItemText primary="Employee Feedback" />
             </ListItemLink>
@@ -83,7 +89,7 @@ const ManagerPane = () => {
               <ListItemLink
                 href="#my-feedback"
                 selected={selectedIndex === 1}
-                onClick={event => handleListItemClick(event, 1)}
+                onClick={(event) => handleListItemClick(event, 1)}
               >
                 <ListItemText primary="My Feedback" />
               </ListItemLink>

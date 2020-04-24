@@ -149,25 +149,34 @@ export const create_new_tag = gql`
       tagId
       name
       color
+      totalMessages
     }
   }
 `;
 
 export const add_tags_to_thread = gql`
-  mutation addTagToThread(
+  mutation addTagToThread($employeeId: Long!, $threadId: Long!, $tagId: Long!) {
+    addTagToThread(
+      input: {employeeId: $employeeId, threadId: $threadId, tagId: $tagId}
+    ) {
+      tagId
+      color
+      name
+      totalMessages
+    }
+  }
+`;
+
+export const remove_tag_from_thread = gql`
+  mutation removeTagFromThread(
     $employeeId: Long!
     $threadId: Long!
-    $tags: [Long!]!
+    $tagId: Long!
   ) {
-    addTagToThread(
-      input: {employeeId: $employeeId, threadId: $threadId, tags: $tags}
+    removeTagFromThread(
+      input: {employeeId: $employeeId, threadId: $threadId, tagId: $tagId}
     ) {
-      threadId
-      tags {
-        tagId
-        color
-        name
-      }
+      tagId
     }
   }
 `;
@@ -178,6 +187,7 @@ export const get_all_tags = gql`
       tagId
       color
       name
+      totalMessages
     }
   }
 `;

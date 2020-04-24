@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,12 +10,12 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import { useStoreState } from 'easy-peasy';
+import {useStoreState} from 'easy-peasy';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'color', label: 'Color', minWidth: 100 },
+  {id: 'name', label: 'Name', minWidth: 170},
+  {id: 'color', label: 'Color', minWidth: 100},
   {
     id: 'numOfMessages',
     label: 'Total\u00a0Messages\u00a0using\u00a0Tag',
@@ -23,7 +23,7 @@ const columns = [
     align: 'right',
     format: value => value.toLocaleString(),
   },
-  { id: 'delete', label: '', minWidth: 50 },
+  {id: 'delete', label: '', minWidth: 50},
 ];
 
 const useStyles = makeStyles({
@@ -51,6 +51,7 @@ const TagTable = () => {
   };
 
   const handleColumnValue = (col, value) => {
+    console.log(value);
     if (col.format && typeof value === 'number') return col.format(value);
     else if (col.id === 'color') {
       return (
@@ -65,11 +66,12 @@ const TagTable = () => {
         />
       );
     } else if (col.id === 'delete') {
-      return (<IconButton aria-label="delete">
-        <DeleteIcon />
-      </IconButton>);
-    }
-    else {
+      return (
+        <IconButton aria-label="delete">
+          <DeleteIcon />
+        </IconButton>
+      );
+    } else {
       return value;
     }
   };
@@ -84,7 +86,7 @@ const TagTable = () => {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{minWidth: column.minWidth}}
                 >
                   {column.label}
                 </TableCell>

@@ -22,7 +22,7 @@ input ThreadInput {
 input ThreadTagInput {
 	employeeId: Long!
 	threadId: Long!
-	tags : [Long!]
+	tagId : Long!
 }
 
 extend type Mutation {
