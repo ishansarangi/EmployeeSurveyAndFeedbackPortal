@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.empfeed.code.exception.EmployeeNotFound;
-import com.empfeed.code.exception.GraphQLErrorAdapter;
 import com.empfeed.code.exception.MessageThreadNotFound;
 import com.empfeed.code.exception.TagCreateFailed;
 import com.empfeed.code.exception.TagNotFound;
@@ -16,7 +15,6 @@ import com.empfeed.code.model.entity.Message;
 import com.empfeed.code.model.entity.Message.MessageBuilder;
 import com.empfeed.code.model.entity.MessageThread;
 import com.empfeed.code.model.entity.Tag;
-import com.empfeed.code.model.input.DeleteTagInput;
 import com.empfeed.code.model.input.MessageInput;
 import com.empfeed.code.model.input.TagInput;
 import com.empfeed.code.model.input.ThreadInput;
@@ -27,7 +25,6 @@ import com.empfeed.code.repository.MessageThreadRepository;
 import com.empfeed.code.repository.TagRepository;
 import com.empfeed.code.util.Constant.MessageSender;
 
-import graphql.GraphQLException;
 import lombok.AllArgsConstructor;
 
 /**
@@ -161,7 +158,8 @@ public class Mutation implements GraphQLMutationResolver {
 		if (createdBy == null) {
 			throw new TagCreateFailed("Tag was not created, employeeID does not exist", tagInput.getEmployeeId());
 		}
-		Tag tag = Tag.builder().color(tagInput.getColor()).createdBy(createdBy).name(tagInput.getName()).totalMessages(0).build();
+		Tag tag = Tag.builder().color(tagInput.getColor()).createdBy(createdBy).name(tagInput.getName())
+				.totalMessages(0).build();
 		tagRepository.save(tag);
 		return tag;
 	}
@@ -178,7 +176,7 @@ public class Mutation implements GraphQLMutationResolver {
 			throw new MessageThreadNotFound("Thread not found", threadTagInput.getThreadId());
 		} else {
 			Tag toBeDeleted = tagRepository.findOne(threadTagInput.getTagId());
-			
+
 			Set<Tag> tagSet = new HashSet<>();
 			for (Tag t : messageThread.getTags()) {
 				if (t.getTagId().compareTo(threadTagInput.getTagId()) != 0)
@@ -189,7 +187,7 @@ public class Mutation implements GraphQLMutationResolver {
 			tagRepository.save(toBeDeleted);
 			messageThread.setTags(tagSet);
 			messageThreadRepository.save(messageThread);
-			
+
 			return toBeDeleted;
 		}
 	}
@@ -225,28 +223,28 @@ public class Mutation implements GraphQLMutationResolver {
 		return toBeAdded;
 	}
 	
+	
+	/**
+	 * This method removes a tag.
+	 * 
+	 * @param Long tagId
+	 * @return Tag
+	 */
 	public Tag removeTag(Long tagId) {
-		if(null!=tagId) {
-		Tag tag =  tagRepository.findOne(tagId);
-		Iterable<MessageThread> taggedThreads =  messageThreadRepository.findAllTaggedThreads(tagId);
-		if(null!=tag) {
-		for(MessageThread thread: taggedThreads) {
-			if(thread.getTags()!=null) {
-				thread.getTags().remove(tag);
+		Tag tag = tagRepository.getTagDetails(tagId);
+		if (tag != null) {
+			Iterable<MessageThread> threads = tag.getMessageThread();
+			for (MessageThread thread : threads) {
+				if (thread.getTags() != null) {
+					thread.getTags().remove(tag);
+				}
 			}
-		}
-		messageThreadRepository.save(taggedThreads);
-		tagRepository.delete(tag);
-		}
-		else {
-			throw new TagNotFound("Tag not found for TagId",tagId);
+			messageThreadRepository.save(threads);
+			tagRepository.delete(tag);
+		} else {
+			throw new TagNotFound("Tag not found for TagId", tagId);
 		}
 		return tag;
-		}
-		else {
-			throw new TagNotFound("Invalid Input",null);
-		}
-		
 	}
 
 }
