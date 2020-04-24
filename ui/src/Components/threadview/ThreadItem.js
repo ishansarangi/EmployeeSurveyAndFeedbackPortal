@@ -39,9 +39,16 @@ const useStyles = makeStyles((theme) => ({
   preview: {
     fontSize: '14px',
     marginLeft: '30px',
+    wordWrap: 'break-word',
     textOverflow: 'ellipsis',
     color: 'black',
-    maxLines: 3,
+    maxWidth: '20rem',
+    overflow: 'hidden',
+    position: 'relative',
+    maxHeight: '4.4em',
+    textAlign: 'justify',
+    paddingRight: '1em',
+    marginBottom: '0.5em',
   },
   inline: {
     display: 'inline',
@@ -166,11 +173,7 @@ const ThreadItem = ({thread, threadKey, selectedThread, readThread}) => {
           primary={<>{getHeader()}</>}
           secondary={
             <React.Fragment>
-              <Typography
-                className={classes.preview}
-                style={{wordWrap: 'break-word'}}
-                maxLines={3}
-              >
+              <Typography className={classes.preview} maxLines={3}>
                 {thread.latestText}
               </Typography>
 

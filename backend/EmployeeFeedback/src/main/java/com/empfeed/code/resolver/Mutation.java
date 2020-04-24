@@ -161,7 +161,7 @@ public class Mutation implements GraphQLMutationResolver {
 		if (createdBy == null) {
 			throw new TagCreateFailed("Tag was not created, employeeID does not exist", tagInput.getEmployeeId());
 		}
-		Tag tag = Tag.builder().color(tagInput.getColor()).createdBy(createdBy).name(tagInput.getName()).build();
+		Tag tag = Tag.builder().color(tagInput.getColor()).createdBy(createdBy).name(tagInput.getName()).totalMessages(0).build();
 		tagRepository.save(tag);
 		return tag;
 	}
@@ -172,12 +172,13 @@ public class Mutation implements GraphQLMutationResolver {
 	 * @param threadTagInput
 	 * @return
 	 */
-	public MessageThread removeTagFromThread(ThreadTagInput threadTagInput) {
+	public Tag removeTagFromThread(ThreadTagInput threadTagInput) {
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
 		if (messageThread == null) {
 			throw new MessageThreadNotFound("Thread not found", threadTagInput.getThreadId());
 		} else {
 			Tag toBeDeleted = tagRepository.findOne(threadTagInput.getTagId());
+			
 			Set<Tag> tagSet = new HashSet<>();
 			for (Tag t : messageThread.getTags()) {
 				if (t.getTagId().compareTo(threadTagInput.getTagId()) != 0)
@@ -188,7 +189,8 @@ public class Mutation implements GraphQLMutationResolver {
 			tagRepository.save(toBeDeleted);
 			messageThread.setTags(tagSet);
 			messageThreadRepository.save(messageThread);
-			return messageThread;
+			
+			return toBeDeleted;
 		}
 	}
 
@@ -198,18 +200,19 @@ public class Mutation implements GraphQLMutationResolver {
 	 * @param threadTagInput
 	 * @return
 	 */
-	public MessageThread addTagToThread(ThreadTagInput threadTagInput) {
+	public Tag addTagToThread(ThreadTagInput threadTagInput) {
+		Tag toBeAdded;
 		MessageThread messageThread = messageThreadRepository.findOne(threadTagInput.getThreadId());
 		if (messageThread == null) {
 			throw new MessageThreadNotFound("Thread not found", threadTagInput.getThreadId());
 		} else {
-			Tag toBeAdded = tagRepository.findOne(threadTagInput.getTagId());
+			toBeAdded = tagRepository.findOne(threadTagInput.getTagId());
 			if (toBeAdded == null) {
 				throw new TagNotFound("Tag not found for TagId", threadTagInput.getTagId());
 			}
 			for (Tag t : messageThread.getTags()) {
 				if (t.getName().equals(toBeAdded.getName()) && t.getColor().equals(toBeAdded.getColor())) {
-					return messageThread;
+					throw new TagNotFound("Duplicate Tag in the thread", threadTagInput.getThreadId());
 				}
 			}
 
@@ -219,8 +222,7 @@ public class Mutation implements GraphQLMutationResolver {
 			messageThread.getTags().add(toBeAdded);
 			messageThreadRepository.save(messageThread);
 		}
-
-		return messageThread;
+		return toBeAdded;
 	}
 	
 	public Tag removeTag(Long tagId) {
