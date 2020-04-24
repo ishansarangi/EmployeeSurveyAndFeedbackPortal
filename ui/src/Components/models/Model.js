@@ -1,6 +1,21 @@
 import {action, thunk, computed} from 'easy-peasy';
 import update from 'immutability-helper';
 
+const dialogModel = {
+  dialog: {
+    open: false,
+    message: '',
+    id: '',
+  },
+  setDialog: action((state, newState) => {
+    state.dialog = {
+      open: newState.open,
+      message: newState.message,
+      id: newState.id,
+    };
+  }),
+};
+
 const snackBarModel = {
   snackbar: {
     open: false,
@@ -58,7 +73,6 @@ const employeeThreadModel = {
   }),
   count: computed((state) => Object.values(state.threads).length),
   addTagsToThread: thunk((actions, thread, {getState}) => {
-    console.log(thread);
     let temp = getState();
     let id;
     temp.threads.forEach((item, index) => {
@@ -225,6 +239,7 @@ const personalThreadModel = {
 };
 
 export const storeModel = {
+  dialogModel: dialogModel,
   snackBarModel: snackBarModel,
   managerList: managerModel,
   tagList: tagModel,

@@ -10,18 +10,25 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import {useStoreState} from 'easy-peasy';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {useMutation} from '@apollo/react-hooks';
+import {remove_tag} from '../apollo/Queries';
+import {useStoreState, useStoreActions} from 'easy-peasy';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {withStyles} from '@material-ui/core/styles';
+import DialogView from './DialogView';
 
 const columns = [
   {id: 'name', label: 'Name', minWidth: 170},
   {id: 'color', label: 'Color', minWidth: 100},
   {
-    id: 'numOfMessages',
+    id: 'totalMessages',
     label: 'Total\u00a0Messages\u00a0using\u00a0Tag',
     minWidth: 170,
-    align: 'right',
-    format: value => value.toLocaleString(),
   },
   {id: 'delete', label: '', minWidth: 50},
 ];
@@ -36,22 +43,30 @@ const useStyles = makeStyles({
 });
 
 const TagTable = () => {
-  const rows = useStoreState(state => state.tagList.tags);
+  const rows = useStoreState((state) => state.tagList.tags);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const setDialog = useStoreActions((actions) => actions.dialogModel.setDialog);
+
+  const handleDeleteTag = (deleteTagId, totalMessages) => {
+    setDialog({
+      open: true,
+      message: 'Are you sure you want to delete the tag?',
+      id: deleteTagId,
+    });
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const handleColumnValue = (col, value) => {
-    console.log(value);
+  const handleColumnValue = (col, value, row) => {
     if (col.format && typeof value === 'number') return col.format(value);
     else if (col.id === 'color') {
       return (
@@ -67,10 +82,17 @@ const TagTable = () => {
       );
     } else if (col.id === 'delete') {
       return (
-        <IconButton aria-label="delete">
+        <IconButton
+          aria-label="delete"
+          onClick={() => {
+            handleDeleteTag(row.tagId, row.totalMessages);
+          }}
+        >
           <DeleteIcon />
         </IconButton>
       );
+    } else if (col.id === 'totalMessages') {
+      return row.totalMessages;
     } else {
       return value;
     }
@@ -82,7 +104,7 @@ const TagTable = () => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map(column => (
+              {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -104,11 +126,11 @@ const TagTable = () => {
                     tabIndex={-1}
                     key={row + index}
                   >
-                    {columns.map(column => {
+                    {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {handleColumnValue(column, value)}
+                          {handleColumnValue(column, value, row)}
                         </TableCell>
                       );
                     })}
@@ -127,7 +149,9 @@ const TagTable = () => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <DialogView />
     </Paper>
   );
 };
+
 export default TagTable;
