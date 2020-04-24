@@ -154,8 +154,8 @@ public class EmployeeFeedbackApplication {
 			Set<MessageThread> set = new HashSet<>();
 			messageThread1.getTags()
 					.addAll(new HashSet<Tag>(
-							Arrays.asList(Tag.builder().name("Important").color("#46B978").totalMessages(0).messageThread(set).build(),
-									Tag.builder().name("Follow Up").color("#FFC107").totalMessages(0).messageThread(set).build())));
+							Arrays.asList(Tag.builder().name("Important").color("#46B978").totalMessages(1).messageThread(set).build(),
+									Tag.builder().name("Follow Up").color("#FFC107").totalMessages(1).messageThread(set).build())));
 			System.out.println(messageThread1);
 			messageThreadRepository.save(messageThread1);
 			
