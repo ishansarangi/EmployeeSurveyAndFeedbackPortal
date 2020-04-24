@@ -53,6 +53,7 @@ export const get_threads_for_manager = gql`
         tagId
         name
         color
+        totalMessages
       }
     }
   }
@@ -206,6 +207,14 @@ export const get_manager_hierarchy = gql`
       employeeId
       firstName
       lastName
+    }
+  }
+`;
+
+export const remove_tag = gql`
+  mutation removeTag($tagId: ID!) {
+    removeTag(tagId: $tagId) {
+      tagId
     }
   }
 `;
