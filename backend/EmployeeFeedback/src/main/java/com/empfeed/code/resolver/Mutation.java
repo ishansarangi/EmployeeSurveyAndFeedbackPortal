@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.empfeed.code.exception.EmployeeNotFound;
+import com.empfeed.code.exception.GraphQLErrorAdapter;
 import com.empfeed.code.exception.MessageThreadNotFound;
 import com.empfeed.code.exception.TagCreateFailed;
 import com.empfeed.code.exception.TagNotFound;
@@ -15,6 +16,7 @@ import com.empfeed.code.model.entity.Message;
 import com.empfeed.code.model.entity.Message.MessageBuilder;
 import com.empfeed.code.model.entity.MessageThread;
 import com.empfeed.code.model.entity.Tag;
+import com.empfeed.code.model.input.DeleteTagInput;
 import com.empfeed.code.model.input.MessageInput;
 import com.empfeed.code.model.input.TagInput;
 import com.empfeed.code.model.input.ThreadInput;
@@ -25,6 +27,7 @@ import com.empfeed.code.repository.MessageThreadRepository;
 import com.empfeed.code.repository.TagRepository;
 import com.empfeed.code.util.Constant.MessageSender;
 
+import graphql.GraphQLException;
 import lombok.AllArgsConstructor;
 
 /**
@@ -218,6 +221,30 @@ public class Mutation implements GraphQLMutationResolver {
 		}
 
 		return messageThread;
+	}
+	
+	public Tag removeTag(DeleteTagInput input) {
+		if(null!=input) {
+		Tag tag =  tagRepository.findOne(input.getTagId());
+		Iterable<MessageThread> taggedThreads =  messageThreadRepository.findAllTaggedThreads(input.getTagId());
+		if(null!=tag) {
+		for(MessageThread thread: taggedThreads) {
+			if(thread.getTags()!=null) {
+				thread.getTags().remove(tag);
+			}
+		}
+		messageThreadRepository.save(taggedThreads);
+		tagRepository.delete(tag);
+		}
+		else {
+			throw new TagNotFound("Tag not found for TagId", input.getTagId());
+		}
+		return tag;
+		}
+		else {
+			throw new TagNotFound("Invalid Input",null);
+		}
+		
 	}
 
 }

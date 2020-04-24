@@ -12,11 +12,18 @@ input TagInput {
 	color: String
 }
 
+input DeleteTagInput {
+	tagId: Long
+	
+}
+
 extend type Mutation {
 	newTag(input: TagInput) : Tag!
+	removeTag(input: DeleteTagInput): Tag!
 
 }
 
 extend type Query {
 	findAllTags: [Tag]!
+	
 }

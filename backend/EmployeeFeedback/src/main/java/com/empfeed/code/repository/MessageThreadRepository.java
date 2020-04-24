@@ -13,5 +13,8 @@ public interface MessageThreadRepository extends CrudRepository<MessageThread, L
 
 	@Query("from MessageThread where sentTo.employeeId=:employeeId")
 	public Iterable<MessageThread> findAllReceivedThreads(@Param("employeeId") Long employeeId);
+	
+	@Query("from MessageThread where tagId=:tagId")
+	public Iterable<MessageThread> findAllTaggedThreads(@Param("tagId") Long tagId);
 
 }
