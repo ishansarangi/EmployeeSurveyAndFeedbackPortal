@@ -12,9 +12,16 @@ input TagInput {
 	color: String
 }
 
+input ThreadTagInput {
+	employeeId: Long!
+	threadId: Long!
+	tagId : Long!
+}
+
 extend type Mutation {
 	newTag(input: TagInput) : Tag!
-
+	addTagToThread(input: ThreadTagInput) : Tag!
+	removeTagFromThread(input: ThreadTagInput) : Tag!
 }
 
 extend type Query {

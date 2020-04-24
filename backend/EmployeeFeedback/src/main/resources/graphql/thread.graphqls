@@ -19,16 +19,8 @@ input ThreadInput {
 	employeeId: Long! 
 }
 
-input ThreadTagInput {
-	employeeId: Long!
-	threadId: Long!
-	tagId : Long!
-}
-
 extend type Mutation {
 	newThread(input: ThreadInput) : MessageThread!	
-	addTagToThread(input: ThreadTagInput) : MessageThread!
-	removeTagFromThread(input: ThreadTagInput) : MessageThread!
 	readMessageThread(threadId: Long!, employeeId: Long!) : MessageThread!
 }
 
