@@ -13,20 +13,20 @@ import AddTag from './AddTag';
 import {create_new_tag} from '../apollo/Queries';
 import {useStoreActions} from 'easy-peasy';
 
-const DialogContent = withStyles(theme => ({
+const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles(theme => ({
+const DialogActions = withStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
   },
 }))(MuiDialogActions);
 
-const ActionButton = withStyles(theme => ({
+const ActionButton = withStyles((theme) => ({
   root: {
     color: '#E87424',
     backgroundColor: 'white',
@@ -40,11 +40,13 @@ const TagContainer = ({handleClose, open}) => {
   const {loggedInUser} = useAuthUser();
   const [text, setText] = useState('');
   const [color, setColor] = useState('#FF0000');
-  const addTag = useStoreActions(actions => actions.tagList.add);
-  const showSnack = useStoreActions(actions => actions.snackBarModel.showSnack);
+  const addTag = useStoreActions((actions) => actions.tagList.add);
+  const showSnack = useStoreActions(
+    (actions) => actions.snackBarModel.showSnack
+  );
 
   const [createTag] = useMutation(create_new_tag, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       setText('');
       setColor('#FF0000');
       addTag(data.newTag);
@@ -53,7 +55,7 @@ const TagContainer = ({handleClose, open}) => {
         severity: 'success',
       });
     },
-    onError: data => {
+    onError: (data) => {
       showSnack({
         message: 'Tag Creation Failed!',
         severity: 'error',

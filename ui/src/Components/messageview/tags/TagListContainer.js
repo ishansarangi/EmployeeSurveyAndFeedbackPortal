@@ -6,9 +6,9 @@ import CustomizedInputBase from './SearchTags';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Chip from '@material-ui/core/Chip';
-import {add_tags_to_thread} from '../../apollo/Queries';
+import {add_tags_to_thread, get_all_tags} from '../../apollo/Queries';
 import {useAuthUser} from '../../auth/AuthUser';
-import {useMutation} from '@apollo/react-hooks';
+import {useMutation, useLazyQuery} from '@apollo/react-hooks';
 import {useStoreState, useStoreActions} from 'easy-peasy';
 import useDebounce from '../../util/UseDebounce';
 
@@ -68,12 +68,25 @@ const TagTable = ({threadData, tags}) => {
     (actions) => actions.snackBarModel.showSnack
   );
 
+  const setTags = useStoreActions((actions) => actions.tagList.setTags);
+
+  const [getTagData] = useLazyQuery(get_all_tags, {
+    fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      setTags(data.findAllTags);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const [addTagsToThreads] = useMutation(add_tags_to_thread, {
     onCompleted: (data) => {
       addTags({
         threadId: threadData.threadId,
         tag: data.addTagToThread,
       });
+      getTagData();
     },
     onError: (error) => {
       console.log(error);

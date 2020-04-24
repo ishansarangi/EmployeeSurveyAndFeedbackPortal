@@ -2,9 +2,9 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
-import {remove_tag_from_thread} from '../../apollo/Queries';
+import {remove_tag_from_thread, get_all_tags} from '../../apollo/Queries';
 import {useAuthUser} from '../../auth/AuthUser';
-import {useMutation} from '@apollo/react-hooks';
+import {useMutation, useLazyQuery} from '@apollo/react-hooks';
 import {useStoreActions} from 'easy-peasy';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,12 +29,25 @@ const TagArray = ({tagData, threadId}) => {
   const {loggedInUser} = useAuthUser();
   const sortedTagData = tagData.sort((a, b) => (a.name > b.name ? -1 : 1));
 
+  const setTags = useStoreActions((actions) => actions.tagList.setTags);
+
+  const [getTagData] = useLazyQuery(get_all_tags, {
+    fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      setTags(data.findAllTags);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const [removeTagFromThread] = useMutation(remove_tag_from_thread, {
     onCompleted: (data) => {
       removeTag({
         threadId: threadId,
         tagId: data.removeTagFromThread.tagId,
       });
+      getTagData();
     },
     onError: (error) => {
       console.log(error);
