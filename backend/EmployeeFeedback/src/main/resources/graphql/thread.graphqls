@@ -19,7 +19,7 @@ input ThreadInput {
 	employeeId: Long! 
 }
 
-extend type Mutation {
+extend type Mutation {	
 	newThread(input: ThreadInput) : MessageThread!	
 	readMessageThread(threadId: Long!, employeeId: Long!) : MessageThread!
 }
