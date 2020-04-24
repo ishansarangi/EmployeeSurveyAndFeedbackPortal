@@ -15,7 +15,7 @@ input TagInput {
 
 input DeleteTagInput {
 	tagId: Long
-	
+	}
 
 input ThreadTagInput {
 	employeeId: Long!
