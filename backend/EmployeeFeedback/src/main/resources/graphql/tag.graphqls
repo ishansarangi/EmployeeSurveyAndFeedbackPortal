@@ -20,7 +20,7 @@ input ThreadTagInput {
 
 extend type Mutation {
 	newTag(input: TagInput) : Tag!
-	removeTag(tagId: Long!): Tag!
+	removeTag(tagId: ID!): Tag!
 	addTagToThread(input: ThreadTagInput) : Tag!
 	removeTagFromThread(input: ThreadTagInput) : Tag!
 }
