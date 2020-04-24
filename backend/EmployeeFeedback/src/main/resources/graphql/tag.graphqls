@@ -12,14 +12,26 @@ input TagInput {
 	color: String
 }
 
+
 input DeleteTagInput {
 	tagId: Long
 	
+
+input ThreadTagInput {
+	employeeId: Long!
+	threadId: Long!
+	tagId : Long!
+
 }
 
 extend type Mutation {
 	newTag(input: TagInput) : Tag!
+
 	removeTag(input: DeleteTagInput): Tag!
+
+
+	addTagToThread(input: ThreadTagInput) : Tag!
+	removeTagFromThread(input: ThreadTagInput) : Tag!
 
 }
 
