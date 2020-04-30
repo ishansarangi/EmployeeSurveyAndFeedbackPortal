@@ -1,3 +1,23 @@
+/**
+ * Copyright 2020 Ishan Kumar Sarangi, Sabyasachi Mohanty, Kumar Prabhu Kalyan, Alsha Samantaray, Kirti Jha
+ * Copyright 2020 Arizona State University
+ * Copyright 2020 TalentMap
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {makeStyles} from '@material-ui/core/styles';
@@ -16,7 +36,7 @@ import Menu from '@material-ui/core/Menu';
 import {useHistory} from 'react-router-dom';
 import {useAuthUser} from './auth/AuthUser';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   addUser: {
     marginRight: theme.spacing(1),
     marginTop: theme.spacing(1),
@@ -32,13 +52,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NavButton = withStyles(theme => ({
+const NavButton = withStyles((theme) => ({
   root: {
     color: '#ffffff',
   },
 }))(Button);
 
-const NavBar = props => {
+const NavBar = (props) => {
   let history = useHistory();
   const classes = useStyles();
   const {loggedInUser} = useAuthUser();
@@ -48,7 +68,7 @@ const NavBar = props => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
-  const handleProfileMenuOpen = event => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 

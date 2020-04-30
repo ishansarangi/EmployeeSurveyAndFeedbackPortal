@@ -1,3 +1,23 @@
+/**
+ * Copyright 2020 Ishan Kumar Sarangi, Sabyasachi Mohanty, Kumar Prabhu Kalyan, Alsha Samantaray, Kirti Jha
+ * Copyright 2020 Arizona State University
+ * Copyright 2020 TalentMap
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React from 'react';
 import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -5,7 +25,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {useStoreState} from 'easy-peasy';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: '8px',
   },
@@ -13,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 const FilterByTag = ({setTagFilter}) => {
   const classes = useStyles();
-  const tagList = useStoreState(state => state.tagList.tags);
+  const tagList = useStoreState((state) => state.tagList.tags);
 
   return (
     <div className={classes.root}>
@@ -24,7 +44,7 @@ const FilterByTag = ({setTagFilter}) => {
         options={tagList}
         noOptionsText="No more tags available!"
         filterSelectedOptions
-        getOptionLabel={option => option.name}
+        getOptionLabel={(option) => option.name}
         onChange={(event, value) => {
           setTagFilter(value);
         }}
@@ -41,7 +61,7 @@ const FilterByTag = ({setTagFilter}) => {
             />
           ))
         }
-        renderOption={option => (
+        renderOption={(option) => (
           <Chip
             variant="default"
             style={{
@@ -53,7 +73,7 @@ const FilterByTag = ({setTagFilter}) => {
             size="small"
           />
         )}
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField
             {...params}
             variant="filled"

@@ -1,3 +1,23 @@
+/**
+ * Copyright 2020 Ishan Kumar Sarangi, Sabyasachi Mohanty, Kumar Prabhu Kalyan, Alsha Samantaray, Kirti Jha
+ * Copyright 2020 Arizona State University
+ * Copyright 2020 TalentMap
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React, {useState, Fragment} from 'react';
 import {useLazyQuery} from '@apollo/react-hooks';
 import {get_employee_by_email} from '../apollo/Queries';
@@ -30,7 +50,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -52,13 +72,13 @@ const useStyles = makeStyles(theme => ({
 
 const cookieName = 'FeedbackUserLogged';
 
-const Login = props => {
+const Login = (props) => {
   const classes = useStyles();
   const {loggedInUser, setLoggedInUser} = useAuthUser();
   const [errorMessage, setErrorMessage] = useState('');
   const [email, setEmail] = useState('');
   const [getUser, {loading}] = useLazyQuery(get_employee_by_email, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       if (data) {
         setLoggedInUser(data.findEmployeeByEmail);
       } else {
@@ -66,7 +86,7 @@ const Login = props => {
         setLoggedInUser(null);
       }
     },
-    onError: error => {
+    onError: (error) => {
       console.log('errrrrrrr!!!');
     },
   });
@@ -95,7 +115,7 @@ const Login = props => {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={event => {
+                onChange={(event) => {
                   event.preventDefault();
                   setEmail(event.target.value);
                 }}
