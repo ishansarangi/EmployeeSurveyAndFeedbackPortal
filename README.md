@@ -41,6 +41,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Release Notes
 
+- v1.0.0
+  - Search functionality added to search through tags, thread subject and messages.
+  - Managers can remove their tags from the threads. 
+  - Managers can differentiate between a read and unread message. 
+  - Employees can view their manager hierarchy to send a feedback message. 
+  - Sorting threads in reverse chronological order.
+  - Several important bug fixes.
+
 - v0.5.0
   - Managers can create new tags.
   - Managers can add a tag to a message thread from an employee.
